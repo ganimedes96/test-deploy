@@ -9,7 +9,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Image, Trash, X } from 'lucide-react';
 import { Textarea } from '../../../../components/ui/textarea';
 import { api } from '../../../../utils/axios';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { formatValue } from '../../../../utils/formatter';
 
 
@@ -48,15 +48,14 @@ export default function ModalRegisterProduct() {
   const [errorFieldImage, setErrorFieldImage] = useState<string | null>(null);
   
 
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  // const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const {
     control,
     register,
     handleSubmit,
-    setError,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<ProductSchema>({
     resolver: zodResolver(productSchemaBody),
     defaultValues: {
@@ -72,11 +71,11 @@ export default function ModalRegisterProduct() {
       setPreviewImage(URL.createObjectURL(file));
     }
   };
-  const showFileInput = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
+  // const showFileInput = () => {
+  //   if (fileInputRef.current) {
+  //     fileInputRef.current.click();
+  //   }
+  // };
 
   const handleSubmitForm = async (data: ProductSchema) => {
     if (!data.file) {

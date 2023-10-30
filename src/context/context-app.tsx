@@ -121,7 +121,7 @@ export const PizzaDRuaProvider = ({ children }: childrenProps) => {
     }
   )
   const [groupOptions, setGroupOptions] = useState<any[]>([])
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
 
   const getFlavors = async () => {
 
@@ -208,7 +208,7 @@ export const PizzaDRuaProvider = ({ children }: childrenProps) => {
   const handleSignInGoogle = async () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
+        GoogleAuthProvider.credentialFromResult(result);
         const user = result.user;
         user.getIdToken().then((token) => {
           setCookie(undefined, 'accessToken', JSON.stringify(token))
@@ -217,10 +217,12 @@ export const PizzaDRuaProvider = ({ children }: childrenProps) => {
         setCustomer(user)
 
       }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.customData.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log(error);
+        
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        // const email = error.customData.email;
+        // const credential = GoogleAuthProvider.credentialFromError(error);
       });
   
   }

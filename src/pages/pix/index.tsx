@@ -47,7 +47,7 @@ export default function Pix() {
 
   const onConfirmationPix = async () => {
     const toastId = toast.loading("Aguardando pagamento...")
-    api.get('/webhook').then((response) => {
+    api.get('/webhook').then(() => {
       
       toast.update(toastId, {
         render: "Pagamento realizado com sucesso!",

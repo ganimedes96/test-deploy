@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ContextApp } from "../../context/context-app";
 import { HeaderOrder } from "../../components/HeaderOrder";
 import { destroyCookie, parseCookies } from "nookies";
@@ -90,6 +90,22 @@ export default function Checkout() {
 
     }
   }
+
+  const getDataCookies = () => {
+    setGetPayment(() => {
+      const storaged = parseCookies().payment
+      return storaged ? JSON.parse(storaged) : []
+    })
+
+    setMethodDelivery(() => {
+      const storaged = parseCookies().delivery
+      return storaged ? JSON.parse(storaged) : []
+    })
+  }
+
+  useEffect(() => {
+    getDataCookies()
+  },[])
 
   return (
     <>
