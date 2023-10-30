@@ -1,7 +1,7 @@
 
 import { api } from "../../utils/axios";
-import { ContextApp } from "../../context/context-app";
-import { useEffect, useRef, useState } from "react";
+
+import { useEffect, useState } from "react";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Countdown } from "./components/Countdown";
 import { toast } from "react-toastify";

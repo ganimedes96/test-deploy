@@ -50,8 +50,7 @@ export default function Checkout() {
   const { productToCart, currentAddress } = ContextApp()
  
   const totalPrice = CalculatePrice();
-  console.log(totalPrice, 'total price');
-  
+ 
   const navigate = useNavigate();
 
   const handleFinishOrder = async () => {
@@ -142,7 +141,7 @@ export default function Checkout() {
 
 
       <div className="w-full flex items-center justify-center my-10"  >
-        <Button onClick={handleFinishOrder} className="bg-orange-500 hover:bg-orange-600 text-lg flex w-11/12 items-center justify-center">Finalizar Compra</Button>
+        <Button  onClick={handleFinishOrder} className="bg-orange-500 hover:bg-orange-600 text-lg flex w-11/12 items-center justify-center">Finalizar Compra</Button>
       </div>
 
     </>

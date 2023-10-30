@@ -5,7 +5,6 @@ import { Orders } from "../../../../@types/interface";
 import { priceFormatter } from "../../../../utils/formatter";
 import { api } from "../../../../utils/axios";
 import { parseCookies } from "nookies";
-import { useState } from "react";
 
 interface ModalOrderProps {
   order: Orders

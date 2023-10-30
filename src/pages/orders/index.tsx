@@ -4,7 +4,7 @@ import { api } from "../../utils/axios"
 import { parseCookies } from "nookies"
 import { HeaderOrder } from "../../components/HeaderOrder"
 import delivery from '../../assets/delivery-orange.png'
-import { Check, CheckCheck, ChefHat, ClipboardCheck, ExternalLink, ShoppingCart, StickyNote, XCircle } from "lucide-react"
+import { Check, CheckCheck, ChefHat, ClipboardCheck, ExternalLink, StickyNote, XCircle } from "lucide-react"
 import { dateFormatter } from "../../utils/formatter"
 import { NavLink } from "react-router-dom"
 

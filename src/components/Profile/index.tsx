@@ -1,7 +1,7 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { User, UserCircle, XCircle } from 'lucide-react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { ModalProfile } from './ModalProdile'
+import { ModalProfile } from './ModalProfile'
 import { ContextApp } from '../../context/context-app'
 import { destroyCookie } from 'nookies'
 import { NavLink, useNavigate } from 'react-router-dom'

@@ -1,8 +1,7 @@
 import { api } from '../utils/axios'
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react'
 import { produce } from "immer";
-import { setCookie, parseCookies, destroyCookie } from "nookies";
-import jwtDecode from 'jwt-decode';
+import { setCookie, parseCookies } from "nookies";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { app } from '../services/firebaseConfig';
 
@@ -47,22 +46,22 @@ export interface OrdersCartProps extends ProductProps {
   quantityProduct: number;
 }
 
-interface JwtToken {
-  exp: number;
-  // Outros campos do token, se houver
-}
+// interface JwtToken {
+//   exp: number;
+//   // Outros campos do token, se houver
+// }
 
 interface GroupOptions {
   label: string
   options: ProductProps[]
 }
 
-interface CustomerProps {
-  uid: string
-  displayName: string
-  email: string
-  photoURL: string
-}
+// interface CustomerProps {
+//   uid: string
+//   displayName: string
+//   email: string
+//   photoURL: string
+// }
 
 const provider = new GoogleAuthProvider();
 const auth = getAuth(app);
