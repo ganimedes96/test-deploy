@@ -2,6 +2,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { Mail, Phone, MapPin , X, ExternalLink, User } from 'lucide-react'
 import { ContextApp } from '../../context/context-app'
 import order from '../../assets/order.png'
+import { NavLink } from 'react-router-dom'
 
 
 export const ModalProfile = () => {
@@ -44,17 +45,17 @@ export const ModalProfile = () => {
             <span className='text-gray-500 text-lg'>(11) 99999-9999</span>
         </div>
           <div className='border-t-2 cursor-pointer text-orange-500 border-gray-200 w-full pt-4 flex items-center justify-between gap-4'>
-            <a href={'/address'} className='flex items-center justify-start gap-4'>
+            <NavLink to={'/address'} className='flex items-center justify-start gap-4'>
               <MapPin  size={24}/>
               <span className=' text-lg'>Enderecos</span>
-            </a>
+            </NavLink>
             <ExternalLink />
           </div>
           <div className='border-t-2 cursor-pointer text-orange-500 border-gray-200 w-full py-4 flex items-center justify-between gap-4'>
-            <a href={'/orders'} className='flex items-center justify-start gap-4'>
+            <NavLink to={'/orders'} className='flex items-center justify-start gap-4'>
               <img src={order}  alt="" className='w-5'/>
               <span className=' text-lg'>Pedidos</span>
-            </a>
+            </NavLink>
             <ExternalLink />
           </div>
         </Dialog.Title>
