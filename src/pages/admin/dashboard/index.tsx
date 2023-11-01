@@ -3,7 +3,6 @@ import { Card } from "./components/Card";
 import { api } from "../../../utils/axios";
 import { useEffect, useState } from "react";
 import { Orders } from "../../../@types/interface";
-import { parseCookies } from "nookies";
 import socket from "../../../utils/socketIO";
 
 export default function Dashboard() {
@@ -48,12 +47,8 @@ const onCancelOrder = (orderId:string) => {
 }
 
   const getOrders = async () => {
-    const token = parseCookies().accessToken 
-    const response = await api.get('/order', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }  
-  }) 
+    
+    const response = await api.get('/order') 
     setOrders(response.data) 
 
   }
