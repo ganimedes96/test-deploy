@@ -12,7 +12,6 @@ import { Summary } from "../cart/components/summary";
 import { Button } from "../../components/ui/button";
 import { api } from "../../utils/axios";
 import { CalculatePrice } from "../../utils/calculate-price";
-import { notify } from "../../utils/toast";
 import { ToastContainer, toast } from "react-toastify";
 
 
@@ -122,7 +121,6 @@ export default function Checkout() {
     handleCreateAddress()
     getDataCookies()
   }, [])
-
 
   return (
     <>
