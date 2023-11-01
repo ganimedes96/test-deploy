@@ -12,6 +12,8 @@ import { Summary } from "../cart/components/summary";
 import { Button } from "../../components/ui/button";
 import { api } from "../../utils/axios";
 import { CalculatePrice } from "../../utils/calculate-price";
+import { notify } from "../../utils/toast";
+import { ToastContainer, toast } from "react-toastify";
 
 
 interface PaymentProps {
@@ -46,11 +48,13 @@ export default function Checkout() {
     const storaged = parseCookies().delivery
     return storaged ? JSON.parse(storaged) : []
   });
+  const [isAddressExists, setIsAddressExists] = useState(false)
 
-  const { productToCart, currentAddress } = ContextApp()
- 
+
+  const { productToCart, currentAddress, addresses } = ContextApp()
+
   const totalPrice = CalculatePrice();
- 
+
   const navigate = useNavigate();
 
   const handleFinishOrder = async () => {
@@ -103,9 +107,22 @@ export default function Checkout() {
     })
   }
 
+
+  const handleCreateAddress = async () => {
+    if (methodDelivery.deliveryMethod === 'DELIVERY' && addresses.length === 0) {
+      toast.error('Selecione ou cadastre um endereço', {
+        autoClose: 5500,
+        position: 'top-right'
+      })
+      setIsAddressExists(true)
+    }
+  }
+
   useEffect(() => {
+    handleCreateAddress()
     getDataCookies()
-  },[])
+  }, [])
+
 
   return (
     <>
@@ -157,9 +174,9 @@ export default function Checkout() {
 
 
       <div className="w-full flex items-center justify-center my-10"  >
-        <Button  onClick={handleFinishOrder} className="bg-orange-500 hover:bg-orange-600 text-lg flex w-11/12 items-center justify-center">Finalizar Compra</Button>
+        <Button disabled={isAddressExists} onClick={handleFinishOrder} className="bg-orange-500 hover:bg-orange-600 text-lg flex w-11/12 items-center justify-center">Finalizar Compra</Button>
       </div>
-
+      <ToastContainer />
     </>
   )
 }
