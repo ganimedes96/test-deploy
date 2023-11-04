@@ -4,7 +4,6 @@ import './styles.css'
 import { Orders } from "../../../../@types/interface";
 import { priceFormatter } from "../../../../utils/formatter";
 import { api } from "../../../../utils/axios";
-import { parseCookies } from "nookies";
 import socket from "../../../../utils/socketIO";
 
 interface ModalOrderProps {
@@ -48,12 +47,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
           price: order.itensOrder[0].price
         }
       ]
-    },
-      {
-        headers: {
-          Authorization: `Bearer ${parseCookies().accessToken}`
-        }
-      }
+    }
     )
     onChangeOrderStatus(order.id, newStatus)
     // Substitua pela URL do seu servidor Socket.IO
@@ -77,12 +71,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
           price: order.itensOrder[0].price
         }
       ]
-    },
-      {
-        headers: {
-          Authorization: `Bearer ${parseCookies().accessToken}`
-        }
-      }
+    }
     )
     onCancelOrder(order.id)
     socket.emit('statusUpdate', { orderId: order.id, status: 'CANCELED' });
