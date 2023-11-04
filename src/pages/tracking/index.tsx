@@ -21,15 +21,25 @@ export default function Tracking() {
   const [status, setStatus] = useState('WAITING')
   const [order, setOrder] = useState<Orders>()
   const [openModalCancelOrder, setOpenModalCancelOrder] = useState(false)
+  const { id } = useParams();
+
+  useEffect(() => {
+    socket.on('statusUpdate', (data) => {
+      if (data) {
+        setStatus(data.status)
+      }
+
+    })
+
+  }, [])
 
 
-  socket.on('statusUpdate', (data: any) => {
-    
-    setStatus(data.status)
-
+  socket.emit('newOrder', {
+    orderRoom: id
   })
 
-  const { id } = useParams();
+
+
   const getOrder = async () => {
     const response = await api.get(`/order/${id}`)
 
@@ -71,7 +81,6 @@ export default function Tracking() {
   useEffect(() => {
     getOrder()
   }, [])
-  console.log(order?.methodDelivery);
 
   return (
     <div className="mb-10 w-full flex items-center justify-center">

@@ -7,18 +7,21 @@ import socket from "../../../utils/socketIO";
 
 export default function Dashboard() {
   const [orders, setOrders] = useState<Orders[]>([])
-  
+
 
   useEffect(() => {
     // Adicione o ouvinte do evento 'newOrder' ao montar o componente
     socket.on('newOrder', (data: any) => {
+      console.log("Novo pedido recebido:", data);
+
       if (data) {
-        const existsOrder = orders.some((order) => order.id === data.id);
-        if (!existsOrder) {
-          // Atualize o estado diretamente adicionando a nova ordem
-          setOrders((prevState) => [...prevState, data]);
-        }
+        setOrders((prevState) =>
+          prevState.map((order) =>
+            order.id === data.id ? { ...order, status: data.status } : order
+          )
+        );
       }
+      socket.emit('statusUpdate', { orderId: data.id, status: data.status });
     });
 
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
@@ -27,34 +30,26 @@ export default function Dashboard() {
     };
   }, []);
 
-  socket.on('statusUpdate', (data: any) => {
-    if (data.length > 0) {
-      setOrders((prevState) => prevState.map((order) => (
-          {...order, status: data[0].status}
-      )));
-    }
-  })
-
-
   const onChangeOrderStatus = (orderId: string, status: string) => {
     setOrders((prevState) => prevState.map((order) => (
       order.id === orderId ? { ...order, status } : order
     )))
 
   }
-const onCancelOrder = (orderId:string) => {
-  setOrders((prevState) => prevState.filter((order) => order.id !== orderId))
-}
+  const onCancelOrder = (orderId: string) => {
+    setOrders((prevState) => prevState.filter((order) => order.id !== orderId))
+  }
 
   const getOrders = async () => {
-    
-    const response = await api.get('/order') 
-    setOrders(response.data) 
+
+    const response = await api.get('/order')
+    setOrders(response.data)
 
   }
   useEffect(() => {
     getOrders()
   }, [])
+
 
   return (
     <div className="w-11/12 mx-3 flex mt-10 items-start justify-center gap-5">

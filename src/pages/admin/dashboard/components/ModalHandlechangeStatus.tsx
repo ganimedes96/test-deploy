@@ -5,32 +5,33 @@ import { Orders } from "../../../../@types/interface";
 import { priceFormatter } from "../../../../utils/formatter";
 import { api } from "../../../../utils/axios";
 import { parseCookies } from "nookies";
+import socket from "../../../../utils/socketIO";
 
 interface ModalOrderProps {
   order: Orders
   onChangeOrderStatus: (orderId: string, status: string) => void
-  onCancelOrder: (orderId: string) => void  
+  onCancelOrder: (orderId: string) => void
 }
 
 export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOrder }: ModalOrderProps) => {
-    // const [newStatus, setNewStatus] = useState('WAITING')
+  // const [newStatus, setNewStatus] = useState('WAITING')
   const imprimirPedido = () => {
     window.print()
   }
 
   const handleChangeOrderStatus = async () => {
- 
+
     const newStatus = order.status === 'WAITING'
       ? 'ACCEPTED'
       : order.status === 'ACCEPTED'
-      ? 'PREPARING'
-      : order.status === 'PREPARING' && order.methodDelivery === 'PICKUP' 
-      ? 'FINISHED' 
-      : order.status === 'PREPARING' && order.methodDelivery === 'DELIVERY'
-      ? 'DELIVERY'
-      : 'FINISHED' 
+        ? 'PREPARING'
+        : order.status === 'PREPARING' && order.methodDelivery === 'PICKUP'
+          ? 'FINISHED'
+          : order.status === 'PREPARING' && order.methodDelivery === 'DELIVERY'
+            ? 'DELIVERY'
+            : 'FINISHED'
 
-    
+
     await api.put('/order', {
       id: order.id,
       totalPrice: order.totalPrice,
@@ -48,14 +49,18 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
         }
       ]
     },
-    { headers: {
-      Authorization: `Bearer ${parseCookies().accessToken}`
-    }}
+      {
+        headers: {
+          Authorization: `Bearer ${parseCookies().accessToken}`
+        }
+      }
     )
     onChangeOrderStatus(order.id, newStatus)
+    // Substitua pela URL do seu servidor Socket.IO
+    socket.emit('statusUpdate', { orderId: order.id, status: newStatus });
   }
 
-  const handleCancelOrder = async  () => {
+  const handleCancelOrder = async () => {
     await api.put('/order', {
       id: order.id,
       totalPrice: order.totalPrice,
@@ -79,7 +84,8 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
         }
       }
     )
-    onCancelOrder(order.id)  
+    onCancelOrder(order.id)
+    socket.emit('statusUpdate', { orderId: order.id, status: 'CANCELED' });
   }
 
 
@@ -103,7 +109,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
           </header>
           <main className="mt-10 flex flex-col items-start justify-center gap-3">
             {order.itensOrder.map((item) => (
-              <div  className="flex items-start justify-center gap-2">
+              <div className="flex items-start justify-center gap-2">
                 <img src={item.image_url} className="w-12 object-contain rounded" alt="" />
                 <div className="flex items-start justify-center gap-3">
                   <p className="text-lg">{item.quantity}x</p>
@@ -133,7 +139,9 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
 
               <span>Metado de Entrega: {order.methodDelivery}</span>
               <span>Metado de Pagamento: {order.payment}</span>
-              <span>Taxa de Entrega: {priceFormatter.format(Number(order.customer.Address[0].neighborhood.tax))}</span>
+              {order.methodDelivery === 'DELIVERY' && (
+                <span>Taxa de Entrega: {priceFormatter.format(Number(order.customer.Address[0].neighborhood.tax))}</span>
+              )}
             </div>
             <div className="w-full flex items-center justify-between mt-7">
               <span>Total</span>
@@ -165,7 +173,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
                   </>
                 ) : (
                   <>
-                    <CheckSquare className="text-emerald-500"/>
+                    <CheckSquare className="text-emerald-500" />
                     <span>Entregue</span>
                   </>
                 )}
