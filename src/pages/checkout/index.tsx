@@ -4,7 +4,6 @@ import { HeaderOrder } from "../../components/HeaderOrder";
 import { destroyCookie, parseCookies } from "nookies";
 import { CardAddress } from "../../components/CardAddress";
 import pickupOrange from '../../assets/pickup-orange.png'
-import pizza from '../../assets/Vector.png'
 import pixOrange from '../../assets/pix-orange.svg'
 import { CreditCard, Banknote, Edit, ShoppingCart } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";

@@ -83,14 +83,14 @@ export default function Tracking() {
   }, [])
 
   return (
-    <div className="mb-10 w-full flex items-center justify-center">
+    <div className="my-10 w-full flex items-center justify-center">
       <div className='w-11/12 flex flex-col items-center justify-center'>
         <header className='w-full flex items-center  justify-center mt-6 font-semibold text-2xl text-gray-500'>
           <h2>Status do pedido</h2>
         </header>
         <div className='w-full'>
           <div className='w-full mt-10 flex items-center justify-start gap-5 p-2 bg-white'>
-            <img src={pizza} alt="" />
+            <img src={pizza} alt="" className='w-16' />
             <div className='flex flex-col items-start gap-2 text-gray-500 font-semibold text-lg'>
               <span >Seus pedidos</span>
               <span className='font-bold'>{priceFormatter.format(Number(order?.totalPrice))}</span>
