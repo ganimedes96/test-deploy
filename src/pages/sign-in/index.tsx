@@ -106,7 +106,7 @@ export default function SignIn() {
 
 
   return (
-    <div className='mt-20 bg-white w-10/12 flex flex-col items-center justify-center'>
+    <div className='mt-40 bg-white w-10/12  flex flex-col items-center justify-center'>
       <div className='w-10/12 mb-4 flex items-center justify-start'>
         <img src={logo} width={100} height={100} alt='' />
         <h1 className='text-xl'><span className='font-bold'>Pizza</span>D'Rua</h1>

@@ -1,4 +1,4 @@
-import pizza from '../../assets/pizza.svg'
+import pizza from '../../assets/Vector.png'
 import pizzaImg from '../../assets/pizza.png'
 import pizzaWhite from '../../assets/pizza-white.png'
 import half from '../../assets/half.png'
@@ -240,7 +240,7 @@ export default function Personalize() {
 
   return (
     <>
-      <img src={pizza} className='w-full' width={450} height={350} alt='' />
+      <img src={pizza} className='w-full mt-20 object-contain' width={450} height={350} alt='' />
       <div className='flex flex-col items-center mt-4 '>
         <h2 className=' text-gray-700 font-semibold text-xl'>Personalize sua Pizza</h2>
       </div>

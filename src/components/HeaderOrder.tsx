@@ -11,7 +11,7 @@ type HeaderOrderProps = React.HTMLAttributes<HTMLDivElement> & {
 //className = {cn('flex flex-col w-4/5', address.className)
 export const HeaderOrder = ({ title, link, className }: HeaderOrderProps) => {
     return (
-        <header className={cn("w-11/12 mx-4  mt-32 first-letter:flex items-center justify-between", className)}>
+        <header className={cn("w-11/12 flex mx-4  mt-32  items-center justify-between", className)}>
             <a href={link}>
                 <ChevronLeft className="" />
             </a>

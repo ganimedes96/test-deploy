@@ -1,5 +1,5 @@
 import { Button } from '../../components/ui/button'
-import pizza from '../../assets/Vector.svg'
+import pizza from '../../assets/Vector.png'
 import './statusColor.css'
 import delivey from '../../assets/delivery.png'
 import deliveyOrange from '../../assets/delivery-orange.png'
