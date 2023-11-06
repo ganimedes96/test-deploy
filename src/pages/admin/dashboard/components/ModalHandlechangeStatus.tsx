@@ -124,9 +124,11 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
               <span>
                 Telefone: {order.customer.Address[0].phone}
               </span>
-              <span>
-                Cep: {order.customer.Address[0].zipCode}
-              </span>
+              {order.methodDelivery === 'DELIVERY' && (
+                <span>
+                  Cep: {order.customer.Address[0].zipCode}
+                </span>
+              )}
 
               <span>Metado de Entrega: {order.methodDelivery}</span>
               <span>Metado de Pagamento: {order.payment}</span>
