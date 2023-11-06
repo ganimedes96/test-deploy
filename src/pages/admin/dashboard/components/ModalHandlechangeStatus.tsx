@@ -114,11 +114,13 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
               </div>
             ))}
             <div className="w-full flex flex-col items-start justify-center mt-7">
-              <div className="w-full flex items-center justify-start gap-2">
-                Endereco: <span>{order.customer.Address[0].street}</span> -
-                <span>{order.customer.Address[0].number}</span> -
-                <span>{order.customer.Address[0].neighborhood.name}</span>
-              </div>
+              {order.methodDelivery === 'DELIVERY' &&(
+                <div className="w-full flex items-center justify-start gap-2">
+                  Endereco: <span>{order.customer.Address[0].street}</span> -
+                  <span>{order.customer.Address[0].number}</span> -
+                  <span>{order.customer.Address[0].neighborhood.name}</span>
+                </div>
+              )}
               <span>
                 Telefone: {order.customer.Address[0].phone}
               </span>
