@@ -6,7 +6,7 @@ import { CardAddress } from "../../components/CardAddress";
 import pickupOrange from '../../assets/pickup-orange.png'
 import pizza from '../../assets/Vector.png'
 import pixOrange from '../../assets/pix-orange.svg'
-import { CreditCard, Banknote, Edit } from "lucide-react";
+import { CreditCard, Banknote, Edit, ShoppingCart } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Summary } from "../cart/components/summary";
 import { Button } from "../../components/ui/button";
@@ -158,7 +158,7 @@ export default function Checkout() {
         <h2 className="w-10/12 text-start text-xl font-semibold text-gray-500 my-6">Revisão do Pedido</h2>
         <div className="w-10/12 flex items-center justify-between mb-5">
           <div className="flex items-center justify-start text-xl gap-5 text-gray-500 font-semibold">
-            <img src={pizza} className="w-16" alt="" />
+            <ShoppingCart size={30} />
             <span>Meu Carrinho</span>
           </div>
           <NavLink to={"/cart"}>

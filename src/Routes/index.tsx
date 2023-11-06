@@ -31,13 +31,13 @@ export const Router = () => {
         <Route path='/' element={<Home />} />
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
+        <Route path='/personalize' element={<Personalize /> } />
+        <Route path='/cart' element={<Cart />} />
 
         //Rotas protegidas que requerem autenticação
         <Route path='/payment' element={<ProtectedRoute><Payment /></ProtectedRoute>} />
         <Route path='/checkout' element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
-        <Route path='/personalize' element={<ProtectedRoute><Personalize /></ProtectedRoute>} />
         <Route path='/address' element={<ProtectedRoute><Address /></ProtectedRoute>} />
-        <Route path='/cart' element={<ProtectedRoute><Cart /></ProtectedRoute>} />
         <Route path='/create-address' element={<ProtectedRoute><CreateAddress /></ProtectedRoute>} />
         <Route path='/pix' element={<ProtectedRoute><Pix /></ProtectedRoute>} />
         <Route path='/success' element={<ProtectedRoute><Success /></ProtectedRoute>} />
