@@ -95,6 +95,7 @@ export default function SignIn() {
     }
     handleCreateCustomerSocialAccount()
     navigate('/')
+    window.location.reload()
 
   }
   return (
