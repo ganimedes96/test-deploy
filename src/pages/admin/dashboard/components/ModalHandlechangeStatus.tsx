@@ -43,7 +43,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
         {
           product: order.itensOrder[0].product,
           quantity: order.itensOrder[0].quantity,
-          size: order.itensOrder[0].size,
+          size: order.itensOrder[0].size ? order.itensOrder[0].size : '',
           mode: order.itensOrder[0].mode,
           price: order.itensOrder[0].price
         }

@@ -69,7 +69,7 @@ export default function Checkout() {
           itensOrder: productToCart.map((item) => ({
             mode: item.mode,
             size: item.size,
-            image_url: item.image_url,
+            image_url: item.image_url ? item.image_url : '',
             price: item.price,
             product: item.product.map(item => item.name),
             quantity: item.quantityProduct
