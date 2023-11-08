@@ -10,8 +10,6 @@ import google from '../../assets/google.svg'
 import { ContextApp } from '../../context/context-app'
 import { ToastContainer } from 'react-toastify'
 import { setCookie } from 'nookies'
-import { useState } from 'react'
-import { Eye } from 'lucide-react'
 
 
 const createCustomerFormSchema = z.object({
@@ -21,14 +19,14 @@ const createCustomerFormSchema = z.object({
     .email('Formato de e-mail inválido!'),
   password: z
     .string()
-    .nonempty('A senha e obrigatorio!')
+    .nonempty('O password e obrigatorio!')
     .min(6, 'A senha deve ter no minimo 6 caracteres'),
 })
 
 type CreateCustomerFormData = z.infer<typeof createCustomerFormSchema>
 
 export default function SignIn() {
-  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -61,6 +59,7 @@ export default function SignIn() {
         setCookie(undefined, 'customer', JSON.stringify(user))
 
         navigate('/')
+        window.location.reload()
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -91,22 +90,15 @@ export default function SignIn() {
             id: customer.uid,
             name: customer.displayName,
             email: customer.email,
-
           })
       }
-
-
     }
     handleCreateCustomerSocialAccount()
     navigate('/')
+
   }
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-
   return (
-    <div className='mt-40 bg-white w-10/12  flex flex-col items-center justify-center'>
+    <div className='mt-40 bg-white w-10/12 flex flex-col items-center justify-center'>
       <div className='w-10/12 mb-4 flex items-center justify-start'>
         <img src={logo} width={100} height={100} alt='' />
         <h1 className='text-xl'><span className='font-bold'>Pizza</span>D'Rua</h1>
@@ -126,23 +118,19 @@ export default function SignIn() {
 
         <input
           {...register('email')}
-          className="w-10/12 p-4 mb-4 focus:outline-none rounded  border border-gray-400 text-sm text-gray-600 placeholder:text-gray-500"
+          className="w-10/12 p-4 mb-4 rounded  border border-gray-400 text-sm text-gray-600 placeholder:text-gray-500"
           type="text"
           placeholder="Digite seu E-mail"
         />
         {errors.email && (
           <span className="text-red-500 mb-3">{errors.email?.message}</span>
         )}
-        <div className=' w-10/12 rounded border border-gray-400 flex items-center justify-between '>
-          <input
-            {...register('password')}
-            className="text-sm text-gray-600 placeholder:text-gray-500 p-4 focus:outline-none"
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Digite sua senha"
-            
-          />
-          <Eye className='text-gray-400 mr-2' onClick={togglePasswordVisibility} />
-        </div>
+        <input
+          {...register('password')}
+          className=" p-4 w-10/12 rounded  border border-gray-400 text-sm text-gray-600 placeholder:text-gray-500"
+          type="text"
+          placeholder="Digite sua senha"
+        />
         {errors.password && (
           <span className="text-red-500 mt-3">
             {errors.password?.message}

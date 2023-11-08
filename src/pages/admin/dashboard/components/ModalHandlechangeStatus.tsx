@@ -1,5 +1,6 @@
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { CheckSquare, ChefHat, ClipboardCheck, Truck, X } from "lucide-react";
+import image from '../../../../assets/Vector.png'
 import './styles.css'
 import { Orders } from "../../../../@types/interface";
 import { priceFormatter } from "../../../../utils/formatter";
@@ -99,13 +100,13 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
           <main className="mt-10 flex flex-col items-start justify-center gap-3">
             {order.itensOrder.map((item) => (
               <div className="flex items-start justify-center gap-2">
-                <img src={item.image_url} className="w-12 object-contain rounded" alt="" />
+                <img src={item.image_url ? item.image_url : image} className="w-12 object-contain rounded" alt="" />
                 <div className="flex items-start justify-center gap-3">
                   <p className="text-lg">{item.quantity}x</p>
                   <div className="text-base flex flex-col items-start justify-center">
                     <div className="flex items-center justify-start gap-2">
                       {item.product.map(item => (
-                        <span key={item}>{item}</span>
+                        <span key={item}> - {item}</span>
                       ))}
                     </div>
                     <p>{priceFormatter.format(Number(item.price))}</p>
@@ -114,21 +115,17 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
               </div>
             ))}
             <div className="w-full flex flex-col items-start justify-center mt-7">
-              {order.methodDelivery === 'DELIVERY' &&(
-                <div className="w-full flex items-center justify-start gap-2">
-                  Endereco: <span>{order.customer.Address[0].street}</span> -
-                  <span>{order.customer.Address[0].number}</span> -
-                  <span>{order.customer.Address[0].neighborhood.name}</span>
-                </div>
-              )}
+              <div className="w-full flex items-center justify-start gap-2">
+                Endereco: <span>{order.customer.Address[0].street}</span> -
+                <span>{order.customer.Address[0].number}</span> -
+                <span>{order.customer.Address[0].neighborhood.name}</span>
+              </div>
               <span>
                 Telefone: {order.customer.Address[0].phone}
               </span>
-              {order.methodDelivery === 'DELIVERY' && (
-                <span>
-                  Cep: {order.customer.Address[0].zipCode}
-                </span>
-              )}
+              <span>
+                Cep: {order.customer.Address[0].zipCode}
+              </span>
 
               <span>Metado de Entrega: {order.methodDelivery}</span>
               <span>Metado de Pagamento: {order.payment}</span>

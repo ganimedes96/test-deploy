@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Orders } from '../../@types/interface'
 import { parseCookies } from 'nookies'
 import { api } from '../../utils/axios'
+import { NavLink } from 'react-router-dom'
 
 export default function Success() {
   const [order, setOrder] = useState<Orders>()
@@ -33,9 +34,9 @@ export default function Success() {
             <h2 className=' text-center text-2xl font-bold text-gray-600'>Seu pedido foi feito com sucesso!</h2>
             <h2 className='text-center text-xl text-gray-600 '>
             Obrigado pelo seu pedido, você pode acompanhar a entrega na seção de acompanhamento</h2>
-            <a className={'w-full'} href={`/tracking/${order?.id}`}>
+            <NavLink className={'w-full'} to={`/tracking/${order?.id}`}>
               <Button className='w-full mt-10 text-lg bg-orange-500 hover:bg-orange-600'>Acompanhe seu pedido.</Button>
-            </a>
+            </NavLink>
           </div>
       </div>
     

@@ -9,12 +9,13 @@ export const HeaderAdmin = () => {
           <h1 className="text-2xl text-gray-100 font-semibold">Pedidos</h1>
           <p>Acompanhe os pedidos dos clientes</p>
         </div>
-    </header>
-        <nav className='w-full my-5 text-gray-100 text-lg font-medium flex items-center justify-center gap-10'>
-          <NavLink to="/admin/dashboard">Pedidos</NavLink>        
-          <NavLink to="/admin/products">Produtos</NavLink>
-          <NavLink to="/admin/neighborhoods">Bairros</NavLink>
-        </nav>
+      </header>
+      <nav className='w-full my-5 text-gray-100 text-lg font-medium flex items-center justify-center gap-10'>
+        <NavLink to="/admin/dashboard">Pedidos</NavLink>
+        <NavLink to="/admin/products">Produtos</NavLink>
+        <NavLink to="/admin/neighborhoods">Bairros</NavLink>
+        <NavLink to="/admin/orders-history">Histórico de Pedidos</NavLink>
+      </nav>
     </div>
   )
 }

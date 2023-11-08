@@ -1,5 +1,5 @@
 import { Button } from '../../components/ui/button'
-import pizza from '../../assets/Vector.png'
+import pizza from '../../assets/caixa.png'
 import './statusColor.css'
 import delivey from '../../assets/delivery.png'
 import deliveyOrange from '../../assets/delivery-orange.png'
@@ -25,14 +25,12 @@ export default function Tracking() {
 
   useEffect(() => {
     socket.on('statusUpdate', (data) => {
+
       if (data) {
         setStatus(data.status)
       }
-
     })
-
   }, [])
-
 
   socket.emit('newOrder', {
     orderRoom: id
@@ -74,7 +72,6 @@ export default function Tracking() {
     )
     notify(`Entrega efetuada com sucesso`, 'bottom')
 
-
   }
 
 
@@ -89,8 +86,8 @@ export default function Tracking() {
           <h2>Status do pedido</h2>
         </header>
         <div className='w-full'>
-          <div className='w-full mt-10 flex items-center justify-start gap-5 p-2 bg-white'>
-            <img src={pizza} alt="" className='w-16' />
+          <div className='w-full mt-10 flex items-center justify-start gap-7 p-2 bg-white'>
+            <img src={pizza} alt="" className='w-20' />
             <div className='flex flex-col items-start gap-2 text-gray-500 font-semibold text-lg'>
               <span >Seus pedidos</span>
               <span className='font-bold'>{priceFormatter.format(Number(order?.totalPrice))}</span>

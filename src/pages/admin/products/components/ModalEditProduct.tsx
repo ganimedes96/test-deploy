@@ -68,11 +68,10 @@ export default function ModalEditProduct({ product, setOpenModal, openModal }: M
       price: product.price,
       file: product.image_url,
       category: product.category.name === "pizza" ? { label: "Pizza" } : { label: "Bebida" },
-      status: { label: "ATIVO", value: "ATIVO" },
+      status: product.status === "ACTIVE" ? { label: "ATIVO", value: "ATIVO" } : { label: "DESABILITADO", value: "DESABILITADO" },
       type: product.type === "TRADITIONAL" ? { label: "Tradicional" } : { label: "Especial" },
     }
   });
-  console.log(product.category.name);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target && e.target.files && e.target.files.length > 0) {
@@ -112,29 +111,29 @@ export default function ModalEditProduct({ product, setOpenModal, openModal }: M
 
     if (typeof data.file !== 'string') {
       const imageUrl = await api.post('/upload', data.file)
-      console.log(imageUrl.data);
       await api.put('/product', {
         id: product.id,
         name: data.name,
-        size: data.category.value === "Pizza" ? 'ENTIRE' : '',
+        size: data.category.label === "Pizza" ? 'ENTIRE' : '',
         description: data.description,
         status: data.status.value === "ATIVO" ? 'ACTIVE' : 'DISABLE',
         type: data.category.value === "Pizza" ? data.type.value === "Especial" ? 'SPECIAL' : 'TRADITIONAL' : '',
         price: formatValue(data.price),
-        category: data.category.value === "Pizza" ? 'pizza' : 'drink',
+        category: data.category.label === "Pizza" ? 'pizza' : 'drink',
         imageUrl: imageUrl.data
       })
 
     } else {
+      
       await api.put('/product', {
         id: product.id,
         name: data.name,
-        size: data.category.value === "Pizza" ? 'ENTIRE' : '',
+        size: data.category.label === "Pizza" ? 'ENTIRE' : '',
         description: data.description,
         status: data.status.value === "ATIVO" ? 'ACTIVE' : 'DISABLE',
-        type: data.category.value === "Pizza" ? data.type.value === "Especial" ? 'SPECIAL' : 'TRADITIONAL' : '',
+        type: data.category.label === "Pizza" ? data.type.value === "Especial" ? 'SPECIAL' : 'TRADITIONAL' : '',
         price: formatValue(data.price),
-        category: data.category.value === "Pizza" ? 'pizza' : 'drink',
+        category: data.category.label === "Pizza" ? 'pizza' : 'drink',
         imageUrl: data.file
       })
 
@@ -268,7 +267,7 @@ export default function ModalEditProduct({ product, setOpenModal, openModal }: M
                 />
               </div>
               <div className='w-full'>
-                <Label className='text-gray-500'>Status da pizza</Label>
+                <Label className='text-gray-500'>Status</Label>
                 <Controller
                   control={control}
                   name="status"

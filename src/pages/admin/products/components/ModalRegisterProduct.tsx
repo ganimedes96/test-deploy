@@ -82,10 +82,7 @@ export default function ModalRegisterProduct() {
       setErrorFieldImage('O campo de arquivo é obrigatório');
       return;
     }
-
     const imageUrl = await api.post('/upload', data.file)
-    console.log(data);
-
     await api.post('/product', {
       name: data.name,
       size: data.category.value === "Pizza" ? 'ENTIRE' : '',
@@ -225,7 +222,7 @@ export default function ModalRegisterProduct() {
                 />
               </div>
               <div className='w-full'>
-                <Label className='text-gray-500'>Status da pizza</Label>
+                <Label className='text-gray-500'>Status</Label>
                 <Controller
                   control={control}
                   name="status"
