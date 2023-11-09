@@ -11,7 +11,7 @@ import { Summary } from "../cart/components/summary";
 import { Button } from "../../components/ui/button";
 import { api } from "../../utils/axios";
 import { CalculatePrice } from "../../utils/calculate-price";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 
 interface PaymentProps {
@@ -46,10 +46,8 @@ export default function Checkout() {
     const storaged = parseCookies().delivery
     return storaged ? JSON.parse(storaged) : []
   });
-  const [isAddressExists, setIsAddressExists] = useState(false)
 
-
-  const { productToCart, currentAddress, addresses } = ContextApp()
+  const { productToCart, addresses, currentAddress } = ContextApp()
 
   const totalPrice = CalculatePrice();
 
@@ -85,6 +83,7 @@ export default function Checkout() {
         destroyCookie(null, 'payment')
         destroyCookie(null, 'delivery')
         navigate('/success')
+        window.location.reload()
       }
 
     } catch (error) {
@@ -104,20 +103,8 @@ export default function Checkout() {
       return storaged ? JSON.parse(storaged) : []
     })
   }
-
-
-  const handleCreateAddress = async () => {
-    if (methodDelivery.deliveryMethod === 'DELIVERY' && addresses.length === 0) {
-      toast.error('Selecione ou cadastre um endereço', {
-        autoClose: 5500,
-        position: 'top-right'
-      })
-      setIsAddressExists(true)
-    }
-  }
-
   useEffect(() => {
-    handleCreateAddress()
+  
     getDataCookies()
   }, [])
 
@@ -135,7 +122,7 @@ export default function Checkout() {
             <div className="w-10/12 flex items-center justify-between mt-5">
               <div className=" flex items-center justify-center gap-5">
                 <img src={pickupOrange} alt="" className="w-11" />
-                <span className="text-gray-500 text-xl font-semibold">Retirada</span>
+                <span className="text-gray-500 text-lg font-bold">RETIRADA</span>
               </div>
               <NavLink to={"/delivery"}>
                 <Edit size={25} className="text-gray-500" />
@@ -145,7 +132,7 @@ export default function Checkout() {
         <div className="w-10/12 h-[2px] bg-gray-400 mt-7" />
         <h2 className="w-10/12 text-start text-xl font-semibold text-gray-500 my-6">Metodo de Pagamento</h2>
         <div className="w-10/12 flex items-center justify-between ">
-          <div className="flex items-center justify-start gap-5 text-gray-500 font-bold">
+          <div className="flex items-center text-lg justify-start gap-5 text-gray-500 font-bold">
             {getPayment.methodPayment === 'CARD' ? (<CreditCard size={30} className="text-orange-500" />) : getPayment.methodPayment === 'PIX' ? (<img src={pixOrange} className="w-11" alt='' />) : (<Banknote size={30} className="text-orange-500" />)}
             {getPayment.methodPayment === "CARD" ? (<span>CARTAO DE CREDITO</span>) : getPayment.methodPayment === "PIX" ? (<span>PIX</span>) : (<span>DINHEIRO</span>)}
           </div>
@@ -158,7 +145,7 @@ export default function Checkout() {
         <div className="w-10/12 flex items-center justify-between mb-5">
           <div className="flex items-center justify-start text-xl gap-5 text-gray-500 font-semibold">
             <ShoppingCart size={30} />
-            <span>Meu Carrinho</span>
+            <span className="text-lg text-gray-500 font-bold">MEU CARRINHO</span>
           </div>
           <NavLink to={"/cart"}>
             <Edit size={25} className="text-gray-500" />
@@ -171,7 +158,7 @@ export default function Checkout() {
 
 
       <div className="w-full flex items-center justify-center my-10"  >
-        <Button disabled={isAddressExists} onClick={handleFinishOrder} className="bg-orange-500 hover:bg-orange-600 text-lg flex w-11/12 items-center justify-center">Finalizar Compra</Button>
+        <Button disabled={addresses.length === 0 && methodDelivery.deliveryMethod === 'DELIVERY'} onClick={handleFinishOrder} className="bg-orange-500 hover:bg-orange-600 text-lg flex w-11/12 items-center justify-center">Finalizar Compra</Button>
       </div>
       <ToastContainer />
     </>
