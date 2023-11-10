@@ -83,7 +83,7 @@ export default function Checkout() {
         destroyCookie(null, 'payment')
         destroyCookie(null, 'delivery')
         navigate('/success')
-        window.location.reload()
+        
       }
 
     } catch (error) {

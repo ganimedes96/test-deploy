@@ -1,6 +1,7 @@
 
 import { ChevronLeft } from "lucide-react"
 import { cn } from "../utils/cn"
+import { NavLink } from "react-router-dom"
 
 
 
@@ -12,9 +13,9 @@ type HeaderOrderProps = React.HTMLAttributes<HTMLDivElement> & {
 export const HeaderOrder = ({ title, link, className }: HeaderOrderProps) => {
     return (
         <header className={cn("w-11/12 flex mx-4  mt-32  items-center justify-between", className)}>
-            <a href={link}>
+            <NavLink to={link}>
                 <ChevronLeft className="" />
-            </a>
+            </NavLink>
             <h2 className="text-2xl text-gray-600 font-semibold">{title}</h2>
             <div/>
         </header>

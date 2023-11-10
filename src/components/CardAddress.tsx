@@ -10,16 +10,21 @@ interface CardAddressProps {
 
 
 export const CardAddress = ({textLink}: CardAddressProps) => {
-  const { currentAddress} = ContextApp()
+  const { currentAddress, addresses} = ContextApp()
+
+  const address = addresses.find((address) => address.standard === true)  
+
+  console.log(address);
+  
 
   return (
     <>
-     {currentAddress  ? (
+     {address  ? (
         <div className="w-11/12  flex bg-white  rounded flex-col items-center justify-center p-4">
           <header className="flex items-center justify-between w-full">
             <div className="flex items-center justify-between gap-2 text-orange-500">
-              {currentAddress.type === "HOME" ? <Home size={20} /> : currentAddress.type === "WORK" ? <Building2 size={18} /> : <MapPin />}
-              <span>{currentAddress.type}</span>
+              {address.type === "HOME" ? <Home size={20} /> : address.type === "WORK" ? <Building2 size={18} /> : <MapPin />}
+              <span>{address.type}</span>
             </div>
             <NavLink to={textLink}>
               <Edit size={24} className="text-gray-500" />
@@ -27,12 +32,12 @@ export const CardAddress = ({textLink}: CardAddressProps) => {
           </header>
           <div className="w-full flex items-start justify-center flex-col">
             <div className=" w-11/12 mt-2 flex gap-2">
-              <span>{currentAddress.street},</span>
-              <span>{currentAddress.number} - </span>
-              <span>{currentAddress.neighborhood.name}</span>
+              <span>{address.street},</span>
+              <span>{address.number} - </span>
+              <span>{address.neighborhood.name}</span>
             </div>
-            <span>{currentAddress.phone}</span>
-            <span>{currentAddress.zipCode}</span>
+            <span>{address.phone}</span>
+            <span>{address.zipCode}</span>
           </div>
       </div>
      ):(

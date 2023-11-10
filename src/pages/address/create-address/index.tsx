@@ -85,13 +85,13 @@ export default function CreateAddress() {
       type: data.type.value,
       zipCode: data.zipCode,
       phone: data.phone,
-      standard: false,
+      standard: addresses ? false : true,
       customerId: '',
       id: '',
     }
     setAddresses([...addresses, address])
     navigate('/address')
-    window.location.reload()
+   
   }
 
   return (

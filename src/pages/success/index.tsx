@@ -5,11 +5,14 @@ import { Orders } from '../../@types/interface'
 import { parseCookies } from 'nookies'
 import { api } from '../../utils/axios'
 import { NavLink } from 'react-router-dom'
+import { ContextApp } from '../../context/context-app'
 
 export default function Success() {
   const [order, setOrder] = useState<Orders>()
+  const { clearCart } = ContextApp()
 
   const getOrders = async () => {
+    
     const token = parseCookies().accessToken
     const response = await api.get('/order', {
       headers: {
@@ -22,6 +25,7 @@ export default function Success() {
   }
   useEffect(() => {
     getOrders()
+    clearCart()
   },[])
 
 

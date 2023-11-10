@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { api } from '../utils/axios'
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react'
 import { produce } from "immer";
@@ -77,6 +78,7 @@ type PizzaDRuaContextType = {
   groupOptions: GroupOptions[]
   productToCart: OrdersCartProps[]
   neighborhoods: any[]
+  clearCart: () => void
   setAddresses: (Address: AddressProps[]) => void
   addProductToCart: (product: OrdersCartProps) => void
   setOnChangeCatalog: (catalog: string) => void
@@ -111,7 +113,10 @@ export const PizzaDRuaProvider = ({ children }: childrenProps) => {
   const [neighborhoods, setNeighborhoods] = useState([])
   const [currentAddress, setCurrentAddress] = useState<AddressProps | null>(null);
   const [onChangeCatalog, setOnChangeCatalog] = useState('PIZZA')
-  const [customer, setCustomer] = useState<any>()
+  const [customer, setCustomer] = useState<any>(() => {
+    const cookieCustomer = parseCookies().customer
+    return cookieCustomer ? JSON.parse(cookieCustomer) : null
+  })
   const [statusOrder, setStatusOrder] = useState('')
 
   const [productToCart, setProductToCart] = useState<OrdersCartProps[]>(
@@ -147,7 +152,12 @@ export const PizzaDRuaProvider = ({ children }: childrenProps) => {
     return acc + price * item.quantityProduct;
   }, 0);
 
-  const totalItemsOnCart = (productToCart.length)
+  let totalItemsOnCart = (productToCart.length)
+
+  const clearCart = () => {
+    setProductToCart([])
+    totalItemsOnCart = 0
+  }
 
   const addProductToCart = (product: OrdersCartProps) => {
     const checkIfProductExists = productToCart.findIndex(
@@ -214,7 +224,7 @@ export const PizzaDRuaProvider = ({ children }: childrenProps) => {
           setCookie(undefined, 'accessToken', JSON.stringify(token))
         }) 
         setCookie(undefined, 'customer', JSON.stringify(user))
-        setCustomer(user)
+        
 
       }).catch((error) => {
         console.log(error);
@@ -258,6 +268,7 @@ export const PizzaDRuaProvider = ({ children }: childrenProps) => {
       cartProductsTotalPrice,
       totalItemsOnCart,
       setAddresses,
+      clearCart,
       setOnChangeCatalog,
       handleSignInGoogle,
       addProductToCart,

@@ -33,7 +33,7 @@ export const DeleteModal = ({onDelete, openModalDelete,setOpenModal, setOpenModa
     <AlertDialog.Root open={openModalDelete} >
         <AlertDialog.Portal>
           <AlertDialog.Overlay className=" fixed w-screen h-screen inset-0 bg-gray-900/[.6]" />
-          <AlertDialog.Content className="sm:w-7/12 w-11/12 rounded py-10 bg-white fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <AlertDialog.Content className="z-21 sm:w-7/12 w-11/12 rounded py-10 bg-white fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <AlertDialog.Title className="text-gray-500 text-center font-semibold text-xl">
               {text}
             </AlertDialog.Title>
