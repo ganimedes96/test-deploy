@@ -5,6 +5,7 @@ import { produce } from "immer";
 import { setCookie, parseCookies } from "nookies";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { app } from '../services/firebaseConfig';
+import { useNavigate } from 'react-router-dom';
 
 
 interface childrenProps {
@@ -126,7 +127,7 @@ export const PizzaDRuaProvider = ({ children }: childrenProps) => {
     }
   )
   const [groupOptions, setGroupOptions] = useState<any[]>([])
-
+  const navigate = useNavigate()
 
   const getFlavors = async () => {
 
@@ -224,7 +225,7 @@ export const PizzaDRuaProvider = ({ children }: childrenProps) => {
           setCookie(undefined, 'accessToken', JSON.stringify(token))
         }) 
         setCookie(undefined, 'customer', JSON.stringify(user))
-        
+        navigate('/')  
 
       }).catch((error) => {
         console.log(error);
