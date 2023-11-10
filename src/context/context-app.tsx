@@ -224,7 +224,7 @@ export const PizzaDRuaProvider = ({ children }: childrenProps) => {
           setCookie(undefined, 'accessToken', JSON.stringify(token))
         }) 
         setCookie(undefined, 'customer', JSON.stringify(user))
-        
+        setCustomer(user)
 
       }).catch((error) => {
         console.log(error);
