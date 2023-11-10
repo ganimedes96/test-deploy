@@ -10,7 +10,7 @@ interface CardAddressProps {
 
 
 export const CardAddress = ({textLink}: CardAddressProps) => {
-  const { currentAddress, addresses} = ContextApp()
+  const {addresses} = ContextApp()
 
   const address = addresses.find((address) => address.standard === true)  
 
