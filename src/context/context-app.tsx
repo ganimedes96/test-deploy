@@ -127,7 +127,6 @@ export const PizzaDRuaProvider = ({ children }: childrenProps) => {
     }
   )
   const [groupOptions, setGroupOptions] = useState<any[]>([])
-  const navigate = useNavigate()
 
   const getFlavors = async () => {
 
@@ -225,6 +224,7 @@ export const PizzaDRuaProvider = ({ children }: childrenProps) => {
           setCookie(undefined, 'accessToken', JSON.stringify(token))
         }) 
         setCookie(undefined, 'customer', JSON.stringify(user))
+        
 
       }).catch((error) => {
         console.log(error);
@@ -233,7 +233,6 @@ export const PizzaDRuaProvider = ({ children }: childrenProps) => {
         // const email = error.customData.email;
         // const credential = GoogleAuthProvider.credentialFromError(error);
       });
-        navigate('/')  
   
   }
 
