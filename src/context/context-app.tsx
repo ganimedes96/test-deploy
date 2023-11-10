@@ -5,8 +5,6 @@ import { produce } from "immer";
 import { setCookie, parseCookies } from "nookies";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { app } from '../services/firebaseConfig';
-import { useNavigate } from 'react-router-dom';
-
 
 interface childrenProps {
   children: ReactNode
