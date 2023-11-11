@@ -59,7 +59,7 @@ export default function SignIn() {
         setCookie(undefined, 'customer', JSON.stringify(user))
 
         navigate('/')
-        window.location.reload()
+        // window.location.reload()
       })
       .catch((error) => {
         const errorCode = error.code;
