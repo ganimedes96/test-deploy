@@ -11,9 +11,6 @@ import { Button } from '../../../components/ui/button';
 import { AddressProps, ContextApp } from '../../../context/context-app';
 import { parseCookies } from 'nookies';
 
-
-
-
 const addressSchemaBody = z.object({
   neighborhood: z.object({
     label: z.string().nonempty('Selecione um bairro'),

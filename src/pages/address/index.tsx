@@ -9,7 +9,8 @@ import { Button } from "../../components/ui/button";
 export default function Address() {
 
   const { addresses } = ContextApp()
-
+ 
+  
   return (
     <>
       <div className="w-full flex flex-col items-start justify-center ">
@@ -30,14 +31,6 @@ export default function Address() {
             />
           ))}
       </div>
-
-
-        {/* <div className=" absolute  rounded-tl py-10 rounded-tr bottom-0 bg-white w-full flex items-center justify-center ">
-          <Button type="submit" className="w-11/12 relative h-12 font-semibold  bg-orange-500 text-gray-100 text-xl haver:bg-orange-600 ">
-            Continuar
-          </Button>
-        </div> */}
-
       </div>
     </>
   )

@@ -6,6 +6,8 @@ import { Orders } from "../../../../@types/interface";
 import { priceFormatter } from "../../../../utils/formatter";
 import { api } from "../../../../utils/axios";
 import socket from "../../../../utils/socketIO";
+import { ModalHandleCancelOrder } from "../../../../components/ModalHandleCancelOrder";
+import { useState } from "react";
 
 interface ModalOrderProps {
   order: Orders
@@ -14,7 +16,7 @@ interface ModalOrderProps {
 }
 
 export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOrder }: ModalOrderProps) => {
-  // const [newStatus, setNewStatus] = useState('WAITING')
+  const [openModalCancelOrder, setOpenModalCancelOrder] = useState(false)
   const imprimirPedido = () => {
     window.print()
   }
@@ -55,30 +57,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
     socket.emit('statusUpdate', { orderId: order.id, status: newStatus });
   }
 
-  const handleCancelOrder = async () => {
-    await api.put('/order', {
-      id: order.id,
-      totalPrice: order.totalPrice,
-      customerId: order.customer.id,
-      payment: order.payment,
-      methodDelivery: order.methodDelivery,
-      status: 'CANCELED',
-      itensOrder: [
-        {
-          product: order.itensOrder[0].product,
-          quantity: order.itensOrder[0].quantity,
-          size: order.itensOrder[0].size,
-          mode: order.itensOrder[0].mode,
-          price: order.itensOrder[0].price
-        }
-      ]
-    }
-    )
-    onCancelOrder(order.id)
-    socket.emit('statusUpdate', { orderId: order.id, status: 'CANCELED' });
-  }
-
-
+  
 
   return (
     <AlertDialog.Portal>
@@ -169,11 +148,16 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
                 )}
             </button>
           </AlertDialog.Trigger>
-          <AlertDialog.Cancel className="w-full" asChild>
-            <button onClick={handleCancelOrder} className=" text-red-500 p-2 rounded ">
+          <div className="w-full flex items-center justify-center" >
+            <button onClick={() => setOpenModalCancelOrder(true)} className=" text-red-500 p-2 rounded ">
               Cancelar Pedido
             </button>
-          </AlertDialog.Cancel>
+          </div>
+            <ModalHandleCancelOrder 
+              openModalCancelOrder={openModalCancelOrder} 
+              setOpenModalCancelOrder={setOpenModalCancelOrder} 
+              onCancelOrder={onCancelOrder}
+              order={order} />
         </div>
       </AlertDialog.Content>
     </AlertDialog.Portal>
