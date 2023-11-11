@@ -7,7 +7,8 @@ import { useState } from "react";
 export const Catalog = () => {
   const { products, onChangeCatalog } = ContextApp()
   const [onChangeType, setOnChangeType] = useState('TRADITIONAL')
-
+  console.log(products);
+  
   return (
     <div className=" mt-10  w-full">
       {onChangeCatalog === 'PIZZA'

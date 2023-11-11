@@ -108,7 +108,10 @@ export default function ModalEditProduct({ product, setOpenModal, openModal }: M
 
 
   const handleSubmitForm = async (data: ProductSchema) => {
-
+    console.log(data.category.label);
+    console.log(data.type.label);
+    
+    
     if (typeof data.file !== 'string') {
       const imageUrl = await api.post('/upload', data.file)
       await api.put('/product', {
@@ -117,7 +120,7 @@ export default function ModalEditProduct({ product, setOpenModal, openModal }: M
         size: data.category.label === "Pizza" ? 'ENTIRE' : '',
         description: data.description,
         status: data.status.value === "ATIVO" ? 'ACTIVE' : 'DISABLE',
-        type: data.category.value === "Pizza" ? data.type.value === "Especial" ? 'SPECIAL' : 'TRADITIONAL' : '',
+        type: data.category.label === "Pizza" ? data.type.label === "Especial" ? 'SPECIAL' : 'TRADITIONAL' : '',
         price: formatValue(data.price),
         category: data.category.label === "Pizza" ? 'pizza' : 'drink',
         imageUrl: imageUrl.data
@@ -131,7 +134,7 @@ export default function ModalEditProduct({ product, setOpenModal, openModal }: M
         size: data.category.label === "Pizza" ? 'ENTIRE' : '',
         description: data.description,
         status: data.status.value === "ATIVO" ? 'ACTIVE' : 'DISABLE',
-        type: data.category.label === "Pizza" ? data.type.value === "Especial" ? 'SPECIAL' : 'TRADITIONAL' : '',
+        type: data.category.label === "Pizza" ? data.type.label === "Especial" ? 'SPECIAL' : 'TRADITIONAL' : '',
         price: formatValue(data.price),
         category: data.category.label === "Pizza" ? 'pizza' : 'drink',
         imageUrl: data.file
