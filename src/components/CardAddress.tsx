@@ -60,7 +60,7 @@ export const CardAddress = ({ textLink }: CardAddressProps) => {
           <header className="flex items-center justify-between w-full">
             <div className="flex items-center justify-between gap-2 text-orange-500">
               {address.type === "HOME" ? <Home size={20} /> : address.type === "WORK" ? <Building2 size={18} /> : <MapPin />}
-              <span>{address.type}</span>
+              <span>{address.type === "HOME" ? "Casa" : address.type === "WORK" ? "Trabalho" : "Outro"}</span>
             </div>
             <NavLink to={textLink}>
               <Edit size={24} className="text-gray-500" />
