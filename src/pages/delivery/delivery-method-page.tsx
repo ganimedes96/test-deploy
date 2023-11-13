@@ -10,7 +10,7 @@ import InputMask from 'react-input-mask';
 import { Label } from "../../components/ui/label";
 import { ContextApp } from "../../context/context-app";
 import { api } from "../../utils/axios";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const methodDeliverySchemaBody = z.object({
   name: z.string().nonempty('O nome é obrigatorio!').min(3, 'O nome deve ter pelo menos 3 caracteres'),
@@ -38,25 +38,25 @@ export default function MethodDelivery() {
   } = useForm<MethodDeliverySchema>({
     resolver: zodResolver(methodDeliverySchemaBody)
   });
-  
+
   const methodDeliveryData = JSON.stringify(isCheckedDelivery)
   const handleSubmitForm = async (data: MethodDeliverySchema) => {
     try {
-        
-        setCookie(undefined, 'delivery', methodDeliveryData)
+
+      setCookie(undefined, 'delivery', methodDeliveryData)
       console.log({
         id: customer?.uid,
         name: data.name,
         phone: data.phone
       });
-        await api.patch(`/customer`, 
-          {
-            id: customer?.uid,
-            name: data.name,
-            phone: data.phone
-          }
-        )
-     
+      await api.patch(`/customer`,
+        {
+          id: customer?.uid,
+          name: data.name,
+          phone: data.phone
+        }
+      )
+
       navigate('/payment')
     } catch (error) {
       console.log(error);
@@ -91,7 +91,11 @@ export default function MethodDelivery() {
           isCheckedDelivery === 'DELIVERY' ? (
             <>
               <CardAddress textLink="/address" />
-              <ButtonCheckout name="Proximo" link="/payment" onClick={() => setCookie(undefined, 'delivery', methodDeliveryData)} />  
+              <ButtonCheckout onClick={() => setCookie(undefined, 'delivery', methodDeliveryData)}>
+                <NavLink to={'/payment'}>
+                  Proximo
+                </NavLink>
+              </ButtonCheckout>
             </>
           ) : (
             <>
@@ -128,7 +132,9 @@ export default function MethodDelivery() {
                 />
                 {errors.phone && <p className='text-red-500'>{errors.phone.message}</p>}
 
-                <ButtonCheckout type="submit" name="Proximo" />
+                <ButtonCheckout type="submit">
+                  Proximo
+                </ButtonCheckout>
               </form>
             </>
           )

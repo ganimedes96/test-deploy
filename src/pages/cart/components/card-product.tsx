@@ -16,7 +16,7 @@ export const CardProduct = ({ product, price, quantityProduct, id, image_url }: 
     <CardContent className="flex items-center justify-between ">
       <div className="flex items-center justify-center gap-2">
         <img
-          className="w-28 rounded object-contain "
+          className="w-28 rounded object-contain mt-2"
           src={image_url ? image_url : image}
 
           alt="" />

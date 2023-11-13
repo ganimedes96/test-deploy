@@ -97,7 +97,9 @@ export default function Payment() {
                       </p>
                     )}
           </div>
-         <ButtonCheckout type="submit" name="Proximo"  />
+         <ButtonCheckout type="submit">
+          Proximo
+        </ButtonCheckout>
         </form>
       </div>
     </>

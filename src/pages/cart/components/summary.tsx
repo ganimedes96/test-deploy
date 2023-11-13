@@ -1,11 +1,12 @@
 import { ContextApp } from "../../../context/context-app"
+import { cn } from "../../../utils/cn"
 import { priceFormatter } from "../../../utils/formatter"
 
-interface taxProps {
+interface taxProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   tax: string
 }
 
-export const Summary = ({ tax }: taxProps) => {
+export const Summary = ({ tax, className }: taxProps) => {
  
   
   const { cartProductsTotalPrice } = ContextApp()
@@ -15,7 +16,7 @@ export const Summary = ({ tax }: taxProps) => {
   
   return (
     
-      <div className=" font-semibold text-xl text-gray-600 border-b-2 border-gray-500 flex flex-col py-3 items-center justify-center gap-5 mt-10 w-11/12">
+    <div className={cn(` font-semibold text-xl text-gray-600 border-b-2 border-gray-500 flex flex-col py-3 items-center justify-center gap-5 w-11/12`, className)}>
         <div className="flex items-center justify-between w-full">
           <span>Pedidos</span>
           <span >{totalPriceProduct ? priceFormatter.format(Number(totalPriceProduct)) : "0,00"}</span>

@@ -153,7 +153,9 @@ export default function Checkout() {
       </div>
 
 
-      <ButtonCheckout onClick={handleFinishOrder} name="Finalizar pedido"/>
+      <ButtonCheckout onClick={handleFinishOrder}>
+        Finalizar pedido
+      </ButtonCheckout>
       <ToastContainer />
     </>
   )
