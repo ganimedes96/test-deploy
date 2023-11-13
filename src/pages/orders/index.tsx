@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { Orders } from "../../@types/interface"
 import { api } from "../../utils/axios"
 import { parseCookies } from "nookies"
-import { HeaderOrder } from "../../components/HeaderOrder"
 import delivery from '../../assets/delivery-orange.png'
 import { Check, CheckCheck, ChefHat, ClipboardCheck, ExternalLink, StickyNote, XCircle } from "lucide-react"
 import { dateFormatter } from "../../utils/formatter"
@@ -34,10 +33,9 @@ export default function OrdersCustomer() {
 
   return (
     <>
-      <div className="w-full flex flex-col items-start justify-center ">
-        <HeaderOrder title="Meus Pedidos " link="/orders" />
-      </div>
-      <div className="w-full flex flex-col items-center justify-center mb-10">
+     
+      <div className="w-full flex flex-col items-center justify-center mb-10 mt-36">
+        <h2 className="text-2xl font-semibold text-gray-500">Meus pedidos</h2>
         {loading ? ( // Mostra o spinner enquanto os pedidos estão sendo carregados
           <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <ColorRing

@@ -4,21 +4,21 @@ import { HeaderOrder } from "../../components/HeaderOrder";
 import { Card } from "../../components/ui/card";
 import { CardProduct } from "./components/card-product";
 import { CardDrink } from "./components/card-drink";
-import { Button } from "../../components/ui/button";
-import { NavLink } from "react-router-dom";
-import { CardAddress } from "../../components/CardAddress";
 import { ShoppingCart } from "lucide-react";
+import { ButtonCheckout } from "../../components/ButtonCheckout";
+
+
 
 
 export default function Cart() {
 
-  const { currentAddress, productToCart, isAuthenticated } = ContextApp()
+  const { currentAddress, productToCart } = ContextApp()
 
   return (
 
     <div className="w-full flex flex-col items-center justify-center mb-10">
       <div className="w-full flex flex-col items-start justify-center ">
-        <HeaderOrder title="Meu Carrinho" link="/" />
+        <HeaderOrder leftLink="/" activeLink='CART' />
       </div>
       {productToCart.length > 0
         ? (
@@ -64,19 +64,11 @@ export default function Cart() {
 
       }
 
-      <div className="w-full flex items-center justify-center my-10">
+      {/* <div className="w-full flex items-center justify-center my-10">
         <CardAddress textLink="/address"/>
-      </div>
+      </div> */}
+      <ButtonCheckout name="Proximo" link="/delivery"/>
 
-      {productToCart.length > 0 &&
-        <div className={'w-full flex items-center justify-center'} >
-          <Button  className="rounded-[8px]  text-gray-100 text-lg mt-5 w-11/12 bg-orange-500 hover:bg-orange-600 ">
-            <NavLink to={isAuthenticated ? '/delivery' : '/sign-in'}>
-              Continuar
-            </NavLink>
-          </Button>
-        </div>
-      }
     </div>
 
   )

@@ -251,6 +251,7 @@ export const PizzaDRuaProvider = ({ children }: childrenProps) => {
     loadCookiesAuth()
   }, [])
 
+
   
   return (
     <PizzaDRuaContext.Provider value={{

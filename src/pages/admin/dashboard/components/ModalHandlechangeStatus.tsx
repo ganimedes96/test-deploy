@@ -7,7 +7,7 @@ import { priceFormatter } from "../../../../utils/formatter";
 import { api } from "../../../../utils/axios";
 import socket from "../../../../utils/socketIO";
 import { ModalHandleCancelOrder } from "../../../../components/ModalHandleCancelOrder";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ModalOrderProps {
   order: Orders
@@ -15,11 +15,21 @@ interface ModalOrderProps {
   onCancelOrder: (orderId: string) => void
 }
 
+interface CustomerProps{
+  name: string
+  email: string
+  phone: string
+}
+
 export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOrder }: ModalOrderProps) => {
   const [openModalCancelOrder, setOpenModalCancelOrder] = useState(false)
+  const [customer, setCustomer] = useState<CustomerProps | null>(null)
   const imprimirPedido = () => {
     window.print()
   }
+
+  
+  
 
   const handleChangeOrderStatus = async () => {
 
@@ -57,7 +67,14 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
     socket.emit('statusUpdate', { orderId: order.id, status: newStatus });
   }
 
+ const  getCustomer = async () => {
+  const response = await api.get(`/customer/${order.customer.id}`)
+  setCustomer(response.data.props)
+ }
   
+  useEffect(() => {
+    getCustomer()
+  },[])
 
   return (
     <AlertDialog.Portal>
@@ -94,20 +111,28 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
               </div>
             ))}
             <div className="w-full flex flex-col items-start justify-center mt-7">
-              <div className="w-full flex items-center justify-start gap-2">
-                Endereco: <span>{order.customer.Address[0].street}</span> -
-                <span>{order.customer.Address[0].number}</span> -
-                <span>{order.customer.Address[0].neighborhood.name}</span>
-              </div>
+              {order.methodDelivery === 'DELIVERY' && (
+                <div className="w-full flex items-center justify-start gap-2">
+                  Endereco: <span>{order.customer.Address[0].street}</span> -
+                  <span>{order.customer.Address[0].number}</span> -
+                  <span>{order.customer.Address[0].neighborhood.name}</span>
+                </div>
+              )}
+              { order.methodDelivery === 'PICKUP' && (
               <span>
-                Telefone: {order.customer.Address[0].phone}
+                Telefone: { customer?.phone && customer.phone} 
               </span>
-              <span>
-                Cep: {order.customer.Address[0].zipCode}
-              </span>
+              )}
 
-              <span>Metado de Entrega: {order.methodDelivery}</span>
-              <span>Metado de Pagamento: {order.payment}</span>
+              {order.methodDelivery === 'DELIVERY' && (
+                <span>
+                  Cep: {order.methodDelivery === "DELIVERY" && order.customer.Address[0].zipCode}
+                </span>
+                
+              )}
+
+              <span>Metado de Entrega: {order.methodDelivery === "DELIVERY" ? 'ENTREGA' : 'RETIRADA'}</span>
+              <span>Metado de Pagamento: {order.payment === "CARD" ? 'CREDITO' : order.payment === "PIX" ? 'PIX' : 'DINHEIRO'}</span>
               {order.methodDelivery === 'DELIVERY' && (
                 <span>Taxa de Entrega: {priceFormatter.format(Number(order.customer.Address[0].neighborhood.tax))}</span>
               )}

@@ -8,19 +8,17 @@ import pixOrange from '../../assets/pix-orange.svg'
 import { CreditCard, Banknote, Edit, ShoppingCart } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Summary } from "../cart/components/summary";
-import { Button } from "../../components/ui/button";
 import { api } from "../../utils/axios";
 import { CalculatePrice } from "../../utils/calculate-price";
 import { ToastContainer } from "react-toastify";
+import { ButtonCheckout } from "../../components/ButtonCheckout";
 
 
 interface PaymentProps {
   methodPayment: string
 }
 
-interface MethodDeliveryProps {
-  deliveryMethod: string
-}
+
 
 interface OrderProps {
   payment: string
@@ -42,17 +40,15 @@ export default function Checkout() {
     const storaged = parseCookies().payment
     return storaged ? JSON.parse(storaged) : []
   });
-  const [methodDelivery, setMethodDelivery] = useState<MethodDeliveryProps>(() => {
-    const storaged = parseCookies().delivery
-    return storaged ? JSON.parse(storaged) : []
-  });
+  const [methodDelivery, setMethodDelivery] = useState<string>('');
 
-  const { productToCart, addresses, currentAddress } = ContextApp()
+  const { productToCart, currentAddress } = ContextApp()
 
   const totalPrice = CalculatePrice();
 
   const navigate = useNavigate();
-
+  console.log(methodDelivery);
+  
   const handleFinishOrder = async () => {
     try {
       const token = parseCookies().accessToken;
@@ -63,7 +59,7 @@ export default function Checkout() {
           payment: getPayment.methodPayment,
           totalPrice: totalPrice,
           status: 'WAITING',
-          methodDelivery: methodDelivery.deliveryMethod,
+          methodDelivery: methodDelivery,
           itensOrder: productToCart.map((item) => ({
             mode: item.mode,
             size: item.size,
@@ -110,10 +106,10 @@ export default function Checkout() {
 
   return (
     <>
-      <HeaderOrder link="/payment" title="Revisão do Pedido" />
+      <HeaderOrder activeLink="CHECKOUT" leftLink="/payment" />
       <div className="w-full bg-white p-3 flex flex-col items-center justify-center my-5">
         <h2 className="w-10/12 text-start text-xl font-semibold text-gray-500 ">Metodo de Entrega</h2>
-        {methodDelivery.deliveryMethod === 'DELIVERY'
+        {methodDelivery === 'DELIVERY'
           ? (
             <div className="w-full bg-white  flex items-center justify-center">
               <CardAddress textLink="/delivery" />
@@ -152,14 +148,12 @@ export default function Checkout() {
           </NavLink>
         </div>
       </div>
-      <div className="w-full flex flex-col items-center justify-center">
-        <Summary tax={methodDelivery.deliveryMethod === 'PICKUP' ? '0.00' : currentAddress ? currentAddress.neighborhood.tax : '0.00'} />
+      <div className="mb-16 w-full flex flex-col items-center justify-center">
+        <Summary tax={methodDelivery === 'PICKUP' ? '0.00' : currentAddress ? currentAddress.neighborhood.tax : '0.00'} />
       </div>
 
 
-      <div className="w-full flex items-center justify-center my-10"  >
-        <Button disabled={addresses.length === 0 && methodDelivery.deliveryMethod === 'DELIVERY'} onClick={handleFinishOrder} className="bg-orange-500 hover:bg-orange-600 text-lg flex w-11/12 items-center justify-center">Finalizar Compra</Button>
-      </div>
+      <ButtonCheckout onClick={handleFinishOrder} name="Finalizar pedido"/>
       <ToastContainer />
     </>
   )

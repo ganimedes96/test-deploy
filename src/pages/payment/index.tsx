@@ -7,9 +7,9 @@ import { useState } from "react";
 import pix from '../../assets/pix.svg'
 import pixOrange from '../../assets/pix-orange.svg'
 import { AlertCircle, Banknote, CreditCard } from "lucide-react";
-import { Button } from "../../components/ui/button";
 import { setCookie } from "nookies";
 import { useNavigate } from 'react-router-dom';
+import { ButtonCheckout } from "../../components/ButtonCheckout";
 
 const paymentSchemaBody = z.object({
   methodPayment: z.enum(['CARD', 'MONEY', 'PIX']),
@@ -41,7 +41,7 @@ export default function Payment() {
 
   return (
     <>
-      <HeaderOrder title="Pagamento" link="/cart" />
+      <HeaderOrder activeLink="PAYMENT" leftLink="/delivery" />
       <div className="w-full flex flex-col items-center justify-center my-10">
         <h2 className="w-10/12 text-start text-xl font-semibold text-gray-500">Selecione um metodo de pagamento</h2>
         <form onSubmit={handleSubmit(handleSubmitForm)} className='w-full ' action="">
@@ -98,11 +98,7 @@ export default function Payment() {
                       </p>
                     )}
           </div>
-          <div className="w-full flex  items-center justify-center">
-            <Button className="w-10/12 bg-orange-500 hover:bg-orange-600 text-lg mt-10" type="submit">
-              Prossiga para o pagamento
-            </Button>
-          </div>
+         <ButtonCheckout type="submit" name="Proximo"  />
         </form>
       </div>
     </>

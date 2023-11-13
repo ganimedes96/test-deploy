@@ -13,7 +13,7 @@ export const Header = () => {
         <NavLink className="" to={'/cart'}>
           <div className="flex items-center justify-center">
             <div className="rounded-full text-orange-500 bg-orange-100 p-4">
-              <ShoppingBag size={28} />
+              <ShoppingBag size={26} />
             </div>
 
             {totalItemsOnCart > 0 && <span className="text-orange-100 bg-orange-500 px-2 -ml-5 mb-8 rounded-full">{totalItemsOnCart}</span>}
