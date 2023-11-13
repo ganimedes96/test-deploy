@@ -6,7 +6,7 @@ export const DefaultLayout = () => {
   return (
     <>
       <Header />
-      <main className=" max-w-[1100px] m-auto  flex flex-col items-center justify-center">
+      <main className=" max-w-[1100px] m-auto  flex flex-col items-center justify-start">
           <Outlet />
       </main>
     </>

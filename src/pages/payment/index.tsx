@@ -43,7 +43,6 @@ export default function Payment() {
     <>
       <HeaderOrder activeLink="PAYMENT" leftLink="/delivery" />
       <div className="w-full flex flex-col items-center justify-center my-10">
-        <h2 className="w-10/12 text-start text-xl font-semibold text-gray-500">Selecione um metodo de pagamento</h2>
         <form onSubmit={handleSubmit(handleSubmitForm)} className='w-full ' action="">
           <div className='w-11/12 flex flex-col items-center justify-center m-5'>
 

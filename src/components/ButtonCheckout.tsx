@@ -20,7 +20,7 @@ const ButtonCheckout = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         {...props}
         disabled={productToCart.length === 0}
-        className={cn('absolute bottom-0 w-full flex items-center justify-center rounded-[0px] text-gray-100 text-lg py-4 bg-orange-500 hover:bg-orange-600 ', className)}
+        className={cn('fixed bottom-0 w-full flex items-center justify-center rounded-[0px] text-gray-100 text-lg py-4 bg-orange-500 hover:bg-orange-600 ', className)}
         ref={ref}
       >
         {link ? (
