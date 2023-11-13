@@ -15,11 +15,12 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 const ButtonCheckout = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, name, link, ...props }, ref) => {
 
-    const { productToCart, isAuthenticated } = ContextApp()
+    const { isAuthenticated } = ContextApp()
+    
     return (
       <button
         {...props}
-        disabled={productToCart.length === 0}
+        disabled
         className={cn('fixed bottom-0 w-full flex items-center justify-center rounded-[0px] text-gray-100 text-lg py-4 bg-orange-500 hover:bg-orange-600 ', className)}
         ref={ref}
       >
