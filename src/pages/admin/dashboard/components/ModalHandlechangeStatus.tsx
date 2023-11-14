@@ -8,7 +8,6 @@ import { api } from "../../../../utils/axios";
 import socket from "../../../../utils/socketIO";
 import { ModalHandleCancelOrder } from "../../../../components/ModalHandleCancelOrder";
 import { useEffect, useState } from "react";
-import { ContextApp } from "../../../../context/context-app";
 
 interface ModalOrderProps {
   order: Orders
