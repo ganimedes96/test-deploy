@@ -118,10 +118,14 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
                   <span>{order.customer.Address[0].neighborhood.name}</span>
                 </div>
               )}
-              { order.methodDelivery === 'PICKUP' && (
+              { order.methodDelivery === 'PICKUP' ? (
               <span>
                 Telefone: { customer?.phone && customer.phone} 
               </span>
+              ): (
+                  <span>
+                    Telefone: {order.customer.phone && order.customer.phone}
+                  </span>
               )}
 
               {order.methodDelivery === 'DELIVERY' && (
