@@ -7,7 +7,7 @@ import { priceFormatter } from "../../../../utils/formatter";
 import { api } from "../../../../utils/axios";
 import socket from "../../../../utils/socketIO";
 import { ModalHandleCancelOrder } from "../../../../components/ModalHandleCancelOrder";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface ModalOrderProps {
   order: Orders
@@ -15,15 +15,10 @@ interface ModalOrderProps {
   onCancelOrder: (orderId: string) => void
 }
 
-interface CustomerProps{
-  name: string
-  email: string
-  phone: string
-}
+
 
 export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOrder }: ModalOrderProps) => {
   const [openModalCancelOrder, setOpenModalCancelOrder] = useState(false)
-  const [profile, setProfile] = useState<CustomerProps | null>(null)
   const imprimirPedido = () => {
     window.print()
   }
@@ -67,16 +62,6 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
     socket.emit('statusUpdate', { orderId: order.id, status: newStatus });
   }
 
- const  getCustomer = async () => {
-  const response = await api.get(`/customer/${order.customer.id}`)
-   setProfile(response.data.props)
- }
-  
-  useEffect(() => {
-    getCustomer()
-  },[])
-
-  
   
 
   return (
@@ -87,7 +72,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
           <header className="flex items-center justify-start">
             <div className="flex w-full flex-col items-start justify-center gap-4">
               <div className=" w-full flex items-center justify-between">
-                <h2>{profile?.name}</h2>
+                <h2>{order.methodDelivery === 'PICKUP' ? order.customer.withdrawalName : order.customer.name }</h2>
                 <AlertDialog.Cancel>
                   <X className="text-gary-600" />
                 </AlertDialog.Cancel>
@@ -123,7 +108,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
               )}
               { order.methodDelivery === 'PICKUP' ? (
               <span>
-                  Telefone: {profile?.phone && profile.phone} 
+                  Telefone: {order.customer.phone && order.customer.phone} 
               </span>
               ): (
                   <span>
