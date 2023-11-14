@@ -10,7 +10,6 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 export const ButtonCheckout = ({ className, isActive, link, children, ...props }: ButtonProps) => {
 
-    
     return (
       <button 
         disabled={isActive} 

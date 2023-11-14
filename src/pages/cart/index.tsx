@@ -1,4 +1,4 @@
-import { ContextApp } from "../../context/context-app";
+import { AddressProps, ContextApp } from "../../context/context-app";
 import { Summary } from "./components/summary";
 import { HeaderOrder } from "../../components/HeaderOrder";
 import { Card } from "../../components/ui/card";
@@ -7,13 +7,30 @@ import { CardDrink } from "./components/card-drink";
 import { ShoppingCart } from "lucide-react";
 import { ButtonCheckout } from "../../components/ButtonCheckout";
 import { NavLink } from "react-router-dom";
+import { api } from "../../utils/axios";
+import { parseCookies } from "nookies";
+import { useEffect, useState } from "react";
 
 
 
 
 export default function Cart() {
+  const [address, setAddress] = useState<AddressProps | null>(null)
 
-  const { currentAddress, productToCart } = ContextApp()
+  const { productToCart, isAuthenticated } = ContextApp()
+
+  const getAddresses = async  () => {
+    const response = await api.get('/address', {
+      headers: {
+        Authorization: `Bearer ${parseCookies().accessToken}`
+      }
+    })
+    setAddress(response.data.find((element: AddressProps) => element.standard === true))
+  }
+
+  useEffect(() => {
+    getAddresses()
+  },[])
 
   return (
 
@@ -53,7 +70,7 @@ export default function Cart() {
                 />
               ))}
             </Card>
-            <Summary className="mt-10"  tax={currentAddress ? currentAddress.neighborhood.tax : '0.00'} />
+            <Summary className="mt-10" tax={address ? address.neighborhood.tax : '0.00'} />
           </>
         )
         : (
@@ -66,7 +83,7 @@ export default function Cart() {
       }
 
       <ButtonCheckout isActive={productToCart.length === 0} >
-        <NavLink to={'/delivery'} >Proximo</NavLink>
+        <NavLink to={isAuthenticated ? '/delivery' : '/sign-in'} >Proximo</NavLink>
       </ButtonCheckout>
 
     </div>
