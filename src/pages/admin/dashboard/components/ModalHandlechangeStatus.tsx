@@ -25,7 +25,6 @@ interface CustomerProps{
 export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOrder }: ModalOrderProps) => {
   const [openModalCancelOrder, setOpenModalCancelOrder] = useState(false)
   const [profile, setProfile] = useState<CustomerProps | null>(null)
-  const {customer} = ContextApp()
   const imprimirPedido = () => {
     window.print()
   }
