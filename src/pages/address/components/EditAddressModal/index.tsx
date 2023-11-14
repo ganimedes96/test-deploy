@@ -75,7 +75,6 @@ export const EditAddressModal = ({ address, setOpenModal, openModal, }: EditAddr
     }
   });
 
-    console.log(address);
   const handleEditAddressForm = async (data: AddressSchema) => {
 
     try {

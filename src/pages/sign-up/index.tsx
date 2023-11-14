@@ -70,7 +70,6 @@ export default function Page() {
       }).catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, 'fdfdf');
 
         if (errorCode === "auth/email-already-in-use") {
           setIsLoading(false)

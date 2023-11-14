@@ -12,6 +12,7 @@ import { api } from "../../utils/axios";
 import { CalculatePrice } from "../../utils/calculate-price";
 import { ToastContainer } from "react-toastify";
 import { ButtonCheckout } from "../../components/ButtonCheckout";
+import { Oval } from "react-loader-spinner";
 
 
 interface PaymentProps {
@@ -41,16 +42,17 @@ export default function Checkout() {
     return storaged ? JSON.parse(storaged) : []
   });
   const [methodDelivery, setMethodDelivery] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false)
 
   const { productToCart, currentAddress } = ContextApp()
 
   const totalPrice = CalculatePrice();
 
   const navigate = useNavigate();
-  console.log(methodDelivery);
   
   const handleFinishOrder = async () => {
     try {
+      setIsLoading(true)  
       const token = parseCookies().accessToken;
       if (getPayment.methodPayment === 'PIX') {
         navigate('/pix')
@@ -69,7 +71,7 @@ export default function Checkout() {
             quantity: item.quantityProduct
           }))
         }
-
+        
         await api.post('/order', order, {
           headers: {
             Authorization: `Bearer ${token}`
@@ -84,6 +86,7 @@ export default function Checkout() {
 
     } catch (error) {
       console.error(error);
+      setIsLoading(false)
 
     }
   }
@@ -153,8 +156,24 @@ export default function Checkout() {
       </div>
 
 
-      <ButtonCheckout onClick={handleFinishOrder}>
-        Finalizar pedido
+      <ButtonCheckout disabled={isLoading} onClick={handleFinishOrder}>
+        {isLoading ? (
+          <Oval
+            height={25}
+            width={25}
+            color="#fff"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+            ariaLabel='oval-loading'
+            secondaryColor="#fff"
+            strokeWidth={2}
+            strokeWidthSecondary={2}
+
+          />
+        ) : (
+          'Finalizar pedido'
+        )}
       </ButtonCheckout>
       <ToastContainer />
     </>

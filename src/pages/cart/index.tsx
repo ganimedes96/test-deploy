@@ -70,7 +70,7 @@ export default function Cart() {
                 />
               ))}
             </Card>
-            <Summary className="mt-10" tax={address ? address.neighborhood.tax : '0.00'} />
+            <Summary className="my-10" tax={address ? address.neighborhood.tax : '0.00'} />
           </>
         )
         : (
@@ -81,10 +81,12 @@ export default function Cart() {
         )
 
       }
-
-      <ButtonCheckout isActive={productToCart.length === 0} >
-        <NavLink to={isAuthenticated ? '/delivery' : '/sign-in'} >Proximo</NavLink>
-      </ButtonCheckout>
+      {productToCart.length > 0 && (
+        <ButtonCheckout >
+          <NavLink to={isAuthenticated ? '/delivery' : '/sign-in'} >Proximo</NavLink>
+        </ButtonCheckout>
+        
+      )}
 
     </div>
 
