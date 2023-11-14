@@ -8,6 +8,7 @@ import { api } from "../../../../utils/axios";
 import socket from "../../../../utils/socketIO";
 import { ModalHandleCancelOrder } from "../../../../components/ModalHandleCancelOrder";
 import { useEffect, useState } from "react";
+import { ContextApp } from "../../../../context/context-app";
 
 interface ModalOrderProps {
   order: Orders
@@ -23,7 +24,8 @@ interface CustomerProps{
 
 export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOrder }: ModalOrderProps) => {
   const [openModalCancelOrder, setOpenModalCancelOrder] = useState(false)
-  const [customer, setCustomer] = useState<CustomerProps | null>(null)
+  const [profile, setProfile] = useState<CustomerProps | null>(null)
+  const {customer} = ContextApp()
   const imprimirPedido = () => {
     window.print()
   }
@@ -69,12 +71,15 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
 
  const  getCustomer = async () => {
   const response = await api.get(`/customer/${order.customer.id}`)
-  setCustomer(response.data.props)
+   setProfile(response.data.props)
  }
   
   useEffect(() => {
     getCustomer()
   },[])
+
+  
+  
 
   return (
     <AlertDialog.Portal>
@@ -84,7 +89,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
           <header className="flex items-center justify-start">
             <div className="flex w-full flex-col items-start justify-center gap-4">
               <div className=" w-full flex items-center justify-between">
-                <h2>{order.customer.name}</h2>
+                <h2>{order.methodDelivery === 'DELIVERY' ? customer.displayName : profile?.name}</h2>
                 <AlertDialog.Cancel>
                   <X className="text-gary-600" />
                 </AlertDialog.Cancel>
@@ -120,11 +125,11 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
               )}
               { order.methodDelivery === 'PICKUP' ? (
               <span>
-                Telefone: { customer?.phone && customer.phone} 
+                  Telefone: {profile?.phone && profile.phone} 
               </span>
               ): (
                   <span>
-                    Telefone: {order.customer.phone && order.customer.phone}
+                    Telefone: {order.customer.Address && order.customer.Address[0].phone}
                   </span>
               )}
 
