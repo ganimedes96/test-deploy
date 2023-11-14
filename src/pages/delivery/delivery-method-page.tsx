@@ -56,7 +56,6 @@ export default function MethodDelivery() {
           phone: data.phone
         }
       )
-
       navigate('/payment')
     } catch (error) {
       console.log(error);
