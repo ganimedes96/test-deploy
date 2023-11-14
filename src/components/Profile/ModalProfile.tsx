@@ -73,7 +73,7 @@ export const ModalProfile = ({ openModal, setOpenModal }: ModalProfileProps) => 
             <div className='border-t-2 cursor-pointer text-orange-500 border-gray-200 w-full pt-4 flex items-center justify-between gap-4'>
               <NavLink onClick={() => setOpenModal(false)} to={'/address'} className='flex items-center justify-start gap-4'>
                 <MapPin size={24} />
-                <span className=' text-lg'>Enderecos</span>
+                <span className=' text-lg'>Endereços</span>
               </NavLink>
               <ExternalLink />
             </div>

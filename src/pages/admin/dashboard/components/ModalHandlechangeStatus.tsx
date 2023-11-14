@@ -134,7 +134,6 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
                 </span>
                 
               )}
-
               <span>Metado de Entrega: {order.methodDelivery === "DELIVERY" ? 'ENTREGA' : 'RETIRADA'}</span>
               <span>Metado de Pagamento: {order.payment === "CARD" ? 'CREDITO' : order.payment === "PIX" ? 'PIX' : 'DINHEIRO'}</span>
               {order.methodDelivery === 'DELIVERY' && (
