@@ -89,7 +89,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
           <header className="flex items-center justify-start">
             <div className="flex w-full flex-col items-start justify-center gap-4">
               <div className=" w-full flex items-center justify-between">
-                <h2>{order.methodDelivery === 'DELIVERY' ? customer.displayName : profile?.name}</h2>
+                <h2>{profile?.name}</h2>
                 <AlertDialog.Cancel>
                   <X className="text-gary-600" />
                 </AlertDialog.Cancel>

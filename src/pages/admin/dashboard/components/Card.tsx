@@ -12,7 +12,6 @@ interface CardProps {
 
 
 export const Card = ({order, onChangeOrderStatus, onCancelOrder}: CardProps) => {
-  const {customer} = ContextApp()
   
   
   return (
@@ -20,7 +19,7 @@ export const Card = ({order, onChangeOrderStatus, onCancelOrder}: CardProps) => 
         <AlertDialog.Trigger asChild>
           <button className="w-11/12 cursor-pointer my-2 h-36 flex bg-white items-center justify-center ">
               <div className=" flex flex-col items-center justify-center ">
-            <span>{order.methodDelivery === 'DELIVERY' ? customer.displayName : order.customer.name }</span>
+            <span>{order.customer.name }</span>
                   <span className="text-gray-500">Pedidos ({order.itensOrder.length})</span>
               </div>
           </button>
