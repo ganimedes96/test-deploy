@@ -15,16 +15,12 @@ interface ModalOrderProps {
   onCancelOrder: (orderId: string) => void
 }
 
-
-
 export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOrder }: ModalOrderProps) => {
   const [openModalCancelOrder, setOpenModalCancelOrder] = useState(false)
   const imprimirPedido = () => {
     window.print()
   }
 
-  
-  
 
   const handleChangeOrderStatus = async () => {
 
@@ -61,8 +57,6 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
     // Substitua pela URL do seu servidor Socket.IO
     socket.emit('statusUpdate', { orderId: order.id, status: newStatus });
   }
-
-  
 
   return (
     <AlertDialog.Portal>

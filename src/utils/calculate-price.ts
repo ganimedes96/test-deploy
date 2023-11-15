@@ -8,7 +8,6 @@ export const CalculatePrice = () => {
   const methodDelivery = JSON.parse(parseCookies().delivery)
   const totalPriceProduct = parseFloat(String(cartProductsTotalPrice)); // Converta para número
   const totalPrice = (totalPriceProduct + (methodDelivery === 'DELIVERY' ? tax : 0)).toFixed(2);
-  console.log(totalPrice, methodDelivery);
   
   return totalPrice
 }

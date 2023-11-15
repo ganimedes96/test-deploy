@@ -82,7 +82,7 @@ export default function CreateAddress() {
       type: data.type.value,
       zipCode: data.zipCode,
       phone: data.phone,
-      standard: addresses ? false : true,
+      standard: addresses.length > 0 ? false : true,
       customerId: '',
       id: '',
     }

@@ -13,7 +13,7 @@ import { api } from "../../utils/axios";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const methodDeliverySchemaBody = z.object({
-  name: z.string().nonempty('O nome é obrigatorio!').min(3, 'O nome deve ter pelo menos 3 caracteres'),
+  withdrawalName: z.string().nonempty('O nome é obrigatorio!').min(3, 'O nome deve ter pelo menos 3 caracteres'),
   phone: z.string()
     .nonempty('O telefone é obrigatório!')
     .refine((value) => /^\(\d{2}\) \d{5}-\d{4}$/
@@ -44,15 +44,11 @@ export default function MethodDelivery() {
     try {
 
       setCookie(undefined, 'delivery', methodDeliveryData)
-      console.log({
-        id: customer?.uid,
-        name: data.name,
-        phone: data.phone
-      });
+     
       await api.patch(`/customer`,
         {
           id: customer?.uid,
-          name: data.name,
+          withdrawalName: data.withdrawalName,
           phone: data.phone
         }
       )
@@ -105,13 +101,13 @@ export default function MethodDelivery() {
               >
                 <Label className="w-11/12 mb-2">Nome</Label>
                 <input
-                  {...register('name')}
+                    {...register('withdrawalName')}
                   className="bg-transparent w-11/12 p-3  rounded  border-[1px] border-gray-400 text-sm text-gray-600"
                   type="text"
 
                 />
-                {errors.name && (
-                  <span className="text-red-500">{errors.name?.message}</span>
+                  {errors.withdrawalName && (
+                    <span className="text-red-500">{errors.withdrawalName?.message}</span>
                 )}
                 <Label className="w-11/12 mt-4">Telefone</Label>
                 <Controller

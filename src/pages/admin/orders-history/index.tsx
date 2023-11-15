@@ -30,7 +30,7 @@ export default function OrdersHistory() {
       setOrders(response.data)
     }
   };
-  console.log(orders);
+
 
   return (
     <div className='w-full flex flex-col items-center justify-center mb-10'>

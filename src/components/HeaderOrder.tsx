@@ -12,7 +12,7 @@ type HeaderOrderProps = React.HTMLAttributes<HTMLDivElement> & {
 //className = {cn('flex flex-col w-4/5', address.className)
 export const HeaderOrder = ({ leftLink, activeLink}: HeaderOrderProps) => {
   return (
-    <header className={"w-full flex text-gray-400  mt-[97.5px]  items-center justify-center "}>
+    <header className={"w-full flex text-gray-400  mt-[94px]  items-center justify-center "}>
       <NavLink to={leftLink} className={"w-2/12 text-gray-50 py-[17.5px] bg-orange-500 flex items-center justify-center"}>
         <ChevronLeft size={35} strokeWidth={4} />
       </NavLink>

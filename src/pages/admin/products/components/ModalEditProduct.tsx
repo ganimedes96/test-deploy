@@ -108,9 +108,6 @@ export default function ModalEditProduct({ product, setOpenModal, openModal }: M
 
 
   const handleSubmitForm = async (data: ProductSchema) => {
-    console.log(data.category.label);
-    console.log(data.type.label);
-    
     
     if (typeof data.file !== 'string') {
       const imageUrl = await api.post('/upload', data.file)

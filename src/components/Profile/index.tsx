@@ -1,8 +1,9 @@
+
 import { useState } from 'react';
+import { ModalProfile } from './ModalProfile'
 import { ContextApp } from '../../context/context-app';
 import { User } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
-import { ModalProfile } from './ModalProfile';
 
 
 export const Profile = () => {
@@ -10,7 +11,7 @@ export const Profile = () => {
   const { customer } = ContextApp()
   return (
     <>
-      <div>
+      <div className='flex items-center justify-center'>
         {
           customer ? (
             <button onClick={() => setOpenModal(true)} >

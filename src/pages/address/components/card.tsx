@@ -63,7 +63,7 @@ export const CardAddress = ({ address }: AddressCardProps) => {
         </CardDescription>
         {address.standard &&
           <div className="mt-2 rounded text-orange-500 flex items-center justify-center border-2 border-orange-500 w-16">
-            Padrao
+            Padrão
           </div>
         }
       </CardContent>
