@@ -64,3 +64,17 @@ export interface OrderData {
   neighborhoodTax: string;
 
 }
+
+export interface OrderProps {
+  payment: string
+  totalPrice: string
+  methodDelivery: string
+  status: string
+  itensOrder: {
+    mode?: string,
+    size: string,
+    price: string
+    product: string[]
+    quantity: number
+  }[]
+}

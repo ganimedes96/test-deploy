@@ -10,18 +10,30 @@ import { useNavigate } from "react-router-dom";
 import { Copy } from "lucide-react";
 import { ToastContainer } from "react-toastify";
 import { notify } from "../../utils/toast";
+import socket from "../../utils/socketIO";
+import { destroyCookie, parseCookies } from "nookies";
+import { ContextApp } from "../../context/context-app";
+import { OrderProps } from "../../@types/interface";
 import { CalculatePrice } from "../../utils/calculate-price";
 
 interface qrCodeProps {
   qrcode: string
   imagemQrcode: string
 }
-
+interface PaymentProps {
+  methodPayment: string
+}
 
 export default function Pix() {
   const [qrCodeData, setQrCodeData] = useState<qrCodeProps>()
+  const [getPayment, setGetPayment] = useState<PaymentProps>(() => {
+    const storaged = parseCookies().payment
+    return storaged ? JSON.parse(storaged) : []
+  });
+  const [methodDelivery, setMethodDelivery] = useState<string>('');
+  const navigate = useNavigate()
   const totalPrice = CalculatePrice()
- 
+  const { productToCart } = ContextApp()
 
   const handleQRcodePix = async () => {
     const response = await api.post('/pix', {
@@ -33,7 +45,7 @@ export default function Pix() {
         nome: "Francisco da Silva"
       },
       valor: {
-        original: String(totalPrice),
+        original: '0.01',
       },
       chave: "a471ed5a-0b30-4507-8e9e-c9ba73ec33cb",
       solicitacaoPagador: "Informe o número ou identificador do pedido."
@@ -43,40 +55,70 @@ export default function Pix() {
 
   }
 
-  const navigate = useNavigate()
-
-  const onConfirmationPix = async () => {
+  useEffect(() => {
+    // Adicione o ouvinte do evento 'newOrder' ao montar o componente
     const toastId = toast.loading("Aguardando pagamento...")
-    api.get('/webhook').then(() => {
+    socket.on('payment', async (data: any) => {
+      console.log(data);
       
-      toast.update(toastId, {
-        render: "Pagamento realizado com sucesso!",
-        type: "success",
-        isLoading: false,
-        autoClose: 4000
-      })
-    
-    }).catch(() => {
-      toast.update(toastId, {
-        render: "Erro ao realizar pagamento!",
-        type: "error",
-        isLoading: false,
-      })
-    })
-    
-    
-      await new Promise(resolve => setTimeout(resolve, 3000)) 
+      if (data.status === 'PaymentConfirmed') {
+       
+        const token = parseCookies().accessToken;
+        const order: OrderProps = {
+          payment: getPayment.methodPayment,
+          totalPrice: totalPrice,
+          status: 'WAITING',
+          methodDelivery: methodDelivery,
+          itensOrder: productToCart.map((item) => ({
+            mode: item.mode,
+            size: item.size,
+            image_url: item.image_url ? item.image_url : '',
+            price: item.price,
+            product: item.product.map(item => item.name),
+            quantity: item.quantityProduct
+          }))
+        }
+
+        await api.post('/order', order, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        toast.update(toastId, {
+          render: "Pagamento realizado com sucesso!",
+          type: "success",
+          isLoading: false,
+          autoClose: 4000
+        })
+        destroyCookie(null, 'product')
+        destroyCookie(null, 'payment')
+        destroyCookie(null, 'delivery')
+      }
       navigate('/success')
-    
-    
-   
+    });
+
+    // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
+    return () => {
+      socket.off('payment');
+    };
+  }, []);
+ 
+  const getDataCookies = () => {
+    setGetPayment(() => {
+      const storaged = parseCookies().payment
+      return storaged ? JSON.parse(storaged) : []
+    })
+
+    setMethodDelivery(() => {
+      const storaged = parseCookies().delivery
+      return storaged ? JSON.parse(storaged) : []
+    })
   }
 
   useEffect(() => {
     handleQRcodePix()
-    onConfirmationPix()
+    getDataCookies()
   }, [])
-
 
   return (
     <>
@@ -88,15 +130,15 @@ export default function Pix() {
 
       </div>
       <div className="w-full mt-40 flex flex-col items-center justify-center">
-            <div >
-                <Countdown />
-            </div>
-            <div className="mt-10">
-                <CopyToClipboard text={qrCodeData?.qrcode ? qrCodeData.qrcode : ''}>
-                  <button onClick={() => notify('Codigo copiado com sucesso', 'bottom')} className="bg-orange-500 p-4 rounded text-gray-100 flex items-center gap-2 hover:bg-orange-600 ">Capia codigo <Copy/> </button>
-                </CopyToClipboard>
-            </div>
+        <div >
+          <Countdown />
         </div>
+        <div className="mt-10">
+          <CopyToClipboard text={qrCodeData?.qrcode ? qrCodeData.qrcode : ''}>
+            <button onClick={() => notify('Codigo copiado com sucesso', 'bottom')} className="bg-orange-500 p-4 rounded text-gray-100 flex items-center gap-2 hover:bg-orange-600 ">Capia codigo <Copy /> </button>
+          </CopyToClipboard>
+        </div>
+      </div>
       <ToastContainer />
     </>
   )

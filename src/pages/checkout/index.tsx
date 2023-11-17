@@ -13,6 +13,7 @@ import { CalculatePrice } from "../../utils/calculate-price";
 import { ToastContainer } from "react-toastify";
 import { ButtonCheckout } from "../../components/ButtonCheckout";
 import { Oval } from "react-loader-spinner";
+import { OrderProps } from "../../@types/interface";
 
 
 interface PaymentProps {
@@ -21,19 +22,7 @@ interface PaymentProps {
 
 
 
-interface OrderProps {
-  payment: string
-  totalPrice: string
-  methodDelivery: string
-  status: string
-  itensOrder: {
-    mode?: string,
-    size: string,
-    price: string
-    product: string[]
-    quantity: number
-  }[]
-}
+
 
 export default function Checkout() {
 

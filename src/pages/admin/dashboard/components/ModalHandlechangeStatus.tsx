@@ -59,7 +59,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
   }
 
   return (
-    <AlertDialog.Portal>
+    <AlertDialog.Portal key={order.id}>
       <AlertDialog.Overlay className=" fixed w-screen h-screen inset-0 bg-gray-900/[.6]" />
       <AlertDialog.Content className="md:w-6/12 w-11/12 rounded p-5 bg-white fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <AlertDialog.Title className="text-gray-500 text-center font-semibold text-xl">
