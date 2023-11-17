@@ -1,39 +1,38 @@
 
 import { api } from "../../utils/axios";
-
 import { useEffect, useState } from "react";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Countdown } from "./components/Countdown";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
 import { Copy } from "lucide-react";
 import { ToastContainer } from "react-toastify";
 import { notify } from "../../utils/toast";
 import socket from "../../utils/socketIO";
-import { destroyCookie, parseCookies } from "nookies";
-import { ContextApp } from "../../context/context-app";
-import { OrderProps } from "../../@types/interface";
-import { CalculatePrice } from "../../utils/calculate-price";
+import "react-toastify/dist/ReactToastify.css";
+// import { toast } from "react-toastify";
+// import { useNavigate } from "react-router-dom";
+// import { destroyCookie, parseCookies } from "nookies";
+// import { ContextApp } from "../../context/context-app";
+// import { OrderProps } from "../../@types/interface";
+// import { CalculatePrice } from "../../utils/calculate-price";
 
 interface qrCodeProps {
   qrcode: string
   imagemQrcode: string
 }
-interface PaymentProps {
-  methodPayment: string
-}
+// interface PaymentProps {
+//   methodPayment: string
+// }
 
 export default function Pix() {
   const [qrCodeData, setQrCodeData] = useState<qrCodeProps>()
-  const [getPayment, setGetPayment] = useState<PaymentProps>(() => {
-    const storaged = parseCookies().payment
-    return storaged ? JSON.parse(storaged) : []
-  });
-  const [methodDelivery, setMethodDelivery] = useState<string>('');
-  const navigate = useNavigate()
-  const totalPrice = CalculatePrice()
-  const { productToCart } = ContextApp()
+  // const [getPayment, setGetPayment] = useState<PaymentProps>(() => {
+  //   const storaged = parseCookies().payment
+  //   return storaged ? JSON.parse(storaged) : []
+  // });
+  // const [methodDelivery, setMethodDelivery] = useState<string>('');
+  // const navigate = useNavigate()
+  // const totalPrice = CalculatePrice()
+  // const { productToCart } = ContextApp()
 
   const handleQRcodePix = async () => {
     const response = await api.post('/pix', {
@@ -57,44 +56,44 @@ export default function Pix() {
 
   useEffect(() => {
     // Adicione o ouvinte do evento 'newOrder' ao montar o componente
-    const toastId = toast.loading("Aguardando pagamento...")
+    // const toastId = toast.loading("Aguardando pagamento...")
     socket.on('payment', async (data: any) => {
       console.log(data);
       
-      if (data.status === 'PaymentConfirmed') {
+      // if (data.status === 'PaymentConfirmed') {
        
-        const token = parseCookies().accessToken;
-        const order: OrderProps = {
-          payment: getPayment.methodPayment,
-          totalPrice: totalPrice,
-          status: 'WAITING',
-          methodDelivery: methodDelivery,
-          itensOrder: productToCart.map((item) => ({
-            mode: item.mode,
-            size: item.size,
-            image_url: item.image_url ? item.image_url : '',
-            price: item.price,
-            product: item.product.map(item => item.name),
-            quantity: item.quantityProduct
-          }))
-        }
+      //   const token = parseCookies().accessToken;
+      //   const order: OrderProps = {
+      //     payment: getPayment.methodPayment,
+      //     totalPrice: totalPrice,
+      //     status: 'WAITING',
+      //     methodDelivery: methodDelivery,
+      //     itensOrder: productToCart.map((item) => ({
+      //       mode: item.mode,
+      //       size: item.size,
+      //       image_url: item.image_url ? item.image_url : '',
+      //       price: item.price,
+      //       product: item.product.map(item => item.name),
+      //       quantity: item.quantityProduct
+      //     }))
+      //   }
 
-        await api.post('/order', order, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-        toast.update(toastId, {
-          render: "Pagamento realizado com sucesso!",
-          type: "success",
-          isLoading: false,
-          autoClose: 4000
-        })
-        destroyCookie(null, 'product')
-        destroyCookie(null, 'payment')
-        destroyCookie(null, 'delivery')
-      }
-      navigate('/success')
+      //   await api.post('/order', order, {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`
+      //     }
+      //   })
+      //   toast.update(toastId, {
+      //     render: "Pagamento realizado com sucesso!",
+      //     type: "success",
+      //     isLoading: false,
+      //     autoClose: 4000
+      //   })
+      //   destroyCookie(null, 'product')
+      //   destroyCookie(null, 'payment')
+      //   destroyCookie(null, 'delivery')
+      // }
+      // navigate('/success')
     });
 
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
@@ -104,15 +103,15 @@ export default function Pix() {
   }, []);
  
   const getDataCookies = () => {
-    setGetPayment(() => {
-      const storaged = parseCookies().payment
-      return storaged ? JSON.parse(storaged) : []
-    })
+    // setGetPayment(() => {
+    //   const storaged = parseCookies().payment
+    //   return storaged ? JSON.parse(storaged) : []
+    // })
 
-    setMethodDelivery(() => {
-      const storaged = parseCookies().delivery
-      return storaged ? JSON.parse(storaged) : []
-    })
+    // setMethodDelivery(() => {
+    //   const storaged = parseCookies().delivery
+    //   return storaged ? JSON.parse(storaged) : []
+    // })
   }
 
   useEffect(() => {
