@@ -8,7 +8,6 @@ import { ToastContainer } from "react-toastify";
 import { notify } from "../../utils/toast";
 import socket from "../../utils/socketIO";
 import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { destroyCookie, parseCookies } from "nookies";
 import { ContextApp } from "../../context/context-app";
