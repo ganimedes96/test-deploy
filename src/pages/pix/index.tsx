@@ -55,8 +55,7 @@ export default function Pix() {
   }
 
   useEffect(() => {
-    // Adicione o ouvinte do evento 'newOrder' ao montar o componente
-    const toastId = toast.loading("Aguardando pagamento...")
+    
     socket.on('payment', (data: any) => {
       console.log(data);
       const createOrder = async () => {
@@ -84,12 +83,7 @@ export default function Pix() {
               Authorization: `Bearer ${token}`
             }
           })
-          toast.update(toastId, {
-            render: "Pagamento realizado com sucesso!",
-            type: "success",
-            isLoading: false,
-            autoClose: 4000
-          })
+          
           destroyCookie(null, 'product')
           destroyCookie(null, 'payment')
           destroyCookie(null, 'delivery')
@@ -116,6 +110,9 @@ export default function Pix() {
     })
   }
 
+  console.log(methodDelivery);
+  
+
   useEffect(() => {
     handleQRcodePix()
     getDataCookies()
@@ -123,7 +120,7 @@ export default function Pix() {
 
   return (
     <>
-      <div className="mt-36 w-full px-3 h-72 bg-orange-600 flex  items-start justify-center">
+      <div className="mt-[90px] w-full px-3 h-72 bg-orange-600 flex  items-start justify-center">
         <h2 className="text-center text-lg mt-10 text-gray-50">Leia ou copie o <span className="font-bold">QR Code Pix</span> e pague utilizando o aplicativo do seu banco.</h2>
         <div className="border-2 border-gray-300 rounded bg-white absolute top-64">
           <img className="relative w-64" src={qrCodeData?.imagemQrcode} />
