@@ -13,6 +13,7 @@ import { destroyCookie, parseCookies } from "nookies";
 import { ContextApp } from "../../context/context-app";
 import { OrderProps } from "../../@types/interface";
 import { CalculatePrice } from "../../utils/calculate-price";
+import MethodDelivery from "../delivery/delivery-method-page";
 
 interface qrCodeProps {
   qrcode: string
@@ -79,7 +80,8 @@ export default function Pix() {
               quantity: item.quantityProduct
             }))
           }
-
+          console.log(methodDelivery);
+          
           await api.post('/order', order, {
             headers: {
               Authorization: `Bearer ${token}`
