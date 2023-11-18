@@ -13,7 +13,6 @@ import { destroyCookie, parseCookies } from "nookies";
 import { ContextApp } from "../../context/context-app";
 import { OrderProps } from "../../@types/interface";
 import { CalculatePrice } from "../../utils/calculate-price";
-import MethodDelivery from "../delivery/delivery-method-page";
 
 interface qrCodeProps {
   qrcode: string
