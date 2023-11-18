@@ -8,31 +8,31 @@ import { ToastContainer } from "react-toastify";
 import { notify } from "../../utils/toast";
 import socket from "../../utils/socketIO";
 import "react-toastify/dist/ReactToastify.css";
-// import { toast } from "react-toastify";
-// import { useNavigate } from "react-router-dom";
-// import { destroyCookie, parseCookies } from "nookies";
-// import { ContextApp } from "../../context/context-app";
-// import { OrderProps } from "../../@types/interface";
-// import { CalculatePrice } from "../../utils/calculate-price";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { destroyCookie, parseCookies } from "nookies";
+import { ContextApp } from "../../context/context-app";
+import { OrderProps } from "../../@types/interface";
+import { CalculatePrice } from "../../utils/calculate-price";
 
 interface qrCodeProps {
   qrcode: string
   imagemQrcode: string
 }
-// interface PaymentProps {
-//   methodPayment: string
-// }
+interface PaymentProps {
+  methodPayment: string
+}
 
 export default function Pix() {
   const [qrCodeData, setQrCodeData] = useState<qrCodeProps>()
-  // const [getPayment, setGetPayment] = useState<PaymentProps>(() => {
-  //   const storaged = parseCookies().payment
-  //   return storaged ? JSON.parse(storaged) : []
-  // });
-  // const [methodDelivery, setMethodDelivery] = useState<string>('');
-  // const navigate = useNavigate()
-  // const totalPrice = CalculatePrice()
-  // const { productToCart } = ContextApp()
+  const [getPayment, setGetPayment] = useState<PaymentProps>(() => {
+    const storaged = parseCookies().payment
+    return storaged ? JSON.parse(storaged) : []
+  });
+  const [methodDelivery, setMethodDelivery] = useState<string>('');
+  const navigate = useNavigate()
+  const totalPrice = CalculatePrice()
+  const { productToCart } = ContextApp()
 
   const handleQRcodePix = async () => {
     const response = await api.post('/pix', {
@@ -56,46 +56,48 @@ export default function Pix() {
 
   useEffect(() => {
     // Adicione o ouvinte do evento 'newOrder' ao montar o componente
-    // const toastId = toast.loading("Aguardando pagamento...")
-    socket.on('payment', async (data: any) => {
+    const toastId = toast.loading("Aguardando pagamento...")
+    socket.on('payment', (data: any) => {
       console.log(data);
-      
-      // if (data.status === 'PaymentConfirmed') {
-       
-      //   const token = parseCookies().accessToken;
-      //   const order: OrderProps = {
-      //     payment: getPayment.methodPayment,
-      //     totalPrice: totalPrice,
-      //     status: 'WAITING',
-      //     methodDelivery: methodDelivery,
-      //     itensOrder: productToCart.map((item) => ({
-      //       mode: item.mode,
-      //       size: item.size,
-      //       image_url: item.image_url ? item.image_url : '',
-      //       price: item.price,
-      //       product: item.product.map(item => item.name),
-      //       quantity: item.quantityProduct
-      //     }))
-      //   }
+      const createOrder = async () => {
+        
+        if (data.status === 'PaymentConfirmed') {
+        
+          const token = parseCookies().accessToken;
+          const order: OrderProps = {
+            payment: getPayment.methodPayment,
+            totalPrice: totalPrice,
+            status: 'WAITING',
+            methodDelivery: methodDelivery,
+            itensOrder: productToCart.map((item) => ({
+              mode: item.mode,
+              size: item.size,
+              image_url: item.image_url ? item.image_url : '',
+              price: item.price,
+              product: item.product.map(item => item.name),
+              quantity: item.quantityProduct
+            }))
+          }
 
-      //   await api.post('/order', order, {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`
-      //     }
-      //   })
-      //   toast.update(toastId, {
-      //     render: "Pagamento realizado com sucesso!",
-      //     type: "success",
-      //     isLoading: false,
-      //     autoClose: 4000
-      //   })
-      //   destroyCookie(null, 'product')
-      //   destroyCookie(null, 'payment')
-      //   destroyCookie(null, 'delivery')
-      // }
-      // navigate('/success')
+          await api.post('/order', order, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          })
+          toast.update(toastId, {
+            render: "Pagamento realizado com sucesso!",
+            type: "success",
+            isLoading: false,
+            autoClose: 4000
+          })
+          destroyCookie(null, 'product')
+          destroyCookie(null, 'payment')
+          destroyCookie(null, 'delivery')
+        }
+        navigate('/success')
+      }
+    createOrder();
     });
-
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
     return () => {
       socket.off('payment');
@@ -103,15 +105,15 @@ export default function Pix() {
   }, []);
  
   const getDataCookies = () => {
-    // setGetPayment(() => {
-    //   const storaged = parseCookies().payment
-    //   return storaged ? JSON.parse(storaged) : []
-    // })
+    setGetPayment(() => {
+      const storaged = parseCookies().payment
+      return storaged ? JSON.parse(storaged) : []
+    })
 
-    // setMethodDelivery(() => {
-    //   const storaged = parseCookies().delivery
-    //   return storaged ? JSON.parse(storaged) : []
-    // })
+    setMethodDelivery(() => {
+      const storaged = parseCookies().delivery
+      return storaged ? JSON.parse(storaged) : []
+    })
   }
 
   useEffect(() => {
@@ -121,7 +123,7 @@ export default function Pix() {
 
   return (
     <>
-      <div className="w-full px-3 h-72 bg-orange-600 flex  items-start justify-center">
+      <div className="mt-36 w-full px-3 h-72 bg-orange-600 flex  items-start justify-center">
         <h2 className="text-center text-lg mt-10 text-gray-50">Leia ou copie o <span className="font-bold">QR Code Pix</span> e pague utilizando o aplicativo do seu banco.</h2>
         <div className="border-2 border-gray-300 rounded bg-white absolute top-64">
           <img className="relative w-64" src={qrCodeData?.imagemQrcode} />
