@@ -28,7 +28,10 @@ export default function Pix() {
     const storaged = parseCookies().payment
     return storaged ? JSON.parse(storaged) : []
   });
-  const [methodDelivery, setMethodDelivery] = useState<string>('');
+  const [methodDelivery, setMethodDelivery] = useState<string>(() => {
+    const storaged = parseCookies().delivery
+    return storaged ? JSON.parse(storaged) : []
+  });
   const navigate = useNavigate()
   const totalPrice = CalculatePrice()
   const { productToCart } = ContextApp()
