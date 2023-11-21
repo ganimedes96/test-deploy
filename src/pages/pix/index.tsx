@@ -20,13 +20,15 @@ interface qrCodeProps {
 }
 interface PaymentProps {
   methodPayment: string
+  flag?: string
+  typeCard?: string
 }
 
 export default function Pix() {
   const [qrCodeData, setQrCodeData] = useState<qrCodeProps>()
   const [getPayment, setGetPayment] = useState<PaymentProps>(() => {
     const storaged = parseCookies().payment
-    return storaged ? JSON.parse(storaged) : []
+    return storaged ? JSON.parse(storaged) : {}
   });
   const [methodDelivery, setMethodDelivery] = useState<string>(() => {
     const storaged = parseCookies().delivery
@@ -55,7 +57,8 @@ export default function Pix() {
     })
     setQrCodeData(response.data)
   }
-
+  console.log(getPayment);
+  
   useEffect(() => {
 
     socket.on('payment', (data: any) => {
@@ -112,7 +115,7 @@ export default function Pix() {
   const getDataCookies = () => {
     setGetPayment(() => {
       const storaged = parseCookies().payment
-      return storaged ? JSON.parse(storaged) : []
+      return storaged ? JSON.parse(storaged) : {}
     })
 
     setMethodDelivery(() => {
