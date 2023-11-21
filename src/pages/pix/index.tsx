@@ -18,18 +18,10 @@ interface qrCodeProps {
   qrcode: string
   imagemQrcode: string
 }
-interface PaymentProps {
-  methodPayment: string
-  flag?: string
-  typeCard?: string
-}
 
 export default function Pix() {
   const [qrCodeData, setQrCodeData] = useState<qrCodeProps>()
-  const [getPayment, setGetPayment] = useState<PaymentProps>(() => {
-    const storaged = parseCookies().payment
-    return storaged ? JSON.parse(storaged) : {}
-  });
+  
   const [methodDelivery, setMethodDelivery] = useState<string>(() => {
     const storaged = parseCookies().delivery
     return storaged ? JSON.parse(storaged) : []
@@ -68,7 +60,7 @@ export default function Pix() {
 
           const token = parseCookies().accessToken;
           const order: OrderProps = {
-            payment: getPayment.methodPayment,
+            payment: 'Pix',
             totalPrice: totalPrice,
             status: 'WAITING',
             methodDelivery: methodDelivery,
@@ -112,11 +104,7 @@ export default function Pix() {
 
 
   const getDataCookies = () => {
-    setGetPayment(() => {
-      const storaged = parseCookies().payment
-      return storaged ? JSON.parse(storaged) : {}
-    })
-
+   
     setMethodDelivery(() => {
       const storaged = parseCookies().delivery
       return storaged ? JSON.parse(storaged) : []
