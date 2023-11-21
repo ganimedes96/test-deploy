@@ -10,10 +10,10 @@ import { Image, Trash, X } from 'lucide-react';
 import { Textarea } from '../../../../components/ui/textarea';
 import { api } from '../../../../utils/axios';
 import { useState } from 'react';
-import { ProductProps } from '../../../../context/context-app';
+import { ProductProps } from '../../../../context/cart-context';
 import { ToastContainer } from 'react-toastify';
 import { notify } from '../../../../utils/toast';
-
+import ProductService from '../../../../infrastructure/services/product'
 
 // const maxFileSize = 5 * 1024 * 1024; // 5MB
 // const allowedFileTypes = ["image/jpeg", "image/jpg"];
@@ -53,7 +53,7 @@ export default function ModalEditProduct({ product, setOpenModal, openModal }: M
   const [previewImage, setPreviewImage] = useState<string | undefined>(product.image_url);
   const [errorFieldImage, setErrorFieldImage] = useState<string | null>(null);
   const [selectCategory, setSelectCategory] = useState<string | undefined>('Pizza');
-
+  const productService = new ProductService();
   const {
     control,
     register,
@@ -79,13 +79,6 @@ export default function ModalEditProduct({ product, setOpenModal, openModal }: M
       setPreviewImage(file ? URL.createObjectURL(file) : product.image_url);
     }
   };
-  // const showFileInput = () => {
-  //   if (fileInputRef.current) {
-  //     fileInputRef.current.click();
-  //   }
-  // };
-
-  // const navigate = useNavigate()
 
   const formatValue = (value: string) => {
     // Remove tudo que não for dígito ou ponto decimal
@@ -108,10 +101,10 @@ export default function ModalEditProduct({ product, setOpenModal, openModal }: M
 
 
   const handleSubmitForm = async (data: ProductSchema) => {
-    
+
     if (typeof data.file !== 'string') {
       const imageUrl = await api.post('/upload', data.file)
-      await api.put('/product', {
+      await productService.updateProduct({
         id: product.id,
         name: data.name,
         size: data.category.label === "Pizza" ? 'ENTIRE' : '',
@@ -122,10 +115,8 @@ export default function ModalEditProduct({ product, setOpenModal, openModal }: M
         category: data.category.label === "Pizza" ? 'pizza' : 'drink',
         imageUrl: imageUrl.data
       })
-
     } else {
-      
-      await api.put('/product', {
+      await productService.updateProduct({
         id: product.id,
         name: data.name,
         size: data.category.label === "Pizza" ? 'ENTIRE' : '',
@@ -136,7 +127,6 @@ export default function ModalEditProduct({ product, setOpenModal, openModal }: M
         category: data.category.label === "Pizza" ? 'pizza' : 'drink',
         imageUrl: data.file
       })
-
     }
 
     reset()

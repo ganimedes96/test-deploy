@@ -10,9 +10,9 @@ import socket from "../../utils/socketIO";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { destroyCookie, parseCookies } from "nookies";
-import { ContextApp } from "../../context/context-app";
 import { OrderProps } from "../../@types/interface";
 import { CalculatePrice } from "../../utils/calculate-price";
+import { ContextCartApp } from "../../context/cart-context";
 
 interface qrCodeProps {
   qrcode: string
@@ -34,7 +34,7 @@ export default function Pix() {
   });
   const navigate = useNavigate()
   const totalPrice = CalculatePrice()
-  const { productToCart } = ContextApp()
+  const { productToCart } = ContextCartApp()
 
   const handleQRcodePix = async () => {
     const response = await api.post('/pix', {
@@ -53,17 +53,16 @@ export default function Pix() {
 
     })
     setQrCodeData(response.data)
-
   }
 
   useEffect(() => {
-    
+
     socket.on('payment', (data: any) => {
       console.log(data);
       const createOrder = async () => {
-        
+
         if (data.status === 'PaymentConfirmed') {
-        
+
           const token = parseCookies().accessToken;
           const order: OrderProps = {
             payment: getPayment.methodPayment,
@@ -79,28 +78,28 @@ export default function Pix() {
               quantity: item.quantityProduct
             }))
           }
-          console.log(methodDelivery);
-          
+
+
           await api.post('/order', order, {
             headers: {
               Authorization: `Bearer ${token}`
             }
           })
-          
+
           destroyCookie(null, 'product')
           destroyCookie(null, 'payment')
           destroyCookie(null, 'delivery')
         }
         navigate('/success')
       }
-    createOrder();
+      createOrder();
     });
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
     return () => {
       socket.off('payment');
     };
   }, []);
- 
+
   const getDataCookies = () => {
     setGetPayment(() => {
       const storaged = parseCookies().payment
@@ -114,7 +113,7 @@ export default function Pix() {
   }
 
   console.log(methodDelivery);
-  
+
 
   useEffect(() => {
     handleQRcodePix()

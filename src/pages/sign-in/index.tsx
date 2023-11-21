@@ -7,7 +7,7 @@ import { api } from '../../utils/axios'
 import { useNavigate } from 'react-router-dom'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 import google from '../../assets/google.svg'
-import { ContextApp } from '../../context/context-app'
+import { ContextAuthApp } from '../../context/auth-context'
 import { ToastContainer } from 'react-toastify'
 import { setCookie } from 'nookies'
 
@@ -35,7 +35,7 @@ export default function SignIn() {
   } = useForm<CreateCustomerFormData>({
     resolver: zodResolver(createCustomerFormSchema),
   })
-  const { handleSignInGoogle, isAuthenticated, customer } = ContextApp()
+  const { handleSignInGoogle, isAuthenticated, customer } = ContextAuthApp()
 
   const navigate = useNavigate()
 
@@ -59,7 +59,7 @@ export default function SignIn() {
         setCookie(undefined, 'customer', JSON.stringify(user))
 
         navigate('/')
-        // window.location.reload()
+        window.location.reload()
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -95,7 +95,6 @@ export default function SignIn() {
     }
     handleCreateCustomerSocialAccount()
     navigate('/')
-   
 
   }
   return (

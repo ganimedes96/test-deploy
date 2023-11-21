@@ -6,50 +6,39 @@ import { Input } from '../../../../components/ui/input';
 import { Button } from '../../../../components/ui/button';
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from 'lucide-react';
-import { api } from '../../../../utils/axios';
 import { AxiosError } from 'axios';
-import { formatValue } from '../../../../utils/formatter';
 import { notify } from '../../../../utils/toast';
 import { ToastContainer } from 'react-toastify';
+import ServiceNeighborhoods from '../../../../infrastructure/services/neighborhood'
 
-
-const productSchemaBody = z.object({
-
+const NeighborhoodSchemaBody = z.object({
   name: z.string().nonempty('O campo nome é obrigatório'),
   tax: z.string().nonempty('O campo taxa é obrigatório'),
-  status: z.object({
-    label: z.enum(['ACTIVE', 'DISABLE']).optional(),
-    value: z.enum(['ATIVO', 'DESABILITADO']).optional(),
-  }),
 })
 
-type ProductSchema = z.infer<typeof productSchemaBody>
+type NeighborhoodSchema = z.infer<typeof NeighborhoodSchemaBody>
 
 
 export default function ModalRegisterNeighborhood() {
-
+  const serviceNeighborhoods = new ServiceNeighborhoods()
   const {
     register,
     handleSubmit,
     setError,
     reset,
     formState: { errors },
-  } = useForm<ProductSchema>({
-    resolver: zodResolver(productSchemaBody),
-   
+  } = useForm<NeighborhoodSchema>({
+    resolver: zodResolver(NeighborhoodSchemaBody),
+
   });
 
 
 
-  const handleSubmitForm = async (data: ProductSchema) => {
+  const handleSubmitForm = async (data: NeighborhoodSchema) => {
     try {
-    console.log(data);
-    await api.post('/neighborhood', {
-    name: data.name,
-    tax: formatValue(data.tax),
-    })
-    reset()
-    notify('Bairro criado com sucesso!', 'top')  
+      await serviceNeighborhoods.createNeighborhood(data)
+      reset()
+      notify('Bairro criado com sucesso!', 'top')
     } catch (error) {
       const customError = error as AxiosError
       if (customError.response?.status === 401) {
@@ -76,24 +65,24 @@ export default function ModalRegisterNeighborhood() {
             Cadastrar Bairro
           </Dialog.Title>
           <form onSubmit={handleSubmit(handleSubmitForm)} className="mt-10 w-7/12 flex flex-col items-start gap-3 justify-start  mx-5">
-      
-              <div className='w-full'>
-                <Label className='text-gray-500'>Nome</Label>
-                <Input type='text' {...register('name')} className='py-6' />
-                {errors.name && (
-                  <span className="text-red-500 mb-3">{errors.name?.message}</span>
-                )}
-              </div>
 
-              <div className='w-full'>
-                <Label className='text-gray-500'>Taxa</Label>
-                <Input type='number' {...register('tax')} className='py-6' placeholder='Ex. 00.00' />
-                {errors.tax && (
-                  <span className="text-red-500 mb-3">{errors.tax?.message}</span>
-                )}
-              </div>
-           
-          
+            <div className='w-full'>
+              <Label className='text-gray-500'>Nome</Label>
+              <Input type='text' {...register('name')} className='py-6' />
+              {errors.name && (
+                <span className="text-red-500 mb-3">{errors.name?.message}</span>
+              )}
+            </div>
+
+            <div className='w-full'>
+              <Label className='text-gray-500'>Taxa</Label>
+              <Input type='number' {...register('tax')} className='py-6' placeholder='Ex. 00.00' />
+              {errors.tax && (
+                <span className="text-red-500 mb-3">{errors.tax?.message}</span>
+              )}
+            </div>
+
+
             <Button className='w-full mt-4 bg-red-500 hover:bg-red-400' type='submit'>
               Cadastrar
             </Button>

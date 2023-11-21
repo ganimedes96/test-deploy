@@ -1,13 +1,12 @@
-
 import { CardCatalogPizza } from "./CardCatalog/pizza"
 import { CardCatalogDrink } from "./CardCatalog/drink"
-import { ContextApp } from "../../../../context/context-app";
+import { ContextCartApp } from "../../../../context/cart-context";
 import { useState } from "react";
 
 export const Catalog = () => {
-  const { products, onChangeCatalog } = ContextApp()
+  const { products, onChangeCatalog } = ContextCartApp()
   const [onChangeType, setOnChangeType] = useState('TRADITIONAL')
- 
+
   return (
     <div className=" mt-10  w-full">
       {onChangeCatalog === 'PIZZA'
@@ -19,44 +18,44 @@ export const Catalog = () => {
                 <h2 onClick={() => setOnChangeType('SPECIAL')} className={`text-start ${onChangeType === 'SPECIAL' ? "text-gray-100 bg-orange-500 p-2 rounded-md" : "text-gray-500"}`}>Especial</h2>
               </div>
               {onChangeType === 'TRADITIONAL' ? (
-                products.filter(product => 
-                  product.category.name === 'pizza' 
-                  && product.status === 'ACTIVE' 
+                products.filter(product =>
+                  product.category.name === 'pizza'
+                  && product.status === 'ACTIVE'
                   && product.type === 'TRADITIONAL')
                   .map((product) => (
-                  <CardCatalogPizza
-                    key={product.id}
-                    id={product.id}
-                    product={product.product}
-                    price={product.price}
-                    image_url={product.image_url}
-                    description={product.description}
-                    category={product.category}
-                    size={product.size}
-                    status={product.status}
-                    type={product.type}  
-                  />
-                ))
+                    <CardCatalogPizza
+                      key={product.id}
+                      id={product.id}
+                      product={product.product}
+                      price={product.price}
+                      image_url={product.image_url}
+                      description={product.description}
+                      category={product.category}
+                      size={product.size}
+                      status={product.status}
+                      type={product.type}
+                    />
+                  ))
 
               ) : (
-                  products.filter((product) => 
-                    product.status === 'ACTIVE'
-                    && product.category.name === 'pizza'
-                    && product.type === 'SPECIAL')
-                    .map((product) => (
-                  <CardCatalogPizza
-                    key={product.id}
-                    id={product.id}
-                    product={product.product}
-                    price={product.price}
-                    image_url={product.image_url}
-                    description={product.description}
-                    category={product.category}
-                    size={product.size}
-                    status={product.status}
+                products.filter((product) =>
+                  product.status === 'ACTIVE'
+                  && product.category.name === 'pizza'
+                  && product.type === 'SPECIAL')
+                  .map((product) => (
+                    <CardCatalogPizza
+                      key={product.id}
+                      id={product.id}
+                      product={product.product}
+                      price={product.price}
+                      image_url={product.image_url}
+                      description={product.description}
+                      category={product.category}
+                      size={product.size}
+                      status={product.status}
                       type={product.type}
-                  />
-                ))
+                    />
+                  ))
 
               )}
             </div>

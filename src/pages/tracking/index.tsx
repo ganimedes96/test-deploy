@@ -1,6 +1,5 @@
 import { Button } from '../../components/ui/button'
 import pizza from '../../assets/caixa.png'
-import './statusColor.css'
 import delivey from '../../assets/delivery.png'
 import deliveyOrange from '../../assets/delivery-orange.png'
 import pickup from '../../assets/delivered.png'
@@ -118,11 +117,11 @@ export default function Tracking() {
                         size={38}
                         strokeWidth={1}
                       />
-                  </div>
+                    </div>
                   )
               }
-              <span className={`${status === "WAITING" 
-                ? 'text-orange-500' 
+              <span className={`${status === "WAITING"
+                ? 'text-orange-500'
                 : 'text-gray-500'}`}
               >
                 AGUARDANDO RECEBIMENTO
@@ -130,48 +129,48 @@ export default function Tracking() {
             </div>
             <div className='ml-6 h-10 w-[2px] bg-gray-600' />
             <div className=' flex items-center justify-center gap-3'>
-              {status === 'ACCEPTED' 
+              {status === 'ACCEPTED'
                 ?
                 <div className="bg-orange-500 text-gray-50 rounded-full p-2">
-                  <CheckCheck 
+                  <CheckCheck
                     size={38}
                     strokeWidth={1}
-                    
-                  /> 
+
+                  />
                 </div>
                 :
                 <div className="bg-gray-200 text-gray-500 rounded-full p-2">
-                  <CheckCheck 
+                  <CheckCheck
                     size={38}
                     strokeWidth={1}
-                    
+
                   />
                 </div>
               }
-              <span className={`${status === 'ACCEPTED' 
-                ? 'text-orange-500' 
-                : 'text-gray-500'}`} 
-                >
-                  PEDIDO ACEITO
-                </span>
+              <span className={`${status === 'ACCEPTED'
+                ? 'text-orange-500'
+                : 'text-gray-500'}`}
+              >
+                PEDIDO ACEITO
+              </span>
             </div>
             <div className='ml-6 h-10 w-[2px] bg-gray-600' />
             <div className=' flex items-center justify-center gap-3 my-1'>
-              {status === 'PREPARING' 
-                ? 
+              {status === 'PREPARING'
+                ?
                 <div className="bg-orange-500 text-gray-50 rounded-full p-2">
-                  <ChefHat 
+                  <ChefHat
                     size={38}
                     strokeWidth={1}
-                  /> 
+                  />
                 </div>
                 :
                 <div className="bg-gray-200 text-gray-500 rounded-full p-2">
-                  <ChefHat 
+                  <ChefHat
                     size={38}
                     strokeWidth={1}
-                />
-                </div>    
+                  />
+                </div>
               }
               <span className={`${status === 'PREPARING' ? 'text-orange-500' : 'text-gray-500'}`} >PEDIDO EM PRODUÇÃO</span>
             </div>
@@ -179,21 +178,21 @@ export default function Tracking() {
               <>
                 <div className='ml-6 h-10 w-[2px] bg-gray-600' />
                 <div className=' flex items-center justify-center gap-3'>
-                  {status === 'DELIVERY' 
+                  {status === 'DELIVERY'
                     ? <div className='bg-orange-500 text-gray-50 rounded-full p-1'>
-                        <img 
-                          src={deliveyOrange} 
-                          className='w-10 m-1' alt="" 
-                        /> 
-                      </div>
+                      <img
+                        src={deliveyOrange}
+                        className='w-10 m-1' alt=""
+                      />
+                    </div>
                     : <div className='bg-gray-200 rounded-full p-1' >
-                        <img 
-                          src={delivey} 
-                          className='w-10 m-1' 
-                          alt="" 
-                        />
-                      </div>
-                      }
+                      <img
+                        src={delivey}
+                        className='w-10 m-1'
+                        alt=""
+                      />
+                    </div>
+                  }
                   <span className={`${status === 'DELIVERY' ? 'text-orange-500' : 'text-gray-500'}`} >SAIU PARA ENTREGA</span>
                 </div>
               </>
@@ -206,35 +205,35 @@ export default function Tracking() {
                   <>
                     {status === 'FINISHED'
                       ? <div className="bg-emerald-500 text-gray-50 rounded-full p-2" >
-                          < Check 
-                            size={35} 
-                            />
-                        </div>
+                        < Check
+                          size={35}
+                        />
+                      </div>
                       : <div className="bg-gray-200 text-gray-500 rounded-full p-2">
                         < Check
                           size={35}
-                        />  
-                        </div>
-                        }
+                        />
+                      </div>
+                    }
                     <span className={`${status === 'FINISHED' ? 'text-orange-500' : 'text-gray-500'}`}>PEDIDO PRONTO</span>
                   </>
                 )
                 : (
                   <>
-                    {status === 'FINISHED' 
+                    {status === 'FINISHED'
                       ? <div className='bg-orange-500 text-gray-50 rounded-full p-1'>
-                        <img 
-                          src={pickupOrange} 
-                          className='w-10 m-1' alt="" 
-                        /> 
-                        </div> 
-                      : 
-                      <div className='bg-gray-200 rounded-full p-1'>
-                          <img 
-                            src={pickup} 
-                            className='w-10 m-1' alt="" />
+                        <img
+                          src={pickupOrange}
+                          className='w-10 m-1' alt=""
+                        />
                       </div>
-                        }
+                      :
+                      <div className='bg-gray-200 rounded-full p-1'>
+                        <img
+                          src={pickup}
+                          className='w-10 m-1' alt="" />
+                      </div>
+                    }
                     <span className={`${status === 'FINISHED' ? 'text-orange-500' : 'text-gray-500'}`}>Entrega efetuada</span>
                   </>
 
@@ -266,7 +265,7 @@ export default function Tracking() {
               <img src={whatsapp} className='w-6' alt='' />
               Pizzaria
             </Button>
-           
+
           </div>
         </div>
       </div>

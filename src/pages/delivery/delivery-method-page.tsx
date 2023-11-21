@@ -8,7 +8,7 @@ import { CardAddress } from "../../components/CardAddress";
 import { Controller, useForm } from "react-hook-form";
 import InputMask from 'react-input-mask';
 import { Label } from "../../components/ui/label";
-import { ContextApp } from "../../context/context-app";
+import { ContextAuthApp } from "../../context/auth-context";
 import { api } from "../../utils/axios";
 import { NavLink, useNavigate } from "react-router-dom";
 
@@ -27,7 +27,7 @@ type MethodDeliverySchema = z.infer<typeof methodDeliverySchemaBody>
 
 export default function MethodDelivery() {
   const [isCheckedDelivery, setIsCheckedDelivery] = useState('DELIVERY');
-  const { customer } = ContextApp()
+  const { customer } = ContextAuthApp()
   const navigate = useNavigate();
 
   const {
@@ -44,7 +44,7 @@ export default function MethodDelivery() {
     try {
 
       setCookie(undefined, 'delivery', methodDeliveryData)
-     
+
       await api.patch(`/customer`,
         {
           id: customer?.uid,
@@ -52,7 +52,7 @@ export default function MethodDelivery() {
           phone: data.phone
         }
       )
-      navigate('/payment')
+      navigate('/checkout')
     } catch (error) {
       console.log(error);
     }
@@ -85,9 +85,9 @@ export default function MethodDelivery() {
 
           isCheckedDelivery === 'DELIVERY' ? (
             <>
-              <CardAddress textLink="/address" />
+              <CardAddress textLink="/address" className="w-11/12 p-2" />
               <ButtonCheckout onClick={() => setCookie(undefined, 'delivery', methodDeliveryData)}>
-                <NavLink to={'/payment'}>
+                <NavLink to={'/checkout'}>
                   Proximo
                 </NavLink>
               </ButtonCheckout>
@@ -101,13 +101,13 @@ export default function MethodDelivery() {
               >
                 <Label className="w-11/12 mb-2">Nome</Label>
                 <input
-                    {...register('withdrawalName')}
+                  {...register('withdrawalName')}
                   className="bg-transparent w-11/12 p-3  rounded  border-[1px] border-gray-400 text-sm text-gray-600"
                   type="text"
 
                 />
-                  {errors.withdrawalName && (
-                    <span className="text-red-500">{errors.withdrawalName?.message}</span>
+                {errors.withdrawalName && (
+                  <span className="text-red-500">{errors.withdrawalName?.message}</span>
                 )}
                 <Label className="w-11/12 mt-4">Telefone</Label>
                 <Controller

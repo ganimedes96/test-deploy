@@ -1,5 +1,5 @@
 import { Trash } from "lucide-react"
-import { ContextApp } from "../../../context/context-app"
+import { ContextCartApp } from "../../../context/cart-context"
 import { CardContent } from "../../../components/ui/card"
 import { Button } from "../../../components/ui/button"
 import { priceFormatter } from "../../../utils/formatter"
@@ -8,7 +8,7 @@ import image from "../../../assets/Vector.png"
 
 
 export const CardProduct = ({ product, price, quantityProduct, id, image_url }: CartProps) => {
-  const { removeProductFromCart } = ContextApp()
+  const { removeProductFromCart } = ContextCartApp()
   const priceString = price.replace(',', '.')
   const totalPrice = (parseFloat(priceString) * quantityProduct)
   return (
@@ -16,7 +16,7 @@ export const CardProduct = ({ product, price, quantityProduct, id, image_url }: 
     <CardContent className="flex items-center justify-between ">
       <div className="flex items-center justify-center gap-2">
         <img
-          className="w-28 rounded object-contain mt-2"
+          className="w-28 rounded object-contain "
           src={image_url ? image_url : image}
 
           alt="" />
@@ -26,7 +26,6 @@ export const CardProduct = ({ product, price, quantityProduct, id, image_url }: 
             {product.map(item => (<span key={item.name} className="text-gray-600 font-semibold">{item.name}</span>))}
 
           </div>
-          
           <span className="text-gray-600 font-semibold text-lg">Qtd {quantityProduct}x</span>
           <span className="font-semibold">{priceFormatter.format(Number(totalPrice))}</span>
         </div>

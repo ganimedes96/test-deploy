@@ -2,19 +2,14 @@ import { Card, CardContent } from "../../../../../components/ui/card"
 import { InputQuantityProductInCart } from "../input-quantity-product-in-cart"
 import { useState } from "react"
 import { Button } from "../../../../../components/ui/button"
-import { ToastContainer } from "react-toastify";
-import { notify } from "../../../../../utils/toast"
-import { ContextApp, ProductProps } from "../../../../../context/context-app"
+import { ContextCartApp, ProductProps } from "../../../../../context/cart-context"
 import { priceFormatter } from "../../../../../utils/formatter"
 import { NavLink } from "react-router-dom";
 
 
 export const CardCatalogPizza = (catalog: ProductProps) => {
-
-
   const [quantityProduct, setQuantityProduct] = useState(1);
-  const { addProductToCart } = ContextApp()
-
+  const { addProductToCart } = ContextCartApp()
 
   const handleIncrementProduct = () => {
     setQuantityProduct((state) => state - 1);
@@ -31,7 +26,6 @@ export const CardCatalogPizza = (catalog: ProductProps) => {
       quantityProduct
     }
     addProductToCart(productToCart)
-    notify('Adicionado ao carrinho', 'bottom')
   }
 
 
@@ -59,7 +53,6 @@ export const CardCatalogPizza = (catalog: ProductProps) => {
         <NavLink className="w-full" to="/personalize">
           <Button className={"w-full rounded border-2 border-orange-500 text-lg text-orange-500 bg-white hover:bg-orange-50"} >Personalizar</Button>
         </NavLink>
-        <ToastContainer />
       </div>
     </Card>
 
