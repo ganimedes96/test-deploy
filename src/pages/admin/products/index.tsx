@@ -7,6 +7,8 @@ import { HeaderAdmin } from "../../../components/HeaderAdmin";
 
 export default function Products() {
   const { products } = ContextCartApp()
+  console.log(products);
+  
   return (
     <>
       <HeaderAdmin />

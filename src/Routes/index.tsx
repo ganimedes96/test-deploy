@@ -55,7 +55,7 @@ export const Router = () => {
         <Route path='/admin/orders-history' element={<ProtectedRouteAdmin><OrdersHistory /></ProtectedRouteAdmin>} />
         <Route path='/admin/dashboard' element={<ProtectedRouteAdmin><Dashboard /></ProtectedRouteAdmin>} />
         <Route path='/admin/neighborhoods' element={<ProtectedRouteAdmin><Neighborhoods /></ProtectedRouteAdmin>} />
-        <Route path='/admin/products' element={<ProtectedRouteAdmin><Products /></ProtectedRouteAdmin>} />
+        <Route path='/admin/products' element={<Products />} />
       </Route>
     </Routes>
   )
