@@ -101,9 +101,11 @@ export default function Pix() {
     };
   }, []);
 
-  socket.emit('payment', {
+  socket.emit('qrCodeRoom', {
     roomId: id
   })
+
+  
 
 
 
