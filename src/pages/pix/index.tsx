@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import { notify } from "../../utils/toast";
 import socket from "../../utils/socketIO";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { destroyCookie, parseCookies } from "nookies";
 import { OrderProps } from "../../@types/interface";
 import { CalculatePrice } from "../../utils/calculate-price";
@@ -35,6 +35,7 @@ export default function Pix() {
   const navigate = useNavigate()
   const totalPrice = CalculatePrice()
   const { productToCart } = ContextCartApp()
+  const { id } = useParams();
 
   const handleQRcodePix = async () => {
     const response = await api.post('/pix', {
@@ -99,6 +100,12 @@ export default function Pix() {
       socket.off('payment');
     };
   }, []);
+
+  socket.emit('payment', {
+    roomId: id
+  })
+
+
 
   const getDataCookies = () => {
     setGetPayment(() => {

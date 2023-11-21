@@ -41,7 +41,7 @@ export const Router = () => {
         <Route path='/checkout' element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
         <Route path='/address' element={<ProtectedRoute><Address /></ProtectedRoute>} />
         <Route path='/create-address' element={<ProtectedRoute><CreateAddress /></ProtectedRoute>} />
-        <Route path='/pix' element={<ProtectedRoute><Pix /></ProtectedRoute>} />
+        <Route path='/pix/:id' element={<ProtectedRoute><Pix /></ProtectedRoute>} />
         <Route path='/success' element={<ProtectedRoute><Success /></ProtectedRoute>} />
         <Route path='/tracking/:id' element={<ProtectedRoute><Tracking /></ProtectedRoute>} />
         <Route path='/delivery' element={<ProtectedRoute><MethodDelivery /></ProtectedRoute>} />

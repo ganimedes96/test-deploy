@@ -22,6 +22,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
+import uuid from "react-uuid";
+
 
 const observationSchemaBody = z.object({
   observation: z.string().optional()
@@ -66,14 +68,16 @@ export default function Checkout() {
   } = useForm<ObservationSchema>({
     resolver: zodResolver(observationSchemaBody),
   })
-
+  console.log(uuid());
+  
+  
   const handleFinishOrder = async (data: ObservationSchema) => {
     try {
       
       setIsLoading(true)
       const token = parseCookies().accessToken;
       if (getPayment.methodPayment === 'Pix') {
-        navigate('/pix')
+        navigate(`/pix/${uuid()}`)
       } else {
         const order: OrderProps = {
           payment: getPayment.methodPayment,
