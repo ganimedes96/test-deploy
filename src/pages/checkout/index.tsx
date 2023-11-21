@@ -68,9 +68,7 @@ export default function Checkout() {
   } = useForm<ObservationSchema>({
     resolver: zodResolver(observationSchemaBody),
   })
-  console.log(uuid());
-  
-  
+ 
   const handleFinishOrder = async (data: ObservationSchema) => {
     try {
       

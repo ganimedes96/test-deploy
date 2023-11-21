@@ -57,7 +57,6 @@ export default function Pix() {
     })
     setQrCodeData(response.data)
   }
-  console.log(getPayment);
   
   useEffect(() => {
 
@@ -124,9 +123,7 @@ export default function Pix() {
     })
   }
 
-  console.log(methodDelivery);
-
-
+  
   useEffect(() => {
     handleQRcodePix()
     getDataCookies()
