@@ -51,7 +51,7 @@ export default function Pix() {
   
   useEffect(() => {
 
-    socket.on('confirmPayment', (data) => {
+    socket.on('payment', (data) => {
       console.log(data);
       const createOrder = async () => {
 
