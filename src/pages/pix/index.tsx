@@ -90,7 +90,7 @@ export default function Pix() {
     });
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
     return () => {
-      socket.off('confirmPayment');
+      socket.off('payment');
     };
   }, []);
 
