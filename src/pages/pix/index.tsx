@@ -51,7 +51,7 @@ export default function Pix() {
   
   useEffect(() => {
 
-    socket.on('payment', (data) => {
+    socket.on('confirmPayment', (data) => {
       console.log(data);
       const createOrder = async () => {
 
@@ -90,11 +90,11 @@ export default function Pix() {
     });
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
     return () => {
-      socket.off('payment');
+      socket.off('confirmPayment');
     };
   }, []);
 
-  socket.emit('qrCodeRoom', {
+  socket.emit('OrderRoom', {
     roomId: id
   })
 

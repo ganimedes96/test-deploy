@@ -31,7 +31,7 @@ export default function Tracking() {
     })
   }, [])
 
-  socket.emit('newOrder', {
+  socket.emit('OrderRoom', {
     orderRoom: id
   })
 

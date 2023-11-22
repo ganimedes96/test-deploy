@@ -11,7 +11,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     // Adicione o ouvinte do evento 'newOrder' ao montar o componente
-    socket.on('newOrder', (data: any) => {
+    socket.on('OrderRoom', (data: any) => {
       setOrders((prevOrders) => {
         const orderExists = prevOrders.some((order) => order.id === data.id);
 
@@ -30,7 +30,7 @@ export default function Dashboard() {
 
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
     return () => {
-      socket.off('newOrder');
+      socket.off('OrderRoom');
     };
   }, []);
 
