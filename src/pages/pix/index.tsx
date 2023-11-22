@@ -51,7 +51,7 @@ export default function Pix() {
   
   useEffect(() => {
 
-    socket.on('confirmPayment', (data) => {
+    socket.on('paymentSuccess', (data) => {
       console.log(data);
       const createOrder = async () => {
 
@@ -90,19 +90,19 @@ export default function Pix() {
     });
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
     return () => {
-      socket.off('confirmPayment');
+      socket.off('paymentSuccess');
     };
   }, []);
 
-  socket.emit('OrderRoom', {
+  socket.emit('PaymentSuccessRoom', {
     roomId: id
   })
 
-  socket.on('payment', (data) => {
-    socket.emit('confirmPayment', {
-      status:data.status, roomId: id
-    })  
-  })
+  // socket.on('payment', (data) => {
+  //   socket.emit('confirmPayment', {
+  //     status:data.status, roomId: id
+  //   })  
+  // })
 
   const getDataCookies = () => {
    
