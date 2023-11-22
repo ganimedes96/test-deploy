@@ -99,7 +99,10 @@ export default function Pix() {
   })
 
   socket.on('payment', (data) => {
-    console.log(data);
+    socket.emit('paymentPixData', {
+      status: data.status,
+      roomId: id
+    });
       
   })
 
