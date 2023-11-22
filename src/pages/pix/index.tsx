@@ -52,7 +52,7 @@ export default function Pix() {
   
   useEffect(() => {
 
-    socket.on('payment', (data: any) => {
+    socket.on('confirmPayment', (data) => {
       console.log(data);
       const createOrder = async () => {
 
@@ -99,9 +99,11 @@ export default function Pix() {
     roomId: id
   })
 
-  
-
-
+  socket.on('payment', (data) => {
+    socket.emit('paymentIdRoom', {
+      status:data.status, roomId: id
+    })  
+  })
 
   const getDataCookies = () => {
    
