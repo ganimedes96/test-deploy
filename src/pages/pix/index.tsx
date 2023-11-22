@@ -1,4 +1,3 @@
-
 import { api } from "../../utils/axios";
 import { useEffect, useState } from "react";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -91,7 +90,7 @@ export default function Pix() {
     });
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
     return () => {
-      socket.off('payment');
+      socket.off('confirmPayment');
     };
   }, []);
 
