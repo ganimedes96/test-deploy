@@ -32,7 +32,7 @@ export default function Tracking() {
   }, [])
 
   socket.emit('OrderRoom', {
-    orderRoom: id
+    roomId: id
   })
 
 
