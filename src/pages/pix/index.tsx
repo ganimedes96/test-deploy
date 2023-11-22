@@ -99,7 +99,7 @@ export default function Pix() {
   })
 
   socket.on('payment', (data) => {
-    socket.emit('paymentIdRoom', {
+    socket.emit('confirmPayment', {
       status:data.status, roomId: id
     })  
   })
