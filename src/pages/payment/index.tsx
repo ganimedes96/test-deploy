@@ -36,7 +36,7 @@ export default function Payment() {
 
   return (
     <>
-      <div className="fixed bg-[#F6F6F9] mt-24 w-11/12 pt-5 font-normal gap-3 text-gray-500 text-base ">
+      <div className="fixed bg-[#F6F6F9] mt-24 pt-4 w-11/12  font-normal gap-3 text-gray-500 text-base ">
         <div className="w-full flex items-center justify-center">
           <h3
             onClick={() => setIsCheckedPayment('APP')}
@@ -70,7 +70,7 @@ export default function Payment() {
             <CardPayment className="p-2 text-sm" handleSubmitPayment={handleSubmitPayment} img={pix} payment={{ methodPayment: 'Pix', typeCard: 'Pix' }} />
           </div>
         ) : (
-          <div className="mt-48 w-full flex flex-col items-center justify-center text-xs">
+          <div className="mt-52 w-full flex flex-col items-center justify-center text-xs">
             <h3 className="w-11/12 font-semibold text-sm text-gray-500 mt-5">
               Crédito
             </h3>
