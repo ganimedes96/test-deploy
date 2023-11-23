@@ -36,7 +36,7 @@ export default function Payment() {
 
   return (
     <>
-      <div className="fixed mt-28 w-11/12  font-normal gap-3 text-gray-500 text-base ">
+      <div className="fixed bg-[#F6F6F9] mt-24 w-11/12 pt-5 font-normal gap-3 text-gray-500 text-base ">
         <div className="w-full flex items-center justify-center">
           <h3
             onClick={() => setIsCheckedPayment('APP')}
