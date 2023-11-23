@@ -134,7 +134,7 @@ export default function Checkout() {
 
         <div className="w-11/12">
           <div className="w-full flex items-center justify-between">
-            <h2 className="w-full text-start text-xl font-normal text-gray-500 ">Metodo de Entrega</h2>
+            <h2 className="w-full text-start  text-lg font-medium ">Metodo de Entrega</h2>
             <NavLink className='text-red-500 text-sm' to='/delivery'>
               Trocar
             </NavLink>
@@ -155,7 +155,7 @@ export default function Checkout() {
             )}
           <div className="w-full h-[1px] bg-gray-200 mt-6" />
           <div className="w-full flex items-center justify-between">
-            <h2 className="w-full text-start text-xl font-normal text-gray-500 my-5">{getPayment.methodPayment === 'Pix' ? 'Pagamento pelo app' : 'Pagamento na entrega'}</h2>
+            <h2 className="w-full text-start  text-lg font-medium my-5">{getPayment.methodPayment === 'Pix' ? 'Pagamento pelo app' : 'Pagamento na entrega'}</h2>
             <NavLink className='text-red-500 text-sm' to='/payment'>
               Trocar
             </NavLink>

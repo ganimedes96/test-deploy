@@ -1,4 +1,4 @@
-export type IHttpMethod = 'post' | 'get' | 'put' | 'delete'
+export type IHttpMethod = 'post' | 'get' | 'put' | 'delete' | 'patch'
 
 export type IHttpRequest = {
   url: string

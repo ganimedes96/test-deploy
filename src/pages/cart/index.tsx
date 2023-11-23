@@ -4,7 +4,6 @@ import { Summary } from "./components/summary";
 import { HeaderOrder } from "../../components/HeaderOrder";
 import { Card } from "../../components/ui/card";
 import { CardProduct } from "./components/card-product";
-import { CardDrink } from "./components/card-drink";
 import { ShoppingCart } from "lucide-react";
 import { ButtonCheckout } from "../../components/ButtonCheckout";
 import { NavLink } from "react-router-dom";
@@ -41,32 +40,19 @@ export default function Cart() {
       {productToCart.length > 0
         ? (
           <>
-            <Card className={'divide-y-2 divide-orange-400/50 flex flex-col w-11/12  mt-5 gap-2 bg-white rounded-[8px]'}>
+            <Card className={' flex flex-col w-11/12  mt-5 gap-2 bg-white rounded-[8px]'}>
 
               {productToCart.filter(((item) => item.category.name === 'pizza')).map((item) => (
                 <CardProduct
                   key={item.id}
-                  id={item.id}
-                  product={item.product}
-                  price={item.price}
-                  quantityProduct={item.quantityProduct}
-                  description={item.description}
-                  image_url={item.image_url}
-                  size={item.size}
+                  products={item}
                 />
               ))}
 
               {productToCart.filter(((item) => item.category.name === 'drink')).map((item) => (
-                <CardDrink
+                <CardProduct
                   key={item.id}
-                  id={item.id}
-                  product={item.product}
-                  price={item.price}
-                  quantityProduct={item.quantityProduct}
-                  description={item.description}
-                  image_url={item.image_url}
-                  size={item.size}
-
+                  products={item}
                 />
               ))}
             </Card>

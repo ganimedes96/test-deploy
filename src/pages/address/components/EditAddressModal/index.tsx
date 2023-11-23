@@ -13,7 +13,7 @@ import { AddressProps, ContextAuthApp } from "../../../../context/auth-context";
 import { useEffect, useState } from "react";
 import { notify } from "../../../../utils/toast";
 import { ToastContainer } from "react-toastify";
-import Service from '../../../../infrastructure/services/address'
+import ServiceAddress from '../../../../infrastructure/services/address'
 import ServiceNeighborhoods from '../../../../infrastructure/services/neighborhood'
 
 
@@ -64,7 +64,7 @@ interface EditAddressModalProps {
 
 export const EditAddressModal = ({ address, setOpenModal, openModal, }: EditAddressModalProps) => {
   const serviceNeighborhoods = new ServiceNeighborhoods()
-  const service = new Service()
+  const serviceAddress = new ServiceAddress()
   const [neighborhoods, setNeighborhoods] = useState<NeighborhoodsProps[]>([])
   const { setAddresses, addresses } = ContextAuthApp();
 
@@ -109,170 +109,172 @@ export const EditAddressModal = ({ address, setOpenModal, openModal, }: EditAddr
     console.log(data);
 
     try {
-      const response = await service.updateAddress({
+      const response = await serviceAddress.updateAddress({
         neighborhood: data.neighborhood.label,
         id: address.id,
         number: data.number,
         customerId: address.customerId,
         standard: data.standardAddress,
         street: data.street,
-        type: data.type.label,
+        type: data.type.label === 'Casa' ? 'HOME' : data.type.label === 'Trabalho' ? 'WORK' : 'OTHER',
         zipCode: data.zipCode,
         phone: data.phone
       })
 
-      if (response.statusCode === 200) {
-        notify(`Endereco atualizado com sucesso`, 'bottom')
-      }
 
-      setOpenModal(false)
 
-    } catch (error) {
-      console.error(error);
+    if (response.statusCode === 200) {
+      notify(`Endereco atualizado com sucesso`, 'top');
     }
 
+    setOpenModal(false)
+
+  } catch (error) {
+    console.error(error);
   }
 
-  const handleDeleteAddress = async (id: string) => {
-    await service.deleteAddress({ id });
-    const newAddresses = addresses.filter(item => item.id !== id);
-    setAddresses(newAddresses);
-    setOpenModal(false);
-  }
+}
 
-  return (
-    <>
-      <Dialog.Root open={openModal}>
-        <Dialog.Portal>
-          <Dialog.Overlay className="fixed w-screen h-screen inset-0 bg-gray-900/[.6]" />
-          <Dialog.Content className="w-11/12 rounded py-5 flex flex-col items-center bg-[#f3f3f3] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
-            <Dialog.Close onClick={() => setOpenModal(false)} className="absolute bg-transparent border-spacing-0 top-5 right-5 text-gray-300 line-through ">
-              <X size={24} color="red" />
-            </Dialog.Close>
-            <Dialog.Title className="text-gray-600 font-semibold text-xl">
-              Editar Endereço
-            </Dialog.Title>
-            <form onSubmit={handleSubmit(handleEditAddressForm)} className="w-10/12 flex flex-col items-start gap-3 justify-start  mx-5">
+const handleDeleteAddress = async (id: string) => {
+  await serviceAddress.deleteAddress({ id });
+  const newAddresses = addresses.filter(item => item.id !== id);
+  setAddresses(newAddresses);
+  setOpenModal(false);
+}
 
-              <Label className='mt-5 text-gray-500'>Bairro</Label>
-              <Controller
-                control={control}
-                name="neighborhood"
-                render={({ field }) => (
-                  <ReactSelect
-                    value={field.value}
-                    onChange={field.onChange}
-                    className='w-full'
-                    options={neighborhoods}
+return (
+  <>
+    <Dialog.Root open={openModal}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed w-screen h-screen inset-0 bg-gray-900/[.6]" />
+        <Dialog.Content className="w-11/12 rounded py-5 flex flex-col items-center bg-[#f3f3f3] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+          <Dialog.Close onClick={() => setOpenModal(false)} className="absolute bg-transparent border-spacing-0 top-5 right-5 text-gray-300 line-through ">
+            <X size={24} color="red" />
+          </Dialog.Close>
+          <Dialog.Title className="text-gray-600 font-semibold text-xl">
+            Editar Endereço
+          </Dialog.Title>
+          <form onSubmit={handleSubmit(handleEditAddressForm)} className="w-10/12 flex flex-col items-start gap-3 justify-start  mx-5">
 
-                  />
-                )}
-              />
-              {errors.root && <p className='text-red-500'>{errors.root.message}</p>}
-              <Label className='text-gray-500'>Rua</Label>
-              <Input
-                className='w-full rounded text-gray-600 placeholder:text-gray-400'
-                placeholder='EX. Rua João Daniel Martinelli'
-                {...register('street')}
-              />
-              {errors.street && <p className='text-red-500'>{errors.street.message}</p>}
-              <div className='w-full flex items-center justify-center gap-4'>
-                <div className='w-full'>
-                  <Label className='text-gray-500'>Numero</Label>
-                  <Input
-                    type='number'
-                    className='flex-1 rounded text-gray-600 placeholder:text-gray-400'
-                    placeholder='numero'
-                    {...register('number')}
-                  />
-                </div>
-                <div className='w-full'>
-                  <Label className='text-gray-500'>Tipo de Endereco</Label>
-                  <Controller
-                    control={control}
-                    name="type"
-                    render={({ field }) => (
-                      <ReactSelect
-                        value={field.value}
-                        onChange={field.onChange}
-                        isSearchable={false}
-                        className='w-full'
-                        options={[
-                          { value: 'HOME', label: 'Casa' },
-                          { value: 'WORK', label: 'Trabalho' },
-                          { value: 'OTHER', label: 'Outro' },
-                        ]}
-                      />
+            <Label className='mt-5 text-gray-500'>Bairro</Label>
+            <Controller
+              control={control}
+              name="neighborhood"
+              render={({ field }) => (
+                <ReactSelect
+                  value={field.value}
+                  onChange={field.onChange}
+                  className='w-full'
+                  options={neighborhoods}
 
-                    )}
-                  />
-                </div>
+                />
+              )}
+            />
+            {errors.root && <p className='text-red-500'>{errors.root.message}</p>}
+            <Label className='text-gray-500'>Rua</Label>
+            <Input
+              className='w-full rounded text-gray-600 placeholder:text-gray-400'
+              placeholder='EX. Rua João Daniel Martinelli'
+              {...register('street')}
+            />
+            {errors.street && <p className='text-red-500'>{errors.street.message}</p>}
+            <div className='w-full flex items-center justify-center gap-4'>
+              <div className='w-full'>
+                <Label className='text-gray-500'>Numero</Label>
+                <Input
+                  type='number'
+                  className='flex-1 rounded text-gray-600 placeholder:text-gray-400'
+                  placeholder='numero'
+                  {...register('number')}
+                />
               </div>
-              <Label className='text-gray-500'>Cep</Label>
-              <Controller
-                name="zipCode"
-                control={control}
-                render={({ field }) => (
-                  <InputMask
-                    className='w-full p-2 rounded text-gray-600'
-                    mask="99999-999"
-                    type="tel"
-                    maskPlaceholder=""
-                    onChange={(e) => {
-                      const rawValue = e.target.value.replace(/-/g, ''); // Remove hifens
-                      field.onChange(rawValue);
-                    }}
-                    value={field.value}
-                    placeholder="00000-000"
-                  />
-                )}
-              />
-              {errors.zipCode && <p className='text-red-500'>{errors.zipCode.message}</p>}
-              <Label className='text-gray-500'>Telefone</Label>
-              <Controller
-                name="phone"
-                control={control}
-                render={({ field }) => (
-                  <InputMask
-                    className='w-full p-2 rounded text-gray-600'
-                    mask="(99) 99999-9999"
-                    maskPlaceholder=""
-                    type="tel"
-                    onChange={field.onChange}
-                    placeholder="(00) 00000-0000"
-                    value={field.value}
-                  />
-                )}
-              />
-              {errors.phone && <p className='text-red-500'>{errors.phone.message}</p>}
-              <Controller
-                name="standardAddress"
-                control={control}
-                render={({ field }) => (
-                  <div className="mt-5 w-full flex items-center justify-between gap-2">
-                    <span>Definir como endereço padrão</span>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      className="bg-orange-500" />
-                  </div>
+              <div className='w-full'>
+                <Label className='text-gray-500'>Tipo de Endereco</Label>
+                <Controller
+                  control={control}
+                  name="type"
+                  render={({ field }) => (
+                    <ReactSelect
+                      value={field.value}
+                      onChange={field.onChange}
+                      isSearchable={false}
+                      className='w-full'
+                      options={[
+                        { value: 'HOME', label: 'Casa' },
+                        { value: 'WORK', label: 'Trabalho' },
+                        { value: 'OTHER', label: 'Outro' },
+                      ]}
+                    />
 
-                )}
-              />
+                  )}
+                />
+              </div>
+            </div>
+            <Label className='text-gray-500'>Cep</Label>
+            <Controller
+              name="zipCode"
+              control={control}
+              render={({ field }) => (
+                <InputMask
+                  className='w-full p-2 rounded text-gray-600'
+                  mask="99999-999"
+                  type="tel"
+                  maskPlaceholder=""
+                  onChange={(e) => {
+                    const rawValue = e.target.value.replace(/-/g, ''); // Remove hifens
+                    field.onChange(rawValue);
+                  }}
+                  value={field.value}
+                  placeholder="00000-000"
+                />
+              )}
+            />
+            {errors.zipCode && <p className='text-red-500'>{errors.zipCode.message}</p>}
+            <Label className='text-gray-500'>Telefone</Label>
+            <Controller
+              name="phone"
+              control={control}
+              render={({ field }) => (
+                <InputMask
+                  className='w-full p-2 rounded text-gray-600'
+                  mask="(99) 99999-9999"
+                  maskPlaceholder=""
+                  type="tel"
+                  onChange={field.onChange}
+                  placeholder="(00) 00000-0000"
+                  value={field.value}
+                />
+              )}
+            />
+            {errors.phone && <p className='text-red-500'>{errors.phone.message}</p>}
+            <Controller
+              name="standardAddress"
+              control={control}
+              render={({ field }) => (
+                <div className="mt-5 w-full flex items-center justify-between gap-2">
+                  <span>Definir como endereço padrão</span>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    className="bg-orange-500" />
+                </div>
 
-              <Button
-                onClick={() => setOpenModal(true)}
-                className='w-full bg-red-500 mt-5 hover:bg-red-400'
-                type='submit'
-              > Salvar
-              </Button>
-            </form>
-            <button onClick={() => handleDeleteAddress(address.id)} className="w-10/12 mt-3 py-2 items-center justify-center font-medium rounded  bg-gray-200 hover:bg-gray-400 text-gray-800  flex gap-2"> Deletar</button>
+              )}
+            />
 
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
-      <ToastContainer />
-    </>
-  );
+            <Button
+              onClick={() => setOpenModal(true)}
+              className='w-full bg-red-500 mt-5 hover:bg-red-400'
+              type='submit'
+            > Salvar
+            </Button>
+          </form>
+          <button onClick={() => handleDeleteAddress(address.id)} className="w-10/12 mt-3 py-2 items-center justify-center font-medium rounded  bg-gray-200 hover:bg-gray-400 text-gray-800  flex gap-2"> Deletar</button>
+
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+    <ToastContainer />
+  </>
+);
 };

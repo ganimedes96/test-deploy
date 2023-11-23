@@ -39,6 +39,7 @@ interface cartTypeContext {
   addProductToCart: (product: OrdersCartProps) => void
   setOnChangeCatalog: (catalog: string) => void
   removeProductFromCart: (productId: string) => void
+  removeProductInCart: (products: OrdersCartProps) => void
   onChangeCatalog: string
   cartProductsTotalPrice: number
   totalItemsOnCart: number
@@ -106,6 +107,7 @@ export const CartProvider = ({ children }: ChildrenProps) => {
   }
 
   const addProductToCart = (product: OrdersCartProps) => {
+    
     const checkIfProductExists = productToCart.findIndex(
       (item) => item.id === product.id)
     const newProduct = produce(productToCart, (draft) => {
@@ -120,6 +122,25 @@ export const CartProvider = ({ children }: ChildrenProps) => {
       maxAge: 60 * 60 * 24 * 30,
     })
   }
+
+  const removeProductInCart = (product: OrdersCartProps) => {
+    const checkIfProductExists = productToCart.findIndex(
+      (item) => item.id === product.id
+    );
+    const newProduct = produce(productToCart, (draft) => {
+      if (checkIfProductExists >= 0) {
+        draft[checkIfProductExists].quantityProduct -= 1;
+
+        if (draft[checkIfProductExists].quantityProduct <= 0) {
+          draft.splice(checkIfProductExists, 1);
+        }
+      }
+    });
+    setProductToCart(newProduct);
+    setCookie(undefined, 'product', JSON.stringify(newProduct), {
+      maxAge: 60 * 60 * 24 * 30,
+    });
+  };
 
   const removeProductFromCart = (productId: string) => {
     const findProduct = produce(productToCart, (draft) => {
@@ -151,6 +172,7 @@ export const CartProvider = ({ children }: ChildrenProps) => {
         setOnChangeCatalog,
         addProductToCart,
         removeProductFromCart,
+        removeProductInCart
       }}
     >
       {children}

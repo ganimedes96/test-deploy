@@ -36,37 +36,41 @@ export default function Payment() {
 
   return (
     <>
-      <div className="mt-28 w-11/12 flex items-center justify-center font-normal gap-3 text-gray-500 text-base ">
-        <h3
-          onClick={() => setIsCheckedPayment('APP')}
-          className={`w-full ${isCheckedPayment === 'APP'
-            ? "text-orange-500  border-b-[2px] border-orange-600"
-            : "text-gray-500 "} flex items-center justify-center p-2`}>
-          PAGUE PELO APP
-        </h3>
-        <h3
-          onClick={() => setIsCheckedPayment('DELIVERY')}
-          className={`w-full ${isCheckedPayment === 'DELIVERY'
-            ? "text-orange-500  border-b-[2px] border-orange-600"
-            : "text-gray-500 "} flex items-center justify-center p-2`}>
-          PAGUE NA ENTREGA
-        </h3>
+      <div className="fixed mt-28 w-11/12  font-normal gap-3 text-gray-500 text-base ">
+        <div className="w-full flex items-center justify-center">
+          <h3
+            onClick={() => setIsCheckedPayment('APP')}
+            className={`w-full ${isCheckedPayment === 'APP'
+              ? "text-orange-500  border-b-[2px] border-orange-600"
+              : "text-gray-500 "} flex items-center justify-center p-2`}>
+            PAGUE PELO APP
+          </h3>
+          <h3
+            onClick={() => setIsCheckedPayment('DELIVERY')}
+            className={`w-full ${isCheckedPayment === 'DELIVERY'
+              ? "text-orange-500  border-b-[2px] border-orange-600"
+              : "text-gray-500 "} flex items-center justify-center p-2`}>
+            PAGUE NA ENTREGA
+          </h3>
+        </div>
+        {isCheckedPayment === 'DELIVERY' && (
+          <div className="bg-white mt-5 text-gray-500 text-sm p-3 w-full flex flex-col items-center justify-center mb-5">
+            <p>Atenção para a forma de pagamento selecionada.</p>
+            <p>Você não poderá utilizar outra nesta entrega.</p>
+          </div>
+        )}
       </div>
       <div className="w-full flex flex-col items-center justify-center my-10">
         {isCheckedPayment === 'APP' ? (
-          <div className="w-full flex flex-col items-center justify-center">
+          <div className="w-full mt-40 flex flex-col items-center justify-center">
 
-            <h3 className="w-11/12 font-semibold text-base text-gray-600">
+            <h3 className="w-11/12 mb-3 font-semibold text-base text-gray-600">
               Formas de pagamento
             </h3>
-            <CardPayment handleSubmitPayment={handleSubmitPayment} img={pix} payment={{ methodPayment: 'Pix', typeCard: 'Pix' }} />
+            <CardPayment className="p-2 text-sm" handleSubmitPayment={handleSubmitPayment} img={pix} payment={{ methodPayment: 'Pix', typeCard: 'Pix' }} />
           </div>
         ) : (
-          <div className="w-full flex flex-col items-center justify-center text-xs">
-            <div className="bg-white text-gray-500 text-sm p-3 w-11/12 flex flex-col items-center justify-center mb-5">
-              <p>Atenção para a forma de pagamento selecionada.</p>
-              <p>Você não poderá utilizar outra nesta entrega.</p>
-            </div>
+          <div className="mt-48 w-full flex flex-col items-center justify-center text-xs">
             <h3 className="w-11/12 font-semibold text-sm text-gray-500 mt-5">
               Crédito
             </h3>

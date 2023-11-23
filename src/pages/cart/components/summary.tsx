@@ -16,8 +16,9 @@ export const Summary = ({ tax, className }: taxProps) => {
 
   return (
 
-    <div className={cn(` font-semibold text-xl text-gray-600 border-b-2 border-gray-500 flex flex-col py-3 items-center justify-center gap-5 w-11/12`, className)}>
-      <div className="flex items-center text-gray-900 justify-between w-full">
+    <div className={cn(` font-medium text-gray-900 text-base flex flex-col py-3 items-center justify-center gap-2 w-11/12`, className)}>
+      <h2 className="w-full text-start text-lg font-medium">Resumo de valores</h2>
+      <div className="flex items-center  justify-between w-full">
         <span>Subtotal</span>
         <span >{totalPriceProduct ? priceFormatter.format(Number(totalPriceProduct)) : "0,00"}</span>
       </div>
@@ -25,9 +26,9 @@ export const Summary = ({ tax, className }: taxProps) => {
         <span>Taxa de entrega</span>
         <span>{tax ? priceFormatter.format(Number(tax)) : priceFormatter.format(Number('0.00'))}</span>
       </div>
-      <div className="flex items-center justify-between w-full font-bold">
+      <div className="flex items-center justify-between w-full">
         <span>Total</span>
-        <span className="text-gray-700 font-bold">{totalPrice ? priceFormatter.format(Number(totalPrice)) : priceFormatter.format(Number("0.00"))}</span>
+        <span className="text-gray-700 ">{totalPrice ? priceFormatter.format(Number(totalPrice)) : priceFormatter.format(Number("0.00"))}</span>
       </div>
     </div>
 

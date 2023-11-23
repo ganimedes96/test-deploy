@@ -13,7 +13,7 @@ export const Catalog = () => {
         ? (
           <>
             <div className="w-full flex flex-col items-center justify-center gap-5 mb-10">
-              <div className="w-11/12 flex items-center justify-between font-bold text-gray-500 text-xl mb-3">
+              <div className="w-11/12 flex items-center justify-between font-normal text-gray-500 text-xl mb-3">
                 <h2 onClick={() => setOnChangeType('TRADITIONAL')} className={`text-start ${onChangeType === 'TRADITIONAL' ? "text-gray-100 bg-orange-500 p-2 rounded-md" : "text-gray-500"}`}>Tradicional</h2>
                 <h2 onClick={() => setOnChangeType('SPECIAL')} className={`text-start ${onChangeType === 'SPECIAL' ? "text-gray-100 bg-orange-500 p-2 rounded-md" : "text-gray-500"}`}>Especial</h2>
               </div>
