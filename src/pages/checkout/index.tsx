@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { ContextAuthApp } from "../../context/auth-context";
 import { ContextCartApp } from "../../context/cart-context";
 import { HeaderOrder } from "../../components/HeaderOrder";
 import { destroyCookie, parseCookies } from "nookies";
@@ -57,7 +56,6 @@ export default function Checkout() {
   const [getPayment, setGetPayment] = useState<PaymentProps>({ methodPayment: 'Pix', typeCard: 'Pix' });
   const [methodDelivery, setMethodDelivery] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false)
-  const { currentAddress } = ContextAuthApp()
   const { productToCart } = ContextCartApp()
   const totalPrice = CalculatePrice();
   const navigate = useNavigate();
@@ -212,7 +210,7 @@ export default function Checkout() {
 
       </div>
       <div className="mb-16 w-full flex flex-col items-center justify-center">
-        <Summary tax={methodDelivery === 'PICKUP' ? '0.00' : currentAddress ? currentAddress.neighborhood.tax : '0.00'} />
+        <Summary  />
       </div>
 
 

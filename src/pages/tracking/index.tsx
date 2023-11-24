@@ -232,7 +232,7 @@ export default function Tracking() {
                           className='w-10 m-1' alt="" />
                       </div>
                     }
-                    <span className={`${status === 'FINISHED' ? 'text-orange-500' : 'text-gray-500'}`}>Entrega efetuada</span>
+                    <span className={`${status === 'FINISHED' ? 'text-orange-500' : 'text-gray-500'}`}>ENTREGA EFETUADA</span>
                   </>
 
                 )}

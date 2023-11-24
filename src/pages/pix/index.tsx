@@ -48,13 +48,14 @@ export default function Pix() {
     })
     setQrCodeData(response.data)
   }
-
+  console.log(totalPrice);
+  
   useEffect(() => {
 
-    socket.on('payment', (data) => {
+    socket.on('PaymentSuccessRoom', (data) => {
       console.log(data);
       const createOrder = async () => {
-        if (id === data.roomId) {
+      
           if (data.status === 'PaymentConfirmed') {
 
             const token = parseCookies().accessToken;
@@ -83,31 +84,22 @@ export default function Pix() {
             destroyCookie(null, 'delivery')
           }
 
-        }
-
         navigate('/success')
       }
       createOrder();
     });
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
     return () => {
-      socket.off('payment');
+      socket.off('PaymentSuccessRoom');
     };
   }, []);
-
-
 
 
   socket.emit('PaymentSuccessRoom', {
     roomId: id
   })
 
-  socket.on('PaymentSuccess', (data) => {
-     socket.emit('payment', {
-       status: data.status,
-       roomId: id 
-     }) 
-  })
+
 
   const getDataCookies = () => {
 

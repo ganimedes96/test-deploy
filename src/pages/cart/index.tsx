@@ -1,4 +1,4 @@
-import { AddressProps, ContextAuthApp } from "../../context/auth-context";
+import { ContextAuthApp } from "../../context/auth-context";
 import { ContextCartApp } from "../../context/cart-context";
 import { Summary } from "./components/summary";
 import { HeaderOrder } from "../../components/HeaderOrder";
@@ -7,29 +7,14 @@ import { CardProduct } from "./components/card-product";
 import { ShoppingCart } from "lucide-react";
 import { ButtonCheckout } from "../../components/ButtonCheckout";
 import { NavLink } from "react-router-dom";
-import { api } from "../../utils/axios";
-import { parseCookies } from "nookies";
-import { useEffect, useState } from "react";
+
 
 
 export default function Cart() {
-  const [address, setAddress] = useState<AddressProps | null>(null)
+  
 
   const { isAuthenticated } = ContextAuthApp()
   const { productToCart } = ContextCartApp()
-
-  const getAddresses = async () => {
-    const response = await api.get('/address', {
-      headers: {
-        Authorization: `Bearer ${parseCookies().accessToken}`
-      }
-    })
-    setAddress(response.data.find((element: AddressProps) => element.standard === true))
-  }
-
-  useEffect(() => {
-    getAddresses()
-  }, [])
 
   return (
 
@@ -56,7 +41,7 @@ export default function Cart() {
                 />
               ))}
             </Card>
-            <Summary className="my-10" tax={address ? address.neighborhood.tax : '0.00'} />
+            <Summary className="my-10" />
           </>
         )
         : (
