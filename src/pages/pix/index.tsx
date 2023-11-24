@@ -51,7 +51,7 @@ export default function Pix() {
   
   useEffect(() => {
 
-    socket.on('paymentSuccess', (data) => {
+    socket.on('payment', (data) => {
       console.log(data);
       const createOrder = async () => {
 
@@ -90,7 +90,7 @@ export default function Pix() {
     });
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
     return () => {
-      socket.off('paymentSuccess');
+      socket.off('payment');
     };
   }, []);
 
@@ -101,7 +101,7 @@ export default function Pix() {
   socket.on('payment', (data) => {
     console.log(data);
     
-    socket.emit('paymentPixData', {
+    socket.emit('payment', {
       status: data.status,
       roomId: id
     });

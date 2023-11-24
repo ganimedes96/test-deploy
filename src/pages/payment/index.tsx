@@ -8,8 +8,6 @@ import elo from '../../assets/elo.png'
 import money from '../../assets/money.png'
 import { CardPayment } from "./components/CardPayment";
 
-
-
 interface PaymentProps {
   methodPayment: string
   flag?: string
@@ -19,10 +17,7 @@ interface PaymentProps {
 export default function Payment() {
   const [isCheckedPayment, setIsCheckedPayment] = useState('APP');
 
-
   const navigate = useNavigate();
-
-
 
   const handleSubmitPayment = (payment: PaymentProps) => {
 
@@ -31,7 +26,6 @@ export default function Payment() {
       maxAge: 60 * 60 * 24 * 7, // 7 days
     });
     navigate('/checkout');
-
   }
 
   return (
