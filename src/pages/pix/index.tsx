@@ -94,13 +94,13 @@ export default function Pix() {
     };
   }, []);
 
+  socket.emit('PaymentSuccessRoom', {
+    roomId: id
+  })
   useEffect(() => {
     socket.on('PaymentSuccessRoom', (data) => {
       console.log(data, 'PaymentSuccessRoom-Front');
       
-      socket.emit('PaymentSuccessRoom', {
-        roomId: id
-      })
       socket.emit('payment', {
        status: data.status,
        roomId: id 
