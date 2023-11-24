@@ -20,7 +20,7 @@ interface qrCodeProps {
 
 export default function Pix() {
   const [qrCodeData, setQrCodeData] = useState<qrCodeProps>()
-  
+
   const [methodDelivery, setMethodDelivery] = useState<string>(() => {
     const storaged = parseCookies().delivery
     return storaged ? JSON.parse(storaged) : []
@@ -48,42 +48,43 @@ export default function Pix() {
     })
     setQrCodeData(response.data)
   }
-  
+
   useEffect(() => {
 
     socket.on('payment', (data) => {
       console.log(data);
       const createOrder = async () => {
+        if (id === data.roomId) {
+          if (data.status === 'PaymentConfirmed') {
 
-        if (data.status === 'PaymentConfirmed') {
+            const token = parseCookies().accessToken;
+            const order: OrderProps = {
+              payment: 'Pix',
+              totalPrice: totalPrice,
+              status: 'WAITING',
+              methodDelivery: methodDelivery,
+              itensOrder: productToCart.map((item) => ({
+                mode: item.mode,
+                size: item.size,
+                image_url: item.image_url ? item.image_url : '',
+                price: item.price,
+                product: item.product.map(item => item.name),
+                quantity: item.quantityProduct
+              }))
+            }
+            await api.post('/order', order, {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            })
 
-          const token = parseCookies().accessToken;
-          const order: OrderProps = {
-            payment: 'Pix',
-            totalPrice: totalPrice,
-            status: 'WAITING',
-            methodDelivery: methodDelivery,
-            itensOrder: productToCart.map((item) => ({
-              mode: item.mode,
-              size: item.size,
-              image_url: item.image_url ? item.image_url : '',
-              price: item.price,
-              product: item.product.map(item => item.name),
-              quantity: item.quantityProduct
-            }))
+            destroyCookie(null, 'product')
+            destroyCookie(null, 'payment')
+            destroyCookie(null, 'delivery')
           }
 
-
-          await api.post('/order', order, {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          })
-
-          destroyCookie(null, 'product')
-          destroyCookie(null, 'payment')
-          destroyCookie(null, 'delivery')
         }
+
         navigate('/success')
       }
       createOrder();
@@ -96,25 +97,20 @@ export default function Pix() {
 
 
 
-  
+
   socket.emit('PaymentSuccessRoom', {
     roomId: id
   })
 
-  socket.emit('payment', {
-    status: 'PaymentConfirmed',
-    roomId: id
-  })
-
   const getDataCookies = () => {
-   
+
     setMethodDelivery(() => {
       const storaged = parseCookies().delivery
       return storaged ? JSON.parse(storaged) : []
     })
   }
 
-  
+
   useEffect(() => {
     handleQRcodePix()
     getDataCookies()
