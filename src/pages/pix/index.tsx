@@ -94,9 +94,7 @@ export default function Pix() {
     };
   }, []);
 
-  socket.emit('PaymentSuccessRoom', {
-    roomId: id
-  })
+
   useEffect(() => {
     socket.on('PaymentSuccessRoom', (data) => {
       console.log(data, 'PaymentSuccessRoom-Front');
@@ -109,6 +107,9 @@ export default function Pix() {
     
   }, [])
   
+  socket.emit('PaymentSuccessRoom', {
+    roomId: id
+  })
 
   const getDataCookies = () => {
    
