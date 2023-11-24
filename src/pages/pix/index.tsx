@@ -98,15 +98,7 @@ export default function Pix() {
     roomId: id
   })
 
-  socket.on('payment', (data) => {
-    console.log(data);
-    
-    socket.emit('payment', {
-      status: data.status,
-      roomId: id
-    });
-      
-  })
+  
 
   const getDataCookies = () => {
    
