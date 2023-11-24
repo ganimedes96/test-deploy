@@ -54,7 +54,7 @@ export default function Pix() {
     socket.on('payment', (data) => {
       console.log(data);
       const createOrder = async () => {
-        if (id === data.roomId) {
+       
           if (data.status === 'PaymentConfirmed') {
 
             const token = parseCookies().accessToken;
@@ -86,7 +86,7 @@ export default function Pix() {
         }
 
         navigate('/success')
-      }
+      
       createOrder();
     });
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
