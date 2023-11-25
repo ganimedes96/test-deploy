@@ -66,7 +66,7 @@ export default function Checkout() {
   } = useForm<ObservationSchema>({
     resolver: zodResolver(observationSchemaBody),
   })
- 
+  
   const handleFinishOrder = async (data: ObservationSchema) => {
     try {
       
@@ -77,7 +77,7 @@ export default function Checkout() {
       } else {
         const order: OrderProps = {
           payment: getPayment.methodPayment,
-          totalPrice: totalPrice,
+          totalPrice: await totalPrice,
           status: 'WAITING',
           methodDelivery: methodDelivery,
           observation: data.observation,
@@ -124,6 +124,7 @@ export default function Checkout() {
   useEffect(() => {
     getDataCookies()
   }, [])
+  console.log(totalPrice, 'dfdfdfdf');
 
   return (
     <>

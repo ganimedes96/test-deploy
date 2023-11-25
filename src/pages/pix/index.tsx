@@ -52,7 +52,7 @@ export default function Pix() {
   
   useEffect(() => {
 
-    socket.on('PaymentSuccessRoom', (data) => {
+    socket.on('PaymentSuccess', (data) => {
       console.log(data);
       const createOrder = async () => {
       
@@ -61,7 +61,7 @@ export default function Pix() {
             const token = parseCookies().accessToken;
             const order: OrderProps = {
               payment: 'Pix',
-              totalPrice: totalPrice,
+              totalPrice: await totalPrice,
               status: 'WAITING',
               methodDelivery: methodDelivery,
               itensOrder: productToCart.map((item) => ({
@@ -90,7 +90,7 @@ export default function Pix() {
     });
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
     return () => {
-      socket.off('PaymentSuccessRoom');
+      socket.off('PaymentSuccess');
     };
   }, []);
 
@@ -99,6 +99,19 @@ export default function Pix() {
     roomId: id
   })
 
+  useEffect(() => {
+    socket.on('PixPaymentReceived', (data) => {
+      console.log(data, 'PixPaymentReceived - Frontend');
+      
+      socket.emit('PixPayment', {
+        status: data.status,
+        roomId: id
+      })
+    })
+   return () => {
+     socket.off('PixPaymentReceived');
+   }
+  },[]) 
 
 
   const getDataCookies = () => {
