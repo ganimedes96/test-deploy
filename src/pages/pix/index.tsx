@@ -52,7 +52,7 @@ export default function Pix() {
   
   useEffect(() => {
 
-    socket.on('PaymentSuccess', (data) => {
+    socket.on('payment', (data) => {
       console.log(data);
       const createOrder = async () => {
       
@@ -95,17 +95,17 @@ export default function Pix() {
   }, []);
 
 
-  socket.emit('PaymentSuccessRoom', {
-    roomId: id
+  socket.emit('join', {
+    room: id
   })
 
   useEffect(() => {
     socket.on('PixPaymentReceived', (data) => {
       console.log(data, 'PixPaymentReceived - Frontend');
       
-      socket.emit('PixPayment', {
+      socket.emit('privateMessage', {
         status: data.status,
-        roomId: id
+        room: id
       })
     })
    return () => {

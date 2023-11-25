@@ -68,6 +68,7 @@ export interface OrderData {
 
 
 export interface OrderProps {
+  id?: string  
   payment: string
   totalPrice: string
   methodDelivery: string
