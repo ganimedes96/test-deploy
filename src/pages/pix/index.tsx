@@ -52,7 +52,7 @@ export default function Pix() {
   
   useEffect(() => {
 
-    socket.on('payment', (data) => {
+    socket.on('PixPaymentReceived', (data) => {
       console.log(data);
       const createOrder = async () => {
       
@@ -90,7 +90,7 @@ export default function Pix() {
     });
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
     return () => {
-      socket.off('PaymentSuccess');
+      socket.off('PixPaymentReceived');
     };
   }, []);
 
@@ -99,19 +99,7 @@ export default function Pix() {
     room: id
   })
 
-  useEffect(() => {
-    socket.on('PixPaymentReceived', (data) => {
-      console.log(data, 'PixPaymentReceived - Frontend');
-      
-      socket.emit('privateMessage', {
-        status: data.status,
-        room: id
-      })
-    })
-   return () => {
-     socket.off('PixPaymentReceived');
-   }
-  },[]) 
+  
 
 
   const getDataCookies = () => {
