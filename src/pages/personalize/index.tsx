@@ -15,6 +15,7 @@ import { Button } from '../../components/ui/button';
 import { priceFormatter } from '../../utils/formatter';
 import { ToastContainer } from "react-toastify";
 import { notify } from '../../utils/toast'
+import { useNavigate } from 'react-router-dom'
 
 
 export default function Personalize() {
@@ -34,6 +35,7 @@ export default function Personalize() {
   const [price, setPrice] = useState('00.00');
   const [selectedItems, setSelectedItems] = useState<ProductProps[]>([]);
   const [quantityProduct, setQuantityProduct] = useState(1);
+  const navigate = useNavigate();
 
   const {
     control,
@@ -47,7 +49,6 @@ export default function Personalize() {
 
 
   const handleSubmitForm = (data: CustomizeSchema) => {
-    console.log(data);
     const product: OrdersCartProps = {
       id: uuid(),
       category: {
@@ -72,12 +73,11 @@ export default function Personalize() {
     }
     addProductToCart(product);
     notify('Produto adicionado ao carrinho', 'bottom');
-
+    navigate('/cart')
   }
 
   const handleSelectionChange = (item: ProductProps) => {
   
-    
     if (selectedItems.includes(item)) {
       // Desselecionar o item se já estiver selecionado
       setSelectedItems(selectedItems.filter((selected) => selected !== item));
