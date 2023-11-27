@@ -100,8 +100,6 @@ export default function Pix() {
   })
 
   
-
-
   const getDataCookies = () => {
 
     setMethodDelivery(() => {

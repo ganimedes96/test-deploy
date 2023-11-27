@@ -124,8 +124,7 @@ export default function Checkout() {
   useEffect(() => {
     getDataCookies()
   }, [])
-  console.log(totalPrice, 'dfdfdfdf');
-
+  
   return (
     <>
       <HeaderOrder activeLink="CHECKOUT" leftLink="/delivery" />
