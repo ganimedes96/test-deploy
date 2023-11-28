@@ -52,7 +52,7 @@ export default function Pix() {
   
   useEffect(() => {
 
-    socket.on('PixPaymentReceived', (data) => {
+    socket.on('payment', (data) => {
       console.log(data);
       const createOrder = async () => {
       
@@ -90,7 +90,7 @@ export default function Pix() {
     });
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
     return () => {
-      socket.off('PixPaymentReceived');
+      socket.off('payment');
     };
   }, []);
 

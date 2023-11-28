@@ -24,7 +24,6 @@ export default function Tracking() {
 
   useEffect(() => {
     socket.on('statusUpdate', (data) => {
-
       if (data) {
         setStatus(data.status)
       }
