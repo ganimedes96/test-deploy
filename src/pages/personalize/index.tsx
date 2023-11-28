@@ -83,7 +83,9 @@ export default function Personalize() {
       setSelectedItems(selectedItems.filter((selected) => selected !== item));
     } else {
       // Verificar se o número de itens selecionados não excede três
-      if (selectedItems.length < 3) {
+      if (selectedItems.length < 3 && isChecked === 'ENTIRE') {
+        setSelectedItems([...selectedItems, item]);
+      }else if(selectedItems.length < 2 && isChecked === 'HALF'){
         setSelectedItems([...selectedItems, item]);
       }
     }
@@ -237,7 +239,7 @@ export default function Personalize() {
                 id={item.id}
                 checked={selectedItems.includes(item)}
                 onChange={() =>  handleSelectionChange(item)}
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                 disabled={isChecked === 'ENTIRE' ? selectedItems.length === 3 && !selectedItems.includes(item) : selectedItems.length === 2 && !selectedItems.includes(item)}
               />
             </div>
