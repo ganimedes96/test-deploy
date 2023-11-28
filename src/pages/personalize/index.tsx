@@ -201,7 +201,7 @@ export default function Personalize() {
             }}
           />
           <div className='h-[1px] bg-gray-200 mx-2'></div>
-          <div className='mx-2 p-2 text-gray-500 font-semibold'>
+          <div className='mx-2 p-3 text-gray-500 font-semibold'>
             {
               isChecked === 'ENTIRE'
                 ? <p>Pizza de 40 centimetros, com 12 fatias</p>
@@ -210,7 +210,7 @@ export default function Personalize() {
           </div>
         </div>
         <div className=' w-full flex flex-col items-center justify-center mb-20'>
-          <div className='sticky top-[92px] bg-[#F6F6F9] px-4 py-2  flex flex-col items-start justify-center w-full '>
+          <div className='sticky top-[92px] bg-[#F6F6F9] px-4 py-3  flex flex-col items-start justify-center w-full '>
               <h2 className='text-gray-600 font-semibold'>Escolha a sua Preferencia</h2>
               {isChecked === 'ENTIRE' ? (
               <span className='text-gray-400 font-semibold'>{selectedItems.length} de 3</span>
@@ -271,7 +271,7 @@ export default function Personalize() {
             </div>
           ))}
         </div>
-        <div className='fixed border-t-[1px] border-gray-200 bottom-0 bg-white w-full flex items-center justify-between  p-3 '>
+        <div className='fixed border-t-[1px] border-gray-200 bottom-0 bg-white w-full flex items-center justify-between  p-3 py-5 '>
           <div className='flex items-center justify-center gap-4 '>
             <button 
               className='disabled:text-gray-300 text-red-500'
