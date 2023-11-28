@@ -208,7 +208,7 @@ export default function Personalize() {
           </div>
         </div>
         <div className=' w-full flex flex-col items-center justify-center mb-20'>
-          <div className=' flex flex-col items-start justify-center w-11/12 my-5'>
+          <div className='sticky top-[92px] bg-[#F6F6F9] px-4 py-2  flex flex-col items-start justify-center w-full '>
               <h2 className='text-gray-600 font-semibold'>Escolha a sua Preferencia</h2>
               {isChecked === 'ENTIRE' ? (
               <span className='text-gray-400 font-semibold'>{selectedItems.length} de 3</span>
@@ -220,7 +220,7 @@ export default function Personalize() {
               <h2 className="text-gray-600 font-medium">Tradicional</h2>
           </div>
           {products.filter((item) => item.category.name === 'pizza' && item.type === 'TRADITIONAL').map((item)  => (
-            <div key={item.id} className="bg-white w-full flex items-center justify-between p-[14px] gap-10 border-b-[1px] border-gray-100"> 
+            <div key={item.id} onClick={() => handleSelectionChange(item)} className="bg-white w-full flex items-center justify-between p-[14px] gap-10 border-b-[1px] border-gray-100"> 
                 <div>
                   {item.product.map((product) => (
                     <h2
@@ -246,7 +246,7 @@ export default function Personalize() {
             <h2 className="text-gray-600 font-medium">Especial</h2>
           </div>
           {products.filter((item) => item.category.name === 'pizza' && item.type === 'SPECIAL').map((item) => (
-            <div key={item.id} className="bg-white w-full flex items-center justify-between p-[14px] gap-10 border-b-[1px] border-gray-100">
+            <div key={item.id} onClick={() => handleSelectionChange(item)} className="bg-white w-full flex items-center justify-between p-[14px] gap-10 border-b-[1px] border-gray-100">
               <div>
                 {item.product.map((product) => (
                   <h2
