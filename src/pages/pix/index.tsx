@@ -37,13 +37,13 @@ export default function Pix() {
       },
       devedor: {
         cpf: "12345678909",
-        nome: "Francisco da Silva"
+        nome: "xxx-xx-xx"
       },
       valor: {
         original: '0.01',
       },
       chave: "a471ed5a-0b30-4507-8e9e-c9ba73ec33cb",
-      solicitacaoPagador: "Informe o número ou identificador do pedido."
+      solicitacaoPagador: id
 
     })
     setQrCodeData(response.data)
