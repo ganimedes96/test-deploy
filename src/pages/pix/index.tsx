@@ -99,6 +99,17 @@ export default function Pix() {
     room: id
   })
 
+
+  useEffect(() => {
+    socket.on('PixConfirmation', (data) => {
+      console.log(data, "PIX CONFIRMADO");
+      
+      socket.emit('payment', { room: data.id, status: data.status })
+    })
+    return () => {
+      socket.off('PixConfirmation');
+    };
+  },[])
   
   const getDataCookies = () => {
 
