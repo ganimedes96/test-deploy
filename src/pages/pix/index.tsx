@@ -43,7 +43,13 @@ export default function Pix() {
         original: '0.01',
       },
       chave: "a471ed5a-0b30-4507-8e9e-c9ba73ec33cb",
-      solicitacaoPagador: id
+      solicitacaoPagador: id,
+      infoAdicionais: [
+        { 
+          nome: "Nome",
+          valor: id
+        }
+      ]
 
     })
     setQrCodeData(response.data)
@@ -100,16 +106,6 @@ export default function Pix() {
   })
 
 
-  useEffect(() => {
-    socket.on('PixConfirmation', (data) => {
-      console.log(data, "PIX CONFIRMADO");
-      
-      socket.emit('payment', { room: data.id, status: data.status })
-    })
-    return () => {
-      socket.off('PixConfirmation');
-    };
-  },[])
   
   const getDataCookies = () => {
 
