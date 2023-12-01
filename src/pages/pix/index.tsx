@@ -7,7 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { notify } from "../../utils/toast";
 import socket from "../../utils/socketIO";
 import "react-toastify/dist/ReactToastify.css";
-import {  useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { destroyCookie, parseCookies } from "nookies";
 import { OrderProps } from "../../@types/interface";
 import { CalculatePrice } from "../../utils/calculate-price";
@@ -44,24 +44,20 @@ export default function Pix() {
       },
       chave: "a471ed5a-0b30-4507-8e9e-c9ba73ec33cb",
       solicitacaoPagador: id,
-      infoAdicionais: [
-        { 
-          nome: "Nome",
-          valor: id
-        }
-      ]
-
+      
     })
     setQrCodeData(response.data)
   }
-
-
+ 
+  
   useEffect(() => {
-    socket.on('PixConfirmation', (data) => {
-      console.log(data, 'PixConfirmation-Front-and');
+
+    socket.on('payment', (data) => {
+      console.log(data);
+      const createOrder = async () => {
       
-      if (data.room === id) {
-        const createOrder = async () => {
+          if (data.status === 'PaymentConfirmed') {
+
             const token = parseCookies().accessToken;
             const order: OrderProps = {
               payment: 'Pix',
@@ -86,28 +82,12 @@ export default function Pix() {
             destroyCookie(null, 'product')
             destroyCookie(null, 'payment')
             destroyCookie(null, 'delivery')
+          }
 
-        }
-
-        createOrder();  
         navigate('/success')
-
       }
-
-    })
-
-  }, [])
-  
-  useEffect(() => {
-
-    socket.on('payment', (data) => {
-      
-     socket.emit('PixConfirmation', {
-      room: id,
-      status: data.status   
-     })
+      createOrder();
     });
-
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
     return () => {
       socket.off('payment');
@@ -116,7 +96,7 @@ export default function Pix() {
 
 
   socket.emit('join', {
-    room: id,
+    room: id
   })
 
   const getDataCookies = () => {
