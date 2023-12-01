@@ -22,6 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
 import uuid from "react-uuid";
+import socket from "../../utils/socketIO";
 
 
 const observationSchemaBody = z.object({
@@ -55,6 +56,7 @@ export default function Checkout() {
 
   const [getPayment, setGetPayment] = useState<PaymentProps>({ methodPayment: 'Pix', typeCard: 'Pix' });
   const [methodDelivery, setMethodDelivery] = useState<string>('');
+  const [socketId, setSocketId] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false)
   const { productToCart } = ContextCartApp()
   const totalPrice = CalculatePrice();
@@ -73,7 +75,12 @@ export default function Checkout() {
       setIsLoading(true)
       const token = parseCookies().accessToken;
       if (getPayment.methodPayment === 'Pix') {
-        navigate(`/pix/${uuid()}`)
+        socket.on('connect', () => {
+          console.log('Conectado ao servidor');
+          setSocketId(socket.id)
+          console.log('ID do Socket:', socketId);
+        });
+        navigate(`/pix/${socketId}`)
       } else {
         const order: OrderProps = {
           payment: getPayment.methodPayment,
