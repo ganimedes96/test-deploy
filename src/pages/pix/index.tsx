@@ -58,6 +58,8 @@ export default function Pix() {
 
   useEffect(() => {
     socket.on('PixConfirmation', (data) => {
+      console.log(data, 'PixConfirmation-Front-and');
+      
       if (data.room === id) {
         const createOrder = async () => {
             const token = parseCookies().accessToken;
