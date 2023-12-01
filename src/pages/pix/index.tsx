@@ -59,20 +59,8 @@ export default function Pix() {
   useEffect(() => {
     socket.on('PixConfirmation', (data) => {
       if (data.room === id) {
-        navigate('/success')
-      }
+        const createOrder = async () => {
 
-    })
-
-  })
-  
-  useEffect(() => {
-
-    socket.on('payment', (data) => {
-      console.log(data);
-      socket.emit('sendDataPayment', { room: id, status: data.status });
-      const createOrder = async () => {
-      
           if (data.status === 'failed') {
 
             const token = parseCookies().accessToken;
@@ -101,14 +89,28 @@ export default function Pix() {
             destroyCookie(null, 'delivery')
           }
 
-        
+
+        }
+
+        createOrder();  
+        navigate('/success')
+
       }
-      createOrder();
+
+    })
+
+  }, [])
+  
+  useEffect(() => {
+
+    socket.on('payment', (data) => {
+      socket.emit('join', {
+        room: id,
+        status: data.status
+      })
+     
     });
 
-    socket.emit('join', {
-      room: id
-    })
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
     return () => {
       socket.off('payment');
