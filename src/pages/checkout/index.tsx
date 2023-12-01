@@ -24,7 +24,6 @@ import { Textarea } from "../../components/ui/textarea";
 import uuid from "react-uuid";
 
 
-
 const observationSchemaBody = z.object({
   observation: z.string().optional()
 })
@@ -67,15 +66,14 @@ export default function Checkout() {
   } = useForm<ObservationSchema>({
     resolver: zodResolver(observationSchemaBody),
   })
- 
+  
   const handleFinishOrder = async (data: ObservationSchema) => {
     try {
       
       setIsLoading(true)
       const token = parseCookies().accessToken;
       if (getPayment.methodPayment === 'Pix') {
-       
-        navigate(`/pix/${uuid}`)
+        navigate(`/pix/${uuid()}`)
       } else {
         const order: OrderProps = {
           payment: getPayment.methodPayment,
