@@ -60,7 +60,7 @@ export default function Pix() {
 
     socket.on('payment', (data) => {
       console.log(data);
-      socket.emit('PixConfirmation', { room: id, status: data.status });
+      socket.emit('sendDataPayment', { room: id, status: data.status });
       const createOrder = async () => {
       
           if (data.status === 'failed') {
