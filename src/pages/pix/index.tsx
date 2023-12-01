@@ -7,7 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { notify } from "../../utils/toast";
 import socket from "../../utils/socketIO";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { destroyCookie, parseCookies } from "nookies";
 import { OrderProps } from "../../@types/interface";
 import { CalculatePrice } from "../../utils/calculate-price";
@@ -25,7 +25,7 @@ export default function Pix() {
     const storaged = parseCookies().delivery
     return storaged ? JSON.parse(storaged) : []
   });
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const totalPrice = CalculatePrice()
   const { productToCart } = ContextCartApp()
   const { id } = useParams();
@@ -91,7 +91,7 @@ export default function Pix() {
             destroyCookie(null, 'delivery')
           }
 
-        navigate('/success')
+        // navigate('/success')
       }
       createOrder();
     });
