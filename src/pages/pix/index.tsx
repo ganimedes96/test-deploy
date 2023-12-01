@@ -60,9 +60,10 @@ export default function Pix() {
 
     socket.on('payment', (data) => {
       console.log(data);
+      socket.emit('PixConfirmation', { room: id, status: data.status });
       const createOrder = async () => {
       
-          if (data.status === 'PaymentConfirmed') {
+          if (data.status === 'failed') {
 
             const token = parseCookies().accessToken;
             const order: OrderProps = {
@@ -105,7 +106,12 @@ export default function Pix() {
     room: id
   })
 
-
+ useEffect(() => {
+   socket.on('PixConfirmation', (data) => {
+    console.log(data, 'statusPix-Frondend');
+    
+  })
+ })
   
   const getDataCookies = () => {
 
