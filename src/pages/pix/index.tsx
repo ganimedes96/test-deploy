@@ -7,7 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { notify } from "../../utils/toast";
 import socket from "../../utils/socketIO";
 import "react-toastify/dist/ReactToastify.css";
-import {  useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import { destroyCookie, parseCookies } from "nookies";
 import { OrderProps } from "../../@types/interface";
 import { CalculatePrice } from "../../utils/calculate-price";
@@ -25,7 +25,7 @@ export default function Pix() {
     const storaged = parseCookies().delivery
     return storaged ? JSON.parse(storaged) : []
   });
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const totalPrice = CalculatePrice()
   const { productToCart } = ContextCartApp()
   const { id } = useParams();
@@ -54,7 +54,17 @@ export default function Pix() {
     })
     setQrCodeData(response.data)
   }
-  console.log(totalPrice);
+
+
+  useEffect(() => {
+    socket.on('PixConfirmation', (data) => {
+      if (data.room === id) {
+        navigate('/success')
+      }
+
+    })
+
+  })
   
   useEffect(() => {
 
@@ -91,10 +101,14 @@ export default function Pix() {
             destroyCookie(null, 'delivery')
           }
 
-        // navigate('/success')
+        
       }
       createOrder();
     });
+
+    socket.emit('join', {
+      room: id
+    })
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
     return () => {
       socket.off('payment');
@@ -102,17 +116,6 @@ export default function Pix() {
   }, []);
 
 
-  socket.emit('join', {
-    room: id
-  })
-
- useEffect(() => {
-   socket.on('PixConfirmation', (data) => {
-    console.log(data, 'statusPix-Frondend');
-    
-  })
- })
-  
   const getDataCookies = () => {
 
     setMethodDelivery(() => {
