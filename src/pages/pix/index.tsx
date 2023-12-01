@@ -60,9 +60,6 @@ export default function Pix() {
     socket.on('PixConfirmation', (data) => {
       if (data.room === id) {
         const createOrder = async () => {
-
-          if (data.status === 'failed') {
-
             const token = parseCookies().accessToken;
             const order: OrderProps = {
               payment: 'Pix',
@@ -87,8 +84,6 @@ export default function Pix() {
             destroyCookie(null, 'product')
             destroyCookie(null, 'payment')
             destroyCookie(null, 'delivery')
-          }
-
 
         }
 
