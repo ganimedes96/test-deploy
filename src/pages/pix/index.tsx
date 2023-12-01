@@ -101,11 +101,11 @@ export default function Pix() {
   useEffect(() => {
 
     socket.on('payment', (data) => {
-      socket.emit('join', {
-        room: id,
-        status: data.status
-      })
-     
+      
+     socket.emit('PixConfirmation', {
+      room: id,
+      status: data.status   
+     })
     });
 
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
@@ -114,6 +114,10 @@ export default function Pix() {
     };
   }, []);
 
+
+  socket.emit('join', {
+    room: id,
+  })
 
   const getDataCookies = () => {
 
