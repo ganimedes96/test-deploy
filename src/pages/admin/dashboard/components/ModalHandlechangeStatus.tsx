@@ -29,7 +29,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
       : order.status === 'ACCEPTED'
         ? 'PREPARING'
         : order.status === 'PREPARING' && order.methodDelivery === 'PICKUP'
-          ? 'FINISHED'
+          ? 'AWAITING_WITHDRAWAL'
           : order.status === 'PREPARING' && order.methodDelivery === 'DELIVERY'
             ? 'DELIVERY'
             : 'FINISHED'
@@ -116,7 +116,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
 
               )}
               <span>Metado de Entrega: {order.methodDelivery === "DELIVERY" ? 'ENTREGA' : 'RETIRADA'}</span>
-              <span>Metado de Pagamento: {order.payment === "Card" ? 'Cartao' : order.payment === "Pix" ? 'Pix' : 'Dinheiro'}</span>
+              <span>Metado de Pagamento: {order.payment.methodPayment === "Card" ? 'Cartao' : order.payment.methodPayment === "Pix" ? 'Pix' : 'Dinheiro'}</span>
               {order.methodDelivery === 'DELIVERY' && (
                 <span>Taxa de Entrega: {priceFormatter.format(Number(order.customer.Address[0].neighborhood.tax))}</span>
               )}

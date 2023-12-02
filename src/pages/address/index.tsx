@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import ServiceAddress from '../../infrastructure/services/address'
 import { ContextAuthApp } from "../../context/auth-context";
 import { ColorRing } from "react-loader-spinner";
+import { ButtonCheckout } from "../../components/ButtonCheckout";
 
 
 export default function Address() {
@@ -29,8 +30,6 @@ export default function Address() {
   useEffect(() => {
     getAddresses();
   }, []);
-
-  console.log(addresses);
 
   return (
     <>
@@ -62,6 +61,9 @@ export default function Address() {
         )}
 
       </div>
+      <ButtonCheckout >
+        <NavLink to={'/delivery'} >Voltar</NavLink>
+      </ButtonCheckout>
     </>
   )
 }

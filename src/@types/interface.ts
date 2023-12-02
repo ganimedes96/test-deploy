@@ -12,7 +12,11 @@ export interface CartProps {
 export interface Orders {
   methodDelivery: "DELIVERY" | "PICKUP"
   status: string
-  payment: "Card" | "Money" | "Pix",
+  payment: {
+    methodPayment: string
+    typeCard?: string
+    flag?: string
+  },
   observation?: string
   id: string
   createdAt: Date
@@ -69,10 +73,15 @@ export interface OrderData {
 
 export interface OrderProps {
   id?: string  
-  payment: string
+  payment: {
+    methodPayment: string
+    flag?: string
+    typeCard?: string
+  }
   totalPrice: string
   methodDelivery: string
   status: string
+  observation?: string
   itensOrder: {
     mode?: string,
     size: string,
@@ -81,3 +90,4 @@ export interface OrderProps {
     quantity: number
   }[]
 }
+

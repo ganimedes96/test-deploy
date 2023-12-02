@@ -160,7 +160,7 @@ export default function Personalize() {
       <div className='flex flex-col items-center my-5 '>
         <h2 className=' text-gray-700 font-semibold text-xl'>Personalize sua Pizza</h2>
       </div>
-      <form onSubmit={handleSubmit(handleSubmitForm)} className='w-full ' action="">
+      <form onSubmit={handleSubmit(handleSubmitForm)} className='w-full' action="">
         <div className='bg-white  '>
           <h2 className='text-gray-600 text-base  font-medium p-2 '>Selecione um tamanho</h2>
           <Controller
@@ -227,12 +227,12 @@ export default function Personalize() {
                   {item.product.map((product) => (
                     <h2
                       key={product.name}
-                      className="cursor-pointer"
+                      className="cursor-pointer font-medium text-gray-600"
                     >
                       {product.name}
                     </h2>
                   ))}
-                  <p className='text-gray-300 text-sm'>{item.description}</p>
+                  <p className='text-gray-400 text-sm'>{item.description}</p>
                 </div>
               <input
                 type="checkbox"
@@ -253,12 +253,12 @@ export default function Personalize() {
                 {item.product.map((product) => (
                   <h2
                     key={product.name}
-                    className="cursor-pointer"
+                    className="cursor-pointer font-medium text-gray-600"
                   >
                     {product.name}
                   </h2>
                 ))}
-                <p className='text-gray-300 text-sm'>{item.description}</p>
+                <p className='text-gray-400 text-sm'>{item.description}</p>
               </div>
               <input
                 type="checkbox"
@@ -271,7 +271,7 @@ export default function Personalize() {
             </div>
           ))}
         </div>
-        <div className='fixed border-t-[1px] border-gray-200 bottom-0 bg-white w-full flex items-center justify-between  p-3 py-5 '>
+        <div className='fixed xl:w-[1100px] 3xl:w-[1100px]  w-full  border-t-[1px] border-gray-200 bottom-0 bg-white flex items-center justify-between  p-3 py-5 '>
           <div className='flex items-center justify-center gap-4 '>
             <button 
               className='disabled:text-gray-300 text-red-500'

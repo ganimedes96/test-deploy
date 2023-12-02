@@ -92,6 +92,7 @@ export default function Tracking() {
                 {status === 'DELIVERY' && 'SAIU PARA ENTREGA'}
                 {status === 'FINISHED' && 'ENTREGUE'}
                 {status === 'CANCELED' && 'CANCELADO'}
+                {status === 'AWAITING_WITHDRAWAL' && 'AGUARDANDO RETIRADA'}
               </span>
             </div>
           </div>
@@ -200,7 +201,7 @@ export default function Tracking() {
               {order?.methodDelivery === 'PICKUP'
                 ? (
                   <>
-                    {status === 'FINISHED'
+                    {status === 'AWAITING_WITHDRAWAL'
                       ? <div className="bg-emerald-500 text-gray-50 rounded-full p-2" >
                         < Check
                           size={35}

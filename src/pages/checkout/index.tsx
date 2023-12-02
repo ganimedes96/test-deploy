@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ContextCartApp } from "../../context/cart-context";
 import { HeaderOrder } from "../../components/HeaderOrder";
-import { destroyCookie, parseCookies } from "nookies";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { CardAddress } from "../../components/CardAddress";
 import pickupOrange from '../../assets/pickup-orange.png'
 import pix from '../../assets/pix.svg'
@@ -22,6 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
 import uuid from "react-uuid";
+import { OrderProps } from "../../@types/interface";
 
 
 const observationSchemaBody = z.object({
@@ -36,27 +37,13 @@ interface PaymentProps {
   typeCard?: string
 }
 
-interface OrderProps {
-  payment: string
-  totalPrice: string
-  methodDelivery: string
-  status: string
-  observation?: string
-  itensOrder: {
-    mode?: string,
-    size: string,
-    price: string
-    product: string[]
-    quantity: number
-  }[]
-}
 
 export default function Checkout() {
 
   const [getPayment, setGetPayment] = useState<PaymentProps>({ methodPayment: 'Pix', typeCard: 'Pix' });
   const [methodDelivery, setMethodDelivery] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false)
-  const { productToCart } = ContextCartApp()
+  const { productToCart , clearCart } = ContextCartApp()
   const totalPrice = CalculatePrice();
   const navigate = useNavigate();
 
@@ -73,10 +60,17 @@ export default function Checkout() {
       setIsLoading(true)
       const token = parseCookies().accessToken;
       if (getPayment.methodPayment === 'Pix') {
+        setCookie(undefined, 'observation', JSON.stringify(data.observation), {
+          maxAge: 60 * 60 * 24 * 30,
+        });
         navigate(`/pix/${uuid()}`)
       } else {
         const order: OrderProps = {
-          payment: getPayment.methodPayment,
+          payment: {
+            methodPayment: getPayment.methodPayment,
+            flag: getPayment.flag,
+            typeCard: getPayment.typeCard
+          },
           totalPrice: await totalPrice,
           status: 'WAITING',
           methodDelivery: methodDelivery,
@@ -99,6 +93,7 @@ export default function Checkout() {
         destroyCookie(null, 'product')
         destroyCookie(null, 'payment')
         destroyCookie(null, 'delivery')
+        clearCart()
         navigate('/success')
 
       }

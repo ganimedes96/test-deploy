@@ -60,10 +60,14 @@ export default function Pix() {
 
             const token = parseCookies().accessToken;
             const order: OrderProps = {
-              payment: 'Pix',
+              payment: {
+                methodPayment: 'Pix',
+                typeCard: 'Pix',
+              }, 
               totalPrice: await totalPrice,
               status: 'WAITING',
               methodDelivery: methodDelivery,
+              observation: parseCookies().observation ? JSON.parse(parseCookies().observation) : '',
               itensOrder: productToCart.map((item) => ({
                 mode: item.mode,
                 size: item.size,
