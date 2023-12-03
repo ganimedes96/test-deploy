@@ -77,7 +77,7 @@ export default function Pix() {
                 quantity: item.quantityProduct
               }))
             }
-            await api.post('/order', order, {
+            const response = await api.post('/order', order, {
               headers: {
                 Authorization: `Bearer ${token}`
               }
@@ -86,9 +86,9 @@ export default function Pix() {
             destroyCookie(null, 'product')
             destroyCookie(null, 'payment')
             destroyCookie(null, 'delivery')
+            navigate(`/success/${response.data.id}`)
           }
 
-        navigate('/success')
       }
       createOrder();
     });

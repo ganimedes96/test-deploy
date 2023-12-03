@@ -90,7 +90,7 @@ export default function Checkout() {
             Authorization: `Bearer ${token}`
           }
         })
-        console.log(response.data);
+        
         destroyCookie(null, 'product')
         destroyCookie(null, 'payment')
         destroyCookie(null, 'delivery')
