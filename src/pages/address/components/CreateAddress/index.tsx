@@ -7,7 +7,6 @@ import InputMask from 'react-input-mask';
 import { Label } from '@radix-ui/react-label';
 import { Input } from '../../../../components/ui/input';
 import { Button } from '../../../../components/ui/button';
-import { AddressProps, ContextAuthApp } from '../../../../context/auth-context';
 import ServiceAddress from '../../../../infrastructure/services/address'
 import ServiceNeighborhoods from '../../../../infrastructure/services/neighborhood'
 import { useEffect, useState } from 'react';
@@ -47,7 +46,6 @@ const addressSchemaBody = z.object({
 type AddressSchema = z.infer<typeof addressSchemaBody>
 
 export default function CreateAddress() {
-  const { setAddresses, addresses } = ContextAuthApp()
   const serviceNeighborhoods = new ServiceNeighborhoods()
   const [neighborhoods, setNeighborhoods] = useState<NeighborhoodsProps[]>([])
   const serviceAddress = new ServiceAddress()
@@ -72,22 +70,6 @@ export default function CreateAddress() {
       phone: data.phone
     })
 
-    const address: AddressProps = {
-      neighborhood: {
-        name: data.neighborhood.label,
-        tax: data.neighborhood.rate!,
-        id: ''
-      },
-      number: data.number,
-      street: data.street,
-      type: data.type.value,
-      zipCode: data.zipCode,
-      phone: data.phone,
-      standard: addresses.length > 0 ? false : true,
-      customerId: '',
-      id: '',
-    }
-    setAddresses([...addresses, address])
     navigate('/address')
   }
 

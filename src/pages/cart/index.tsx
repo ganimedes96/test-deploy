@@ -53,10 +53,8 @@ export default function Cart() {
 
       }
       {productToCart.length > 0 && (
-        <ButtonCheckout >
-          <NavLink to={isAuthenticated ? '/delivery' : '/sign-in'} >Proximo</NavLink>
-        </ButtonCheckout>
-
+        <ButtonCheckout  title="Proximo" link="/delivery"/>
+          
       )}
 
     </div>

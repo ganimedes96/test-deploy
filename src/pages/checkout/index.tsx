@@ -10,8 +10,6 @@ import { Summary } from "../cart/components/summary";
 import { api } from "../../utils/axios";
 import { CalculatePrice } from "../../utils/calculate-price";
 import { ToastContainer } from "react-toastify";
-import { ButtonCheckout } from "../../components/ButtonCheckout";
-import { Oval } from "react-loader-spinner";
 import mc from '../../assets/mc.svg'
 import visa from '../../assets/visa.png'
 import elo from '../../assets/elo.png'
@@ -43,7 +41,7 @@ export default function Checkout() {
   const [getPayment, setGetPayment] = useState<PaymentProps>({ methodPayment: 'Pix', typeCard: 'Pix' });
   const [methodDelivery, setMethodDelivery] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false)
-  const { productToCart , clearCart } = ContextCartApp()
+  const { productToCart, clearCart } = ContextCartApp()
   const totalPrice = CalculatePrice();
   const navigate = useNavigate();
 
@@ -53,10 +51,12 @@ export default function Checkout() {
   } = useForm<ObservationSchema>({
     resolver: zodResolver(observationSchemaBody),
   })
-  
+
   const handleFinishOrder = async (data: ObservationSchema) => {
+    
+    
     try {
-      
+
       setIsLoading(true)
       const token = parseCookies().accessToken;
       if (getPayment.methodPayment === 'Pix') {
@@ -85,16 +85,17 @@ export default function Checkout() {
           }))
         }
 
-        await api.post('/order', order, {
+       const response = await api.post('/order', order, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         })
+        console.log(response.data);
         destroyCookie(null, 'product')
         destroyCookie(null, 'payment')
         destroyCookie(null, 'delivery')
         clearCart()
-        navigate('/success')
+        navigate(`/success/${response.data.id}`)
 
       }
 
@@ -119,7 +120,7 @@ export default function Checkout() {
   useEffect(() => {
     getDataCookies()
   }, [])
-  
+
   return (
     <>
       <HeaderOrder activeLink="CHECKOUT" leftLink="/delivery" />
@@ -140,8 +141,10 @@ export default function Checkout() {
             ) : (
               <div className="w-full flex items-center justify-between mt-5">
                 <div className=" flex items-center justify-center gap-5">
-                  <img src={pickupOrange} alt="" className="w-11" />
-                  <span className="text-gray-500 text-lg font-normal">Ritirar na loja</span>
+                  <div className="rounded-full bg-gray-100 p-2">
+                    <img src={pickupOrange} alt="" className="w-8" />
+                  </div>
+                  <span className="text-gray-500 text-sm  font-semibold">Ritirar na loja</span>
                 </div>
 
               </div>
@@ -157,7 +160,7 @@ export default function Checkout() {
             <div className="flex items-center text-lg justify-start gap-3 text-gray-500 font-semibold">
               {getPayment.methodPayment === 'Card'
                 ? <img
-                  className="w-11 p-2 bg-gray-100 rounded-full"
+                  className="w-11 p-2  bg-gray-100 rounded-full"
                   src={getPayment.flag === 'Visa' ? visa : getPayment.flag === 'Mastercard' ? mc : elo}
                   alt=""
                 />
@@ -182,30 +185,19 @@ export default function Checkout() {
             <Label className='text-gray-500'>Observação</Label>
             <Textarea className="flex items-center justify-center" {...register('observation')} maxLength={60} minLength={5} />
           </div>
-          <ButtonCheckout type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? (
-              <Oval
-                height={25}
-                width={25}
-                color="#fff"
-                wrapperStyle={{}}
-                wrapperClass=""
-                visible={true}
-                ariaLabel='oval-loading'
-                secondaryColor="#fff"
-                strokeWidth={2}
-                strokeWidthSecondary={2}
 
-              />
-            ) : (
-              'Finalizar pedido'
-            )}
-          </ButtonCheckout>
+          <button 
+            type="submit" 
+            className="bg-orange-500 w-full fixed bottom-0  py-4  text-gray-50 font-medium text-lg   hover:bg-orange-600"
+          >
+            {isLoading ? 'Carregando...' : 'Finalizar pedido'}
+          </button>
+
         </form>
 
       </div>
       <div className="mb-16 w-full flex flex-col items-center justify-center">
-        <Summary  />
+        <Summary />
       </div>
 
 

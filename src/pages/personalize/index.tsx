@@ -221,7 +221,10 @@ export default function Personalize() {
           <div className='bg-white py-5 px-3 flex  items-center justify-start w-full border-b-[1px] border-gray-100'>
               <h2 className="text-gray-600 font-medium">Tradicional</h2>
           </div>
-          {products.filter((item) => item.category.name === 'pizza' && item.type === 'TRADITIONAL').map((item)  => (
+          {products.filter((item) => 
+              item.category.name === 'pizza' && 
+              item.type === 'TRADITIONAL' && 
+              item.status === 'ACTIVE').map((item)  => (
             <div key={item.id} onClick={() => handleSelectionChange(item)} className="bg-white w-full flex items-center justify-between p-[14px] gap-10 border-b-[1px] border-gray-100"> 
                 <div>
                   {item.product.map((product) => (
@@ -247,7 +250,10 @@ export default function Personalize() {
           <div className='bg-white py-5 px-3 flex  items-center justify-start w-full border-b-[1px] border-gray-100'>
             <h2 className="text-gray-600 font-medium">Especial</h2>
           </div>
-          {products.filter((item) => item.category.name === 'pizza' && item.type === 'SPECIAL').map((item) => (
+          {products.filter((item) => 
+            item.category.name === 'pizza' && 
+            item.type === 'SPECIAL' && 
+            item.status === 'ACTIVE').map((item) => (
             <div key={item.id} onClick={() => handleSelectionChange(item)} className="bg-white w-full flex items-center justify-between p-[14px] gap-10 border-b-[1px] border-gray-100">
               <div>
                 {item.product.map((product) => (
@@ -265,7 +271,7 @@ export default function Personalize() {
                 id={item.id}
                 checked={selectedItems.includes(item)}
                 onChange={() => handleSelectionChange(item)}
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                 disabled={isChecked === 'ENTIRE' ? selectedItems.length === 3 && !selectedItems.includes(item) : selectedItems.length === 2 && !selectedItems.includes(item)}
               />
             </div>

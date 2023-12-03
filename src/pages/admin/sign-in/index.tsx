@@ -48,6 +48,8 @@ export default function SignInDashboard() {
       })
     } else {
       const { access_token } = response.body as any
+      console.log(access_token);
+      
       setCookie(undefined, 'token', access_token)
     }
 

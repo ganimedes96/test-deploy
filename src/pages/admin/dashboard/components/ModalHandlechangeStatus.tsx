@@ -8,6 +8,8 @@ import { api } from "../../../../utils/axios";
 import socket from "../../../../utils/socketIO";
 import { ModalHandleCancelOrder } from "../../../../components/ModalHandleCancelOrder";
 import { useState } from "react";
+import { Button } from "../../../../components/ui/button";
+import whatsapp  from '../../../../assets/whatsapp-green.svg'
 
 interface ModalOrderProps {
   order: Orders
@@ -58,6 +60,8 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
     socket.emit('statusUpdate', { orderId: order.id, status: newStatus });
   }
 
+ 
+
   return (
     <AlertDialog.Portal>
       <AlertDialog.Overlay className=" fixed w-screen h-screen inset-0 bg-gray-900/[.6]" />
@@ -100,13 +104,30 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
                 </div>
               )}
               {order.methodDelivery === 'PICKUP' ? (
-                <span>
-                  Telefone: {order.customer.phone && order.customer.phone}
-                </span>
+                <Button
+                  className='border-[1px] border-green-500 text-green-500 bg-transparent hover:bg-transparent text-lg flex gap-2'
+                  onClick={() => {
+
+                    const whatsappURL = `https://web.whatsapp.com/send?phone=${order.customer.Address && order.customer.Address[0].phone}`;
+                    window.open(whatsappURL, '_blank');
+                  }}
+                >
+                  <img src={whatsapp} className='w-6' alt='' />
+                  {order.customer.phone && order.customer.phone}
+                </Button>
               ) : (
-                <span>
-                  Telefone: {order.customer.Address && order.customer.Address[0].phone}
-                </span>
+
+                <Button
+                  className='border-[1px] border-green-500 text-green-500 bg-transparent hover:bg-transparent text-lg flex gap-2'
+                  onClick={() => {
+                   
+                    const whatsappURL = `https://web.whatsapp.com/send?phone=${order.customer.Address && order.customer.Address[0].phone}`;
+                    window.open(whatsappURL, '_blank');
+                  }}
+                >
+                  <img src={whatsapp} className='w-6' alt='' />
+                    {order.customer.Address && order.customer.Address[0].phone}
+                </Button>
               )}
 
               {order.methodDelivery === 'DELIVERY' && (
@@ -116,7 +137,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
 
               )}
               <span>Metado de Entrega: {order.methodDelivery === "DELIVERY" ? 'ENTREGA' : 'RETIRADA'}</span>
-              <span>Metado de Pagamento: {order.payment.methodPayment === "Card" ? 'Cartao' : order.payment.methodPayment === "Pix" ? 'Pix' : 'Dinheiro'}</span>
+              <span>Metado de Pagamento: {order.payment.methodPayment === "Card" ? `Cartão - ${order.payment.typeCard} - ${order.payment.flag}` : order.payment.methodPayment === "Pix" ? 'Pix' : 'Dinheiro'}</span>
               {order.methodDelivery === 'DELIVERY' && (
                 <span>Taxa de Entrega: {priceFormatter.format(Number(order.customer.Address[0].neighborhood.tax))}</span>
               )}
@@ -145,12 +166,17 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
                     <ChefHat className="text-orange-500" />
                     <span>Iniciar Producao</span>
                   </>
-                ) : order.status === 'PREPARING' ? (
+                ) : order.status === 'PREPARING' && order.methodDelivery === 'DELIVERY' ? (
                   <>
                     <Truck className="text-orange-500" />
                     <span>Saiu para Entrega</span>
                   </>
-                ) : (
+                  ) : order.status === 'PREPARING' && order.methodDelivery === 'PICKUP' ? (
+                    <>
+                      <CheckSquare className="text-emerald-500" />
+                      <span>Pronto</span>
+                    </>
+                  ) : (
                   <>
                     <CheckSquare className="text-emerald-500" />
                     <span>Entregue</span>

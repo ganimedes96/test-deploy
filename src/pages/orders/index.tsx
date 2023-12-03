@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Orders } from "../../@types/interface"
 import { api } from "../../utils/axios"
 import { parseCookies } from "nookies"
-import delivery from '../../assets/delivery-orange.png'
+import delivery from '../../assets/pickup-orange.png'
 import { Check, CheckCheck, ChefHat, ClipboardCheck, ExternalLink, StickyNote, XCircle } from "lucide-react"
 import { dateFormatter } from "../../utils/formatter"
 import { NavLink } from "react-router-dom"

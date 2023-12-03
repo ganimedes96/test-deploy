@@ -1,7 +1,7 @@
 
 import { CheckCircle, ChevronLeft, ShoppingCart } from "lucide-react"
 import { NavLink } from "react-router-dom"
-import delivery from '../assets/delivery.png'
+import delivery from '../assets/delivery-gray.png'
 import deliveryOrange from '../assets/delivery-orange.png'
 
 

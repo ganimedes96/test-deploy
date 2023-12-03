@@ -45,15 +45,18 @@ export default function Dashboard() {
   }
 
   const getOrders = async () => {
-
-    const response = await api.get('/order')
+    const response = await api.get('/fetch-orders')
     setOrders(response.data)
 
   }
+
+  
+
   useEffect(() => {
     getOrders()
   }, [])
 
+  console.log(orders);
 
 
 

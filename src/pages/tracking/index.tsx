@@ -1,8 +1,8 @@
 import { Button } from '../../components/ui/button'
 import pizza from '../../assets/caixa.png'
-import delivey from '../../assets/delivery.png'
-import deliveyOrange from '../../assets/delivery-orange.png'
-import pickup from '../../assets/delivered.png'
+import delivey from '../../assets/delivery-white.png'
+import deliveryGray from '../../assets/delivery-gray.png'
+import pickup from '../../assets/pickup-white.png'
 import pickupOrange from '../../assets/pickup-orange.png'
 import whatsapp from '../../assets/whatsapp.svg'
 import { useEffect, useState } from 'react'
@@ -39,8 +39,8 @@ export default function Tracking() {
   const getOrder = async () => {
     const response = await api.get(`/order/${id}`)
 
-    setOrder(response.data.order)
-    setStatus(response.data.order.status)
+    setOrder(response.data)
+    setStatus(response.data.status)
 
   }
 
@@ -179,13 +179,13 @@ export default function Tracking() {
                   {status === 'DELIVERY'
                     ? <div className='bg-orange-500 text-gray-50 rounded-full p-1'>
                       <img
-                        src={deliveyOrange}
+                        src={delivey}
                         className='w-10 m-1' alt=""
                       />
                     </div>
                     : <div className='bg-gray-200 rounded-full p-1' >
                       <img
-                        src={delivey}
+                        src={deliveryGray}
                         className='w-10 m-1'
                         alt=""
                       />
@@ -221,14 +221,14 @@ export default function Tracking() {
                     {status === 'FINISHED'
                       ? <div className='bg-orange-500 text-gray-50 rounded-full p-1'>
                         <img
-                          src={pickupOrange}
+                          src={pickup}
                           className='w-10 m-1' alt=""
                         />
                       </div>
                       :
                       <div className='bg-gray-200 rounded-full p-1'>
                         <img
-                          src={pickup}
+                          src={pickupOrange}
                           className='w-10 m-1' alt="" />
                       </div>
                     }

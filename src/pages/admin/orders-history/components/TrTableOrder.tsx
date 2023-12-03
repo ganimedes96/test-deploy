@@ -49,9 +49,17 @@ export const TrTableOrders = ({ orders, typeOrder }: OrdersProps) => {
               <span>{priceFormatter.format(Number(orders.totalPrice))}</span>
             </td>
 
-            <td className="w-1/12 bg-gray-800 p-4 text-xl border-t-4 border-gray-900">
+            <td className="w-3/12 bg-gray-800 p-4 text-xl border-t-4 border-gray-900">
               <span className={`text-orange-500 border-orange-500 text-sm font-light border-[1px] rounded p-1`}>
-                {orders.status}
+                {orders.status === 'PREPARING' 
+                ? 'PREPARANDO' 
+                : orders.status === 'WAITING' 
+                ? 'AGUARDE' 
+                : orders.status === 'AWAITING_WITHDRAWAL' 
+                ? 'AGUARDANDO RETIRADA' 
+                : orders.status === 'DELIVERY' 
+                ? 'SAIU PARA ENTREGA' 
+                : 'ENTREGUE'}
               </span>
             </td>
           </tr>

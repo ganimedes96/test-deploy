@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { MapPinOff, Plus } from "lucide-react";
 import { CardAddress } from "./components/card";
 import { NavLink } from 'react-router-dom'
 import { Button } from "../../components/ui/button";
@@ -31,6 +31,9 @@ export default function Address() {
     getAddresses();
   }, []);
 
+  console.log(addresses);
+  
+
   return (
     <>
       <div className="w-full flex flex-col items-center justify-center mt-32">
@@ -54,16 +57,20 @@ export default function Address() {
           </div>
         ) : (
           <div className="w-full flex flex-col items-center justify-center gap-5">
-            {addresses.filter(address => address.neighborhood.status === "ACTIVE").map((address) => (
-              <CardAddress key={address.id} address={address} />
-            ))}
+            {addresses ? (
+                addresses.filter(address => address.neighborhood.status === "ACTIVE").map((address) => (
+                  <CardAddress key={address.id} address={address} />
+                ))
+            ):(
+              <MapPinOff size={50}  className="font-bold mt-32 text-gray-300"/>
+            ) }
           </div>
         )}
 
       </div>
-      <ButtonCheckout >
-        <NavLink to={'/delivery'} >Voltar</NavLink>
-      </ButtonCheckout>
+      <ButtonCheckout link="/cart" title="Voltar" />
+        
+      
     </>
   )
 }

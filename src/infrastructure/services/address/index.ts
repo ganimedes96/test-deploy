@@ -21,6 +21,7 @@ export default class Service {
     })
   }
 
+
   public async createAddress(data: CreateAddressRequestDTO): Promise<HttpResponse<void>> {
     return await this.httpClient.request({
       method: 'post',
