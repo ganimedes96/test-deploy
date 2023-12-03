@@ -9,6 +9,7 @@ type HeaderOrderProps = React.HTMLAttributes<HTMLDivElement> & {
   leftLink: string
   activeLink: 'CART' | 'PAYMENT' | 'CHECKOUT' | 'DELIVERY'
 }
+
 //className = {cn('flex flex-col w-4/5', address.className)
 export const HeaderOrder = ({ leftLink, activeLink }: HeaderOrderProps) => {
   return (
