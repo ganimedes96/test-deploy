@@ -3,7 +3,7 @@ import pizza from '../../assets/caixa.png'
 import delivey from '../../assets/delivery-white.png'
 import deliveryGray from '../../assets/delivery-gray.png'
 import pickup from '../../assets/pickup-white.png'
-import pickupOrange from '../../assets/pickup-orange.png'
+import pickupGray from '../../assets/pickup-gray.png'
 import whatsapp from '../../assets/whatsapp.svg'
 import { useEffect, useState } from 'react'
 import { api } from '../../utils/axios'
@@ -228,7 +228,7 @@ export default function Tracking() {
                       :
                       <div className='bg-gray-200 rounded-full p-1'>
                         <img
-                          src={pickupOrange}
+                          src={pickupGray}
                           className='w-10 m-1' alt="" />
                       </div>
                     }
