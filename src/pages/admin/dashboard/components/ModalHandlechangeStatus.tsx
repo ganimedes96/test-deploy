@@ -129,7 +129,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
 
               {order.methodDelivery === 'DELIVERY' && (
                 <span>
-                  Cep: {order.methodDelivery === "DELIVERY" && order.customer.Address[0].zipCode}
+                  Cep: {order.customer.Address[0].zipCode}
                 </span>
 
               )}

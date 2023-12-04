@@ -61,7 +61,7 @@ export default function Checkout() {
     
     
     try {
-      if (!currentAddress) {
+      if (methodDelivery === 'DELIVERY' && !currentAddress) {
         toast.error('Por favor, escolha um endereço para entrega!', {
          autoClose: 3000,
          position: 'top-center', 
