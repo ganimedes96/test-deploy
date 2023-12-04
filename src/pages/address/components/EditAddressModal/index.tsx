@@ -106,8 +106,7 @@ export const EditAddressModal = ({ address, setOpenModal, openModal, }: EditAddr
 
 
   const handleEditAddressForm = async (data: AddressSchema) => {
-    console.log(data);
-
+    
     try {
       const response = await serviceAddress.updateAddress({
         neighborhood: data.neighborhood.label,

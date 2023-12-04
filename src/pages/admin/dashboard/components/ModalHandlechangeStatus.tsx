@@ -5,7 +5,6 @@ import './styles.css'
 import { Orders } from "../../../../@types/interface";
 import { priceFormatter } from "../../../../utils/formatter";
 import { api } from "../../../../utils/axios";
-import socket from "../../../../utils/socketIO";
 import { ModalHandleCancelOrder } from "../../../../components/ModalHandleCancelOrder";
 import { useState } from "react";
 import { Button } from "../../../../components/ui/button";
@@ -55,9 +54,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
       ]
     }
     )
-    onChangeOrderStatus(order.id, newStatus)
-    // Substitua pela URL do seu servidor Socket.IO
-    socket.emit('statusUpdate', { orderId: order.id, status: newStatus });
+    onChangeOrderStatus && onChangeOrderStatus(order.id, newStatus)
   }
 
  
@@ -97,12 +94,6 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
               </div>
             ))}
             <div className="w-full flex flex-col items-start justify-center mt-7">
-              {order.methodDelivery === 'DELIVERY' && (
-                <div className="w-full flex items-center justify-start gap-2">
-                  Endereco: <p>{order.customer.Address[0].street} - {order.customer.Address[0].number} - {order.customer.Address[0].neighborhood.name}</p>
-
-                </div>
-              )}
               {order.methodDelivery === 'PICKUP' ? (
                 <Button
                   className='border-[1px] border-green-500 text-green-500 bg-transparent hover:bg-transparent text-lg flex gap-2'
@@ -128,6 +119,12 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
                   <img src={whatsapp} className='w-6' alt='' />
                     {order.customer.Address && order.customer.Address[0].phone}
                 </Button>
+              )}
+              {order.methodDelivery === 'DELIVERY' && (
+                <div className="w-full flex items-center justify-start gap-2">
+                  Endereco: <p>{order.customer.Address[0].street} - {order.customer.Address[0].number} - {order.customer.Address[0].neighborhood.name}</p>
+
+                </div>
               )}
 
               {order.methodDelivery === 'DELIVERY' && (

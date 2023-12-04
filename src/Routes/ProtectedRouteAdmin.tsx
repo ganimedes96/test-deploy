@@ -9,7 +9,6 @@ interface ProtectedRouteAdminProps {
 
 interface DecodedToken {
   exp: number;
-  // Outras propriedades do payload, se houver
 }
 
 function ProtectedRouteAdmin({ children }: ProtectedRouteAdminProps) {
@@ -21,7 +20,6 @@ function ProtectedRouteAdmin({ children }: ProtectedRouteAdminProps) {
     if (isAuthenticatedAdmin) {
       const decodedToken = jwt_decode(parseCookies().token) as DecodedToken
       if (decodedToken.exp * 1000 < Date.now()) {
-        console.log('Token expirado')
         destroyCookie(null, 'token');
         navigate('/admin/sign-in');
       }

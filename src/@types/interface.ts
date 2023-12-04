@@ -52,11 +52,17 @@ export interface OrderData {
   customerId: string;
   status: string;
   methodDelivery: string;
-  payment: string;
+  observation?: string;
+  payment: {
+    methodPayment: string;
+    typeCard?: string;
+    flag?: string;
+  };
   totalPrice: string;
   itensOrder: any; // Defina o tipo apropriado para "itensOrder"
   orderCreatedAt: Date;
   customerName: string;
+  withdrawalName: string;
   customerEmail: string;
   customerPhone: string;
   addressId: string;

@@ -25,12 +25,15 @@ export default function OrdersHistory() {
     }, 0);
 
   const handleFilterOrders = async () => {
+    console.log('selectedDate');
+    
     if (selectedDate) {
       const formattedDate = selectedDate.toISOString();
       const response = await api.post(`/date-order`, { formattedDate });
       setOrders(response.data)
     }
   };
+console.log(orders);
 
 
   return (

@@ -31,8 +31,6 @@ export default function Address() {
     getAddresses();
   }, []);
 
-  console.log(addresses);
-  
 
   return (
     <>
