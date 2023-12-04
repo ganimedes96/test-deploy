@@ -6,7 +6,7 @@ import delivery from '../../assets/pickup-orange.png'
 import { Check, CheckCheck, CheckCircle, ChefHat, ClipboardCheck, ExternalLink, StickyNote, XCircle } from "lucide-react"
 import { dateFormatter } from "../../utils/formatter"
 import { NavLink } from "react-router-dom"
-import { ColorRing, Watch } from "react-loader-spinner"
+import { ColorRing } from "react-loader-spinner"
 
 export default function OrdersCustomer() {
   const [orders, setOrders] = useState<Orders[]>([])
