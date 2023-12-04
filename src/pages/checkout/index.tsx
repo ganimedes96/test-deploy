@@ -160,7 +160,7 @@ export default function Checkout() {
                   <div className="rounded-full bg-gray-100 p-2">
                     <img src={pickupOrange} alt="" className="w-8" />
                   </div>
-                  <span className="text-gray-500 text-sm  font-semibold">Ritirar na loja</span>
+                  <span className="text-gray-500 text-sm  font-semibold">Retirar na loja</span>
                 </div>
 
               </div>
