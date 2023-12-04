@@ -21,6 +21,9 @@ import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
 import uuid from "react-uuid";
 import { OrderProps } from "../../@types/interface";
+import { ContextAuthApp } from "../../context/auth-context";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 const observationSchemaBody = z.object({
@@ -42,6 +45,7 @@ export default function Checkout() {
   const [methodDelivery, setMethodDelivery] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false)
   const { productToCart, clearCart } = ContextCartApp()
+  const { currentAddress } = ContextAuthApp()
   const totalPrice = CalculatePrice();
   const navigate = useNavigate();
 
@@ -51,13 +55,22 @@ export default function Checkout() {
   } = useForm<ObservationSchema>({
     resolver: zodResolver(observationSchemaBody),
   })
-
+  
+  
   const handleFinishOrder = async (data: ObservationSchema) => {
     
     
     try {
-
+      if (!currentAddress) {
+        toast.error('Por favor, escolha um endereço para entrega!', {
+         autoClose: 3000,
+         position: 'top-center', 
+        })
+        return
+      }  
       setIsLoading(true)
+
+
       const token = parseCookies().accessToken;
       if (getPayment.methodPayment === 'Pix') {
         setCookie(undefined, 'observation', JSON.stringify(data.observation), {
@@ -106,7 +119,7 @@ export default function Checkout() {
     }
   }
 
-  const getDataCookies = () => {
+  const getDataCookies = async () => {
     setGetPayment(() => {
       const storaged = parseCookies().payment
       return storaged ? JSON.parse(storaged) : { methodPayment: 'Pix', typeCard: 'Pix' }
@@ -116,7 +129,10 @@ export default function Checkout() {
       const storaged = parseCookies().delivery
       return storaged ? JSON.parse(storaged) : []
     })
+
+    
   }
+
   useEffect(() => {
     getDataCookies()
   }, [])
@@ -186,9 +202,10 @@ export default function Checkout() {
             <Textarea className="flex items-center justify-center" {...register('observation')} maxLength={60} minLength={5} />
           </div>
 
-          <button 
+          <button
+            disabled={isLoading}
             type="submit" 
-            className="bg-orange-500 w-full fixed bottom-0  py-4  text-gray-50 font-medium text-lg   hover:bg-orange-600"
+            className="bg-orange-500 w-full fixed bottom-0 disabled:opacity-50  py-4  text-gray-50 font-medium text-lg   hover:bg-orange-600"
           >
             {isLoading ?
               <div role="status" className="flex items-center justify-center">
