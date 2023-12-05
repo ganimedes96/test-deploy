@@ -28,7 +28,7 @@ export default function Pix() {
   const [currentAddress, setCurrentAddress] = useState<AddressProps>()
   const navigate = useNavigate()
   const totalPrice = CalculatePrice()
-  const { productToCart  } = ContextCartApp()
+  const { productToCart } = ContextCartApp()
   const { id } = useParams();
   const serviceAddress = new ServiceAddress()
 
@@ -46,66 +46,65 @@ export default function Pix() {
       },
       chave: "a471ed5a-0b30-4507-8e9e-c9ba73ec33cb",
       solicitacaoPagador: id,
-      
+
     })
     setQrCodeData(response.data)
   }
- 
+
   const getAddresses = async () => {
     const response = await serviceAddress.showAddress()
     setCurrentAddress(response.body.find(address => address.standard === true))
   }
-  
+
+  const createOrder = async () => {
+
+    const token = parseCookies().accessToken;
+    const order: OrderProps = {
+      payment: {
+        methodPayment: 'Pix',
+        typeCard: 'Pix',
+      },
+      address: {
+        cep: currentAddress?.zipCode,
+        neighborhood: currentAddress?.neighborhood.name,
+        number: currentAddress?.number,
+        tax: currentAddress?.neighborhood.tax,
+        phone: currentAddress?.phone,
+        street: currentAddress?.street
+      },
+      totalPrice: await totalPrice,
+      status: 'WAITING',
+      methodDelivery: methodDelivery,
+      observation: parseCookies().observation ? JSON.parse(parseCookies().observation) : '',
+      itensOrder: productToCart.map((item) => ({
+        mode: item.mode,
+        size: item.size,
+        image_url: item.image_url ? item.image_url : '',
+        price: item.price,
+        product: item.product.map(item => item.name),
+        quantity: item.quantityProduct
+      }))
+    }
+    const response = await api.post('/order', order, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    destroyCookie(null, 'product')
+    destroyCookie(null, 'payment')
+    destroyCookie(null, 'delivery')
+    navigate(`/success/${response.data.id}`)
+
+  }
+
   useEffect(() => {
 
     socket.on('payment', (data) => {
-     console.log(data);
-     
-      const createOrder = async () => {
-      
-          if (data.status === 'PaymentConfirmed') {
-
-            const token = parseCookies().accessToken;
-            const order: OrderProps = {
-              payment: {
-                methodPayment: 'Pix',
-                typeCard: 'Pix',
-              },
-              address: {
-                cep: currentAddress?.zipCode,
-                street: currentAddress?.street,
-                number: currentAddress?.number,
-                neighborhood: currentAddress?.neighborhood.name,
-                phone: currentAddress?.phone,
-                tax: currentAddress?.neighborhood.tax  
-              },
-              totalPrice: await totalPrice,
-              status: 'WAITING',
-              methodDelivery: methodDelivery,
-              observation: parseCookies().observation ? JSON.parse(parseCookies().observation) : '',
-              itensOrder: productToCart.map((item) => ({
-                mode: item.mode,
-                size: item.size,
-                image_url: item.image_url ? item.image_url : '',
-                price: item.price,
-                product: item.product.map(item => item.name),
-                quantity: item.quantityProduct
-              }))
-            }
-            const response = await api.post('/order', order, {
-              headers: {
-                Authorization: `Bearer ${token}`
-              }
-            })
-
-            destroyCookie(null, 'product')
-            destroyCookie(null, 'payment')
-            destroyCookie(null, 'delivery')
-            navigate(`/success/${response.data.id}`)
-          }
-
+      console.log(data);
+      if (data.status === 'PaymentConfirmed') {
+        createOrder();
       }
-      createOrder();
     });
     // Remova o ouvinte quando o componente for desmontado para evitar vazamento de memória
     return () => {
@@ -133,7 +132,7 @@ export default function Pix() {
     getAddresses()
   }, [])
   console.log(currentAddress);
-  
+
   return (
     <>
       <div className="mt-[90px] w-full px-3 h-72 bg-orange-600 flex  items-start justify-center">
