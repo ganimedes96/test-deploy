@@ -51,11 +51,13 @@ export default function Pix() {
     setQrCodeData(response.data)
   }
 
+  const getAddresses = async () => {
+    const response = await serviceAddress.showAddress()
+    setCurrentAddress(response.body.find(address => address.standard === true))
+  }
   
   const createOrder = async () => {
 
-    const response = await serviceAddress.showAddress()
-    setCurrentAddress(response.body.find(address => address.standard === true))
     console.log(currentAddress);
     
     const token = parseCookies().accessToken;
@@ -129,6 +131,7 @@ export default function Pix() {
   useEffect(() => {
     handleQRcodePix()
     getDataCookies()
+    getAddresses()
   }, [])
   
   return (
