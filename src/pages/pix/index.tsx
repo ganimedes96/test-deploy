@@ -6,13 +6,13 @@ import { Copy } from "lucide-react";
 import { ToastContainer } from "react-toastify";
 import { notify } from "../../utils/toast";
 import socket from "../../utils/socketIO";
-import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { destroyCookie, parseCookies } from "nookies";
 import { OrderProps } from "../../@types/interface";
 import { CalculatePrice } from "../../utils/calculate-price";
 import ServiceAddress from '../../infrastructure/services/address'
 import { AddressProps, ContextCartApp } from "../../context/cart-context";
+import "react-toastify/dist/ReactToastify.css";
 
 interface qrCodeProps {
   qrcode: string
@@ -51,12 +51,11 @@ export default function Pix() {
     setQrCodeData(response.data)
   }
 
-  const getAddresses = async () => {
+  
+  const createOrder = async () => {
+
     const response = await serviceAddress.showAddress()
     setCurrentAddress(response.body.find(address => address.standard === true))
-  }
-
-  const createOrder = async () => {
 
     const token = parseCookies().accessToken;
     const order: OrderProps = {
@@ -85,7 +84,7 @@ export default function Pix() {
         quantity: item.quantityProduct
       }))
     }
-    const response = await api.post('/order', order, {
+    const result = await api.post('/order', order, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -94,7 +93,7 @@ export default function Pix() {
     destroyCookie(null, 'product')
     destroyCookie(null, 'payment')
     destroyCookie(null, 'delivery')
-    navigate(`/success/${response.data.id}`)
+    navigate(`/success/${result.data.id}`)
 
   }
 
@@ -129,10 +128,8 @@ export default function Pix() {
   useEffect(() => {
     handleQRcodePix()
     getDataCookies()
-    getAddresses()
   }, [])
-  console.log(currentAddress);
-
+  
   return (
     <>
       <div className="mt-[90px] w-full px-3 h-72 bg-orange-600 flex  items-start justify-center">
@@ -148,7 +145,7 @@ export default function Pix() {
         </div>
         <div className="mt-10">
           <CopyToClipboard text={qrCodeData?.qrcode ? qrCodeData.qrcode : ''}>
-            <button onClick={() => notify('Codigo copiado com sucesso', 'bottom')} className="bg-orange-500 p-4 rounded text-gray-100 flex items-center gap-2 hover:bg-orange-600 ">Capia codigo <Copy /> </button>
+            <button onClick={() => notify('Codigo copiado com sucesso', 'top-center')} className="bg-orange-500 p-4 rounded text-gray-100 flex items-center gap-2 hover:bg-orange-600 ">Capia codigo <Copy /> </button>
           </CopyToClipboard>
         </div>
       </div>
