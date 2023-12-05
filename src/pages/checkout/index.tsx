@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ContextCartApp } from "../../context/cart-context";
+import { AddressProps, ContextCartApp } from "../../context/cart-context";
 import { HeaderOrder } from "../../components/HeaderOrder";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { CardAddress } from "../../components/CardAddress";
@@ -21,6 +21,7 @@ import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
 import uuid from "react-uuid";
 import { OrderProps } from "../../@types/interface";
+import ServiceAddress from '../../infrastructure/services/address'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -43,8 +44,9 @@ export default function Checkout() {
   const [getPayment, setGetPayment] = useState<PaymentProps>({ methodPayment: 'Pix', typeCard: 'Pix' });
   const [methodDelivery, setMethodDelivery] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false)
-  const { productToCart, clearCart, currentAddress } = ContextCartApp()
- 
+  const { productToCart, clearCart } = ContextCartApp()
+  const [currentAddress, setCurrentAddress] = useState<AddressProps>()
+  const serviceAddress = new ServiceAddress()
   const totalPrice = CalculatePrice();
   const navigate = useNavigate();
 
@@ -55,6 +57,10 @@ export default function Checkout() {
     resolver: zodResolver(observationSchemaBody),
   })
   
+  const getAddresses = async () => {
+    const response = await serviceAddress.showAddress()
+    setCurrentAddress(response.body.find(address => address.standard === true))
+  }
   
   const handleFinishOrder = async (data: ObservationSchema) => {
     
@@ -142,6 +148,7 @@ export default function Checkout() {
 
   useEffect(() => {
     getDataCookies()
+    getAddresses()
   }, [])
 
   return (
