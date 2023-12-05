@@ -46,7 +46,7 @@ export const TrTableOrders = ({ orders, typeOrder }: OrdersProps) => {
         orders.status !== 'FINISHED' && orders.status !== 'CANCELED' && (
           <tr onClick={() => setOpenModal(true)} key={orders.orderId} className="cursor-pointer">
             <td className="bg-gray-800 p-4 text-xl border-t-4 border-gray-900 ">
-              {orders.customerName}
+              {orders.methodDelivery === 'PICKUP' ? orders.withdrawalName : orders.customerName}
             </td>
             <td
               className={`w-3/12 bg-gray-800 p-4 text-xl border-t-4 border-gray-900 `}
@@ -63,7 +63,8 @@ export const TrTableOrders = ({ orders, typeOrder }: OrdersProps) => {
                   ? 'PREPARANDO'
                   : orders.status === 'WAITING'
                   ? 'AGUARDE'
-                      : orders.status === 'ACCEPTED'? 'ACEITO' 
+                  : orders.status === 'ACCEPTED'
+                  ? 'ACEITO' 
                   : orders.status === 'AWAITING_WITHDRAWAL'
                   ? 'AGUARDANDO RETIRADA'
                   : orders.status === 'DELIVERY'
