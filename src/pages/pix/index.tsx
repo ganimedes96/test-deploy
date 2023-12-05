@@ -11,7 +11,7 @@ import { destroyCookie, parseCookies } from "nookies";
 import { OrderProps } from "../../@types/interface";
 import { CalculatePrice } from "../../utils/calculate-price";
 import ServiceAddress from '../../infrastructure/services/address'
-import { AddressProps, ContextCartApp } from "../../context/cart-context";
+import {  AddressProps, ContextCartApp } from "../../context/cart-context";
 import "react-toastify/dist/ReactToastify.css";
 
 interface qrCodeProps {
@@ -25,7 +25,7 @@ export default function Pix() {
     const storaged = parseCookies().delivery
     return storaged ? JSON.parse(storaged) : []
   });
-  const [currentAddress, setCurrentAddress] = useState<AddressProps>()
+  // const [currentAddress, setCurrentAddress] = useState<AddressProps>()
   const navigate = useNavigate()
   const totalPrice = CalculatePrice()
   const { productToCart } = ContextCartApp()
@@ -53,12 +53,17 @@ export default function Pix() {
 
   const getAddresses = async () => {
     const response = await serviceAddress.showAddress()
-    setCurrentAddress(response.body.find(address => address.standard === true))
+    if (!response.body) {
+      return null
+    }
+    const address = response.body.find(address => address.standard === true)
+    return  address
   }
   
   const createOrder = async () => {
 
-    console.log(currentAddress);
+    const currentAddress = await getAddresses()
+    console.log(currentAddress, 'currentAddress');
     
     const token = parseCookies().accessToken;
     const order: OrderProps = {
@@ -131,7 +136,6 @@ export default function Pix() {
   useEffect(() => {
     handleQRcodePix()
     getDataCookies()
-    getAddresses()
   }, [])
   
   return (
