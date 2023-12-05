@@ -66,7 +66,7 @@ export default function Address() {
         )}
 
       </div>
-      <ButtonCheckout link="/delivery" title="Voltar" />
+      <ButtonCheckout link="/cart" title="Voltar" />
         
       
     </>
