@@ -205,13 +205,13 @@ export default function Tracking() {
                     {status === 'AWAITING_WITHDRAWAL' || status === 'FINISHED'
                       ? <div >
                         < Check className='bg-emerald-500 text-gray-50 rounded-full p-2'
-                          size={35}
+                          size={36}
                         />
                         <span className={`text-gray-500`}>PEDIDO PRONTO</span>
                       </div>
                       : <div className="flex items-center justify-center gap-3 ">
                         < Check className='bg-gray-200 text-gray-500 rounded-full p-2'
-                          size={35}
+                          size={36}
                         />
                         <span className={`text-gray-500`}>PEDIDO PRONTO</span>
                       </div>
