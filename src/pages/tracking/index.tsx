@@ -201,19 +201,15 @@ export default function Tracking() {
               {order?.methodDelivery === 'PICKUP'
                 ? (
                   <>
-                    {status === 'AWAITING_WITHDRAWAL'
-                      ? <div className="bg-emerald-500 text-gray-50 rounded-full p-2" >
+                    {status === 'AWAITING_WITHDRAWAL' || status === 'FINISHED'
+                      && <div className="bg-emerald-500 text-gray-50 rounded-full p-2" >
                         < Check
                           size={35}
                         />
                       </div>
-                      : <div className="bg-gray-200 text-gray-500 rounded-full p-2">
-                        < Check
-                          size={35}
-                        />
-                      </div>
+                      
                     }
-                    <span className={`${status === 'FINISHED' ? 'text-orange-500' : 'text-gray-500'}`}>PEDIDO PRONTO</span>
+                    <span className={`text-gray-500`}>PEDIDO PRONTO</span>
                   </>
                 )
                 : (
