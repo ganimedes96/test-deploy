@@ -9,12 +9,12 @@ import ReactSelect from "react-select";
 import { Input } from "../../../../components/ui/input";
 import { Switch } from "../../../../components/ui/switch";
 import { Button } from "../../../../components/ui/button";
-import { AddressProps, ContextAuthApp } from "../../../../context/auth-context";
 import { useEffect, useState } from "react";
 import { notify } from "../../../../utils/toast";
 import { ToastContainer } from "react-toastify";
 import ServiceAddress from '../../../../infrastructure/services/address'
 import ServiceNeighborhoods from '../../../../infrastructure/services/neighborhood'
+import { AddressProps, ContextCartApp } from "../../../../context/cart-context";
 
 
 
@@ -66,7 +66,7 @@ export const EditAddressModal = ({ address, setOpenModal, openModal, }: EditAddr
   const serviceNeighborhoods = new ServiceNeighborhoods()
   const serviceAddress = new ServiceAddress()
   const [neighborhoods, setNeighborhoods] = useState<NeighborhoodsProps[]>([])
-  const { setAddresses, addresses } = ContextAuthApp();
+  const { setAddresses, addresses } = ContextCartApp();
 
   const {
     control,

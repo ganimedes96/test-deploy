@@ -1,11 +1,12 @@
 import { MapPin, MapPinOff } from "lucide-react";
 import { NavLink } from "react-router-dom";
-import { AddressProps, ContextAuthApp } from "../context/auth-context";
+import { ContextAuthApp } from "../context/auth-context";
 import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
 import ServiceAddress from '../infrastructure/services/address'
 import { ColorRing } from "react-loader-spinner";
 import { cn } from "../utils/cn";
+import { AddressProps } from "../context/cart-context";
 
 type CardAddressProps = React.HTMLAttributes<HTMLParagraphElement> & {
   textLink?: string;

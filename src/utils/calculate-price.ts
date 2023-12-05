@@ -1,6 +1,5 @@
 import { parseCookies } from "nookies";
-import { AddressProps } from "../context/auth-context";
-import { ContextCartApp } from "../context/cart-context";
+import { AddressProps, ContextCartApp } from "../context/cart-context";
 import ServiceAddress from '../infrastructure/services/address'
 
 

@@ -21,7 +21,6 @@ import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
 import uuid from "react-uuid";
 import { OrderProps } from "../../@types/interface";
-import { ContextAuthApp } from "../../context/auth-context";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -44,8 +43,8 @@ export default function Checkout() {
   const [getPayment, setGetPayment] = useState<PaymentProps>({ methodPayment: 'Pix', typeCard: 'Pix' });
   const [methodDelivery, setMethodDelivery] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false)
-  const { productToCart, clearCart } = ContextCartApp()
-  const { currentAddress } = ContextAuthApp()
+  const { productToCart, clearCart, currentAddress } = ContextCartApp()
+ 
   const totalPrice = CalculatePrice();
   const navigate = useNavigate();
 
@@ -83,6 +82,14 @@ export default function Checkout() {
             methodPayment: getPayment.methodPayment,
             flag: getPayment.flag,
             typeCard: getPayment.typeCard
+          },
+          address: {
+            cep: currentAddress?.zipCode,
+            neighborhood: currentAddress?.neighborhood.name,
+            number: currentAddress?.number,
+            tax: currentAddress?.neighborhood.tax,
+            phone: currentAddress?.phone,
+            street: currentAddress?.street
           },
           totalPrice: await totalPrice,
           status: 'WAITING',

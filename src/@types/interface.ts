@@ -26,17 +26,16 @@ export interface Orders {
     name: string
     withdrawalName: string
     email: string
-    phone: string
-    Address: {
-      id: string
-      street: string
-      number: string
-      type: string
-      neighborhood: { name: string, tax: string }
-      zipCode: string
-      phone: string
-    }[],
-  }
+    phone: string  
+  },
+  address: {
+    street?: string
+    number?: string
+    neighborhood?: string,
+    tax?: string
+    cep?: string
+    phone?: string
+  },
   itensOrder: {
     mode: "MIXED" | "SIMPLE",
     image_url: string
@@ -58,6 +57,14 @@ export interface OrderData {
     typeCard?: string;
     flag?: string;
   };
+  address: {
+    street?: string;
+    number?: string;
+    neighborhood?: string;
+    tax?: string;
+    cep?: string;
+    phone?: string;
+  }
   totalPrice: string;
   itensOrder: any; // Defina o tipo apropriado para "itensOrder"
   orderCreatedAt: Date;
@@ -65,14 +72,7 @@ export interface OrderData {
   withdrawalName: string;
   customerEmail: string;
   customerPhone: string;
-  addressId: string;
-  addressNumber: string;
-  addressPhone: string;
-  addressStreet: string;
-  addressType: string;
-  addressZipCode: string;
-  neighborhoodName: string;
-  neighborhoodTax: string;
+  
 
 }
 
@@ -83,7 +83,15 @@ export interface OrderProps {
     methodPayment: string
     flag?: string
     typeCard?: string
-  }
+  },
+  address?:{
+    street?: string
+    number?: string
+    neighborhood?: string,
+    tax?: string
+    cep?: string
+    phone?: string  
+  },
   totalPrice: string
   methodDelivery: string
   status: string

@@ -1,4 +1,3 @@
-
 import { ShoppingCart } from "lucide-react";
 import { ContextCartApp } from "../context/cart-context";
 import { Profile } from "./Profile";
@@ -17,7 +16,7 @@ export const Header = () => {
               <ShoppingCart size={28} />
             </div>
 
-            {totalItemsOnCart && <span className="text-white bg-orange-500 px-2 -ml-5 mb-8 rounded-full">{totalItemsOnCart}</span>}
+            {totalItemsOnCart ? <span className="text-white bg-orange-500 px-2 -ml-5 mb-8 rounded-full">{totalItemsOnCart}</span> : ''}
           </div>
         </NavLink>
         <Profile />

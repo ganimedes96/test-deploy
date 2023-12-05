@@ -110,31 +110,31 @@ export const ModalTableHandleChangeStatus = ({ order, setOpenModal, openModal }:
                     className='border-[1px] border-green-500 text-green-500 bg-transparent hover:bg-transparent text-lg flex gap-2'
                     onClick={() => {
 
-                      const whatsappURL = `https://web.whatsapp.com/send?phone=${order.addressPhone}`;
+                      const whatsappURL = `https://web.whatsapp.com/send?phone=${order.address.phone}`;
                       window.open(whatsappURL, '_blank');
                     }}
                   >
                     <img src={whatsapp} className='w-6' alt='' />
-                    {order.addressPhone}
+                    {order.address.phone}
                   </Button>
                 )}
                 {order.methodDelivery === 'DELIVERY' && (
                   <div className="w-full flex items-center justify-start gap-2">
-                    Endereco: <p>{order.addressStreet} - {order.addressNumber} - {order.neighborhoodName}</p>
+                    Endereco: <p>{order.address.street} - {order.address.number} - {order.address.neighborhood}</p>
 
                   </div>
                 )}
 
                 {order.methodDelivery === 'DELIVERY' && (
                   <span>
-                    Cep: {order.methodDelivery === "DELIVERY" && order.addressZipCode}
+                    Cep: {order.methodDelivery === "DELIVERY" && order.address.cep}
                   </span>
 
                 )}
                 <span>Metado de Entrega: {order.methodDelivery === "DELIVERY" ? 'ENTREGA' : 'RETIRADA'}</span>
                 <span>Metado de Pagamento: {order.payment.methodPayment === "Card" ? `Cartão - ${order.payment.typeCard} - ${order.payment.flag}` : order.payment.methodPayment === "Pix" ? 'Pix' : 'Dinheiro'}</span>
                 {order.methodDelivery === 'DELIVERY' && (
-                  <span>Taxa de Entrega: {priceFormatter.format(Number(order.neighborhoodTax))}</span>
+                  <span>Taxa de Entrega: {priceFormatter.format(Number(order.address.tax))}</span>
                 )}
                 {/* <p>Observacao: {order.observation}</p> */}
               </div>

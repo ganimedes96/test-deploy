@@ -33,7 +33,7 @@ export default function OrdersHistory() {
       setOrders(response.data)
     }
   };
-console.log(orders);
+
 
 
   return (

@@ -99,7 +99,7 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
                   className='border-[1px] border-green-500 text-green-500 bg-transparent hover:bg-transparent text-lg flex gap-2'
                   onClick={() => {
 
-                    const whatsappURL = `https://web.whatsapp.com/send?phone=${order.customer.Address && order.customer.Address[0].phone}`;
+                    const whatsappURL = `https://web.whatsapp.com/send?phone=${order.customer.phone}`;
                     window.open(whatsappURL, '_blank');
                   }}
                 >
@@ -112,31 +112,31 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
                   className='border-[1px] border-green-500 text-green-500 bg-transparent hover:bg-transparent text-lg flex gap-2'
                   onClick={() => {
                    
-                    const whatsappURL = `https://web.whatsapp.com/send?phone=${order.customer.Address && order.customer.Address[0].phone}`;
+                    const whatsappURL = `https://web.whatsapp.com/send?phone=${order.address.phone}`;
                     window.open(whatsappURL, '_blank');
                   }}
                 >
                   <img src={whatsapp} className='w-6' alt='' />
-                    {order.customer.Address && order.customer.Address[0].phone}
+                    {order.address.phone}
                 </Button>
               )}
               {order.methodDelivery === 'DELIVERY' && (
                 <div className="w-full flex items-center justify-start gap-2">
-                  Endereco: <p>{order.customer.Address[0].street} - {order.customer.Address[0].number} - {order.customer.Address[0].neighborhood.name}</p>
+                  Endereco: <p>{order.address.street} - {order.address.number} - {order.address.neighborhood}</p>
 
                 </div>
               )}
 
               {order.methodDelivery === 'DELIVERY' && (
                 <span>
-                  Cep: {order.customer.Address[0].zipCode}
+                  Cep: {order.address.cep}
                 </span>
 
               )}
               <span>Metado de Entrega: {order.methodDelivery === "DELIVERY" ? 'ENTREGA' : 'RETIRADA'}</span>
               <span>Metado de Pagamento: {order.payment.methodPayment === "Card" ? `Cartão - ${order.payment.typeCard} - ${order.payment.flag}` : order.payment.methodPayment === "Pix" ? 'Pix' : 'Dinheiro'}</span>
               {order.methodDelivery === 'DELIVERY' && (
-                <span>Taxa de Entrega: {priceFormatter.format(Number(order.customer.Address[0].neighborhood.tax))}</span>
+                <span>Taxa de Entrega: {priceFormatter.format(Number(order.address.tax))}</span>
               )}
               <p>Observacao: {order.observation}</p>
             </div>

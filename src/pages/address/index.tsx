@@ -4,16 +4,16 @@ import { NavLink } from 'react-router-dom'
 import { Button } from "../../components/ui/button";
 import { useEffect, useState } from "react";
 import ServiceAddress from '../../infrastructure/services/address'
-import { ContextAuthApp } from "../../context/auth-context";
 import { ColorRing } from "react-loader-spinner";
 import { ButtonCheckout } from "../../components/ButtonCheckout";
+import { ContextCartApp } from "../../context/cart-context";
 
 
 export default function Address() {
   // const [addresses, setAddresses] = useState<AddressProps[] | []>([]);
   const [loading, setLoading] = useState(true);
   const serviceAddress = new ServiceAddress()
-  const { setAddresses, addresses } = ContextAuthApp();
+  const { setAddresses, addresses } = ContextCartApp();
   const getAddresses = async () => {
 
     try {
@@ -66,7 +66,7 @@ export default function Address() {
         )}
 
       </div>
-      <ButtonCheckout link="/cart" title="Voltar" />
+      <ButtonCheckout link="/delivery" title="Voltar" />
         
       
     </>

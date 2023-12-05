@@ -27,7 +27,7 @@ export default function Pix() {
   });
   const navigate = useNavigate()
   const totalPrice = CalculatePrice()
-  const { productToCart } = ContextCartApp()
+  const { productToCart, currentAddress  } = ContextCartApp()
   const { id } = useParams();
 
   const handleQRcodePix = async () => {
@@ -53,7 +53,7 @@ export default function Pix() {
   useEffect(() => {
 
     socket.on('payment', (data) => {
-      console.log(data);
+     
       const createOrder = async () => {
       
           if (data.status === 'PaymentConfirmed') {
@@ -63,7 +63,15 @@ export default function Pix() {
               payment: {
                 methodPayment: 'Pix',
                 typeCard: 'Pix',
-              }, 
+              },
+              address: {
+                cep: currentAddress?.zipCode,
+                street: currentAddress?.street,
+                number: currentAddress?.number,
+                neighborhood: currentAddress?.neighborhood.name,
+                phone: currentAddress?.phone,
+                tax: currentAddress?.neighborhood.tax  
+              },
               totalPrice: await totalPrice,
               status: 'WAITING',
               methodDelivery: methodDelivery,

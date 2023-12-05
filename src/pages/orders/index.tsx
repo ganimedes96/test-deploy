@@ -31,11 +31,12 @@ export default function OrdersCustomer() {
     getOrders()
   }, [])
 
+
   return (
     <>
 
       <div className="w-full flex flex-col items-center justify-center mb-10 mt-36">
-        <h2 className="text-2xl font-semibold text-gray-500 mb-10">Meus pedidos</h2>
+        <h2 className="text-xl font-semibold text-gray-500 mb-10">Meus pedidos</h2>
         {loading ? ( // Mostra o spinner enquanto os pedidos estão sendo carregados
           <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <ColorRing
