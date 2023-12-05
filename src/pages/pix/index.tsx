@@ -56,7 +56,8 @@ export default function Pix() {
 
     const response = await serviceAddress.showAddress()
     setCurrentAddress(response.body.find(address => address.standard === true))
-
+    console.log(currentAddress);
+    
     const token = parseCookies().accessToken;
     const order: OrderProps = {
       payment: {
