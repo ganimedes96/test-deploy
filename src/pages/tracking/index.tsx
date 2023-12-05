@@ -96,7 +96,7 @@ export default function Tracking() {
               </span>
             </div>
           </div>
-          <div className='mt-14 flex flex-col items-start  text-gray-500 font-semibold text-lg'>
+          <div className='mt-14 flex flex-col items-start  text-gray-500 font-semibold text-base'>
             <div className='flex items-center justify-center gap-3'>
               {
 
@@ -153,7 +153,7 @@ export default function Tracking() {
               </span>
             </div>
             <div className='ml-[18px] h-10 w-[2px] bg-gray-600' />
-            <div className=' flex items-center justify-center gap-3 my-1'>
+            <div className=' flex items-center justify-center gap-3 '>
               {status === 'PREPARING'
                 ?
                 <div className="bg-orange-500 text-gray-50 rounded-full p-2">
@@ -198,20 +198,20 @@ export default function Tracking() {
 
             )}
             <div className='ml-[18px] h-10 w-[2px] bg-gray-600' />
-            <div className='mt-1 flex items-center justify-center gap-3'>
+            <div className=' flex items-center justify-center gap-3'>
               {order?.methodDelivery === 'PICKUP'
                 ? (
                   <>
                     {status === 'AWAITING_WITHDRAWAL' || status === 'FINISHED'
-                      ? <div >
+                      ? <div className='flex items-center justify-center gap-3'>
                         < Check className='bg-emerald-500 text-gray-50 rounded-full p-2'
-                          size={36}
+                          size={37}
                         />
                         <span className={`text-gray-500`}>PEDIDO PRONTO</span>
                       </div>
                       : <div className="flex items-center justify-center gap-3 ">
                         < Check className='bg-gray-200 text-gray-500 rounded-full p-2'
-                          size={36}
+                          size={37}
                         />
                         <span className={`text-gray-500`}>PEDIDO PRONTO</span>
                       </div>
