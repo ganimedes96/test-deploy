@@ -11,7 +11,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { destroyCookie, parseCookies } from "nookies";
 import { OrderProps } from "../../@types/interface";
 import { CalculatePrice } from "../../utils/calculate-price";
-import { ContextCartApp } from "../../context/cart-context";
+import ServiceAddress from '../../infrastructure/services/address'
+import { AddressProps, ContextCartApp } from "../../context/cart-context";
 
 interface qrCodeProps {
   qrcode: string
@@ -20,15 +21,16 @@ interface qrCodeProps {
 
 export default function Pix() {
   const [qrCodeData, setQrCodeData] = useState<qrCodeProps>()
-
   const [methodDelivery, setMethodDelivery] = useState<string>(() => {
     const storaged = parseCookies().delivery
     return storaged ? JSON.parse(storaged) : []
   });
+  const [currentAddress, setCurrentAddress] = useState<AddressProps>()
   const navigate = useNavigate()
   const totalPrice = CalculatePrice()
-  const { productToCart, currentAddress  } = ContextCartApp()
+  const { productToCart  } = ContextCartApp()
   const { id } = useParams();
+  const serviceAddress = new ServiceAddress()
 
   const handleQRcodePix = async () => {
     const response = await api.post('/pix', {
@@ -49,6 +51,10 @@ export default function Pix() {
     setQrCodeData(response.data)
   }
  
+  const getAddresses = async () => {
+    const response = await serviceAddress.showAddress()
+    setCurrentAddress(response.body.find(address => address.standard === true))
+  }
   
   useEffect(() => {
 
@@ -123,6 +129,7 @@ export default function Pix() {
   useEffect(() => {
     handleQRcodePix()
     getDataCookies()
+    getAddresses()
   }, [])
 
   return (

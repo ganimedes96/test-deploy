@@ -221,10 +221,10 @@ export default function Tracking() {
                 : (
                   <>
                     {status === 'FINISHED'
-                      ? <div className='bg-orange-500 text-gray-50 rounded-full p-1'>
+                      ? <div className='bg-orange-500 text-gray-50 rounded-full p-2'>
                         <img
                           src={pickup}
-                          className='w-10 ' alt=""
+                          className='w-6 ' alt=""
                         />
                       </div>
                       :
