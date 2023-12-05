@@ -11,7 +11,7 @@ import { destroyCookie, parseCookies } from "nookies";
 import { OrderProps } from "../../@types/interface";
 import { CalculatePrice } from "../../utils/calculate-price";
 import ServiceAddress from '../../infrastructure/services/address'
-import {  AddressProps, ContextCartApp } from "../../context/cart-context";
+import {  ContextCartApp } from "../../context/cart-context";
 import "react-toastify/dist/ReactToastify.css";
 
 interface qrCodeProps {
