@@ -21,7 +21,7 @@ export const TrTableOrders = ({ orders, typeOrder }: OrdersProps) => {
 
           <tr key={orders.orderId} >
             <td className="bg-gray-800 p-4 text-xl border-t-4 border-gray-900">
-              {orders.customerName}
+              {orders.methodDelivery === 'PICKUP' ? orders.withdrawalName : orders.customerName}
 
             </td>
             <td
@@ -62,12 +62,13 @@ export const TrTableOrders = ({ orders, typeOrder }: OrdersProps) => {
                 {orders.status === 'PREPARING'
                   ? 'PREPARANDO'
                   : orders.status === 'WAITING'
-                    ? 'AGUARDE'
-                    : orders.status === 'AWAITING_WITHDRAWAL'
-                      ? 'AGUARDANDO RETIRADA'
-                      : orders.status === 'DELIVERY'
-                        ? 'SAIU PARA ENTREGA'
-                        : 'ENTREGUE'}
+                  ? 'AGUARDE'
+                      : orders.status === 'ACCEPTED'? 'ACEITO' 
+                  : orders.status === 'AWAITING_WITHDRAWAL'
+                  ? 'AGUARDANDO RETIRADA'
+                  : orders.status === 'DELIVERY'
+                  ? 'SAIU PARA ENTREGA'
+                  : 'ENTREGUE'}
               </span>
             </td>
           </tr>

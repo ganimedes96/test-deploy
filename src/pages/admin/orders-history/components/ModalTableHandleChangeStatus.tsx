@@ -63,7 +63,7 @@ export const ModalTableHandleChangeStatus = ({ order, setOpenModal, openModal }:
             <header className="flex items-center justify-start">
               <div className="flex w-full flex-col items-start justify-center gap-4">
                 <div className=" w-full flex items-center justify-between">
-                  <h2 className="font-semibold">{order.customerName}</h2>
+                  <h2 className="font-semibold">{order.methodDelivery === 'PICKUP' ? order.withdrawalName : order.customerName}</h2>
                 <Dialog.Close onClick={() => setOpenModal(false)}>
                       <X className="text-gary-600" />
                 </Dialog.Close>
