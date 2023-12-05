@@ -59,6 +59,7 @@ export default function Pix() {
   useEffect(() => {
 
     socket.on('payment', (data) => {
+     console.log(data);
      
       const createOrder = async () => {
       
@@ -131,7 +132,8 @@ export default function Pix() {
     getDataCookies()
     getAddresses()
   }, [])
-
+  console.log(currentAddress);
+  
   return (
     <>
       <div className="mt-[90px] w-full px-3 h-72 bg-orange-600 flex  items-start justify-center">
