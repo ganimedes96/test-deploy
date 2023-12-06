@@ -11,6 +11,7 @@ import { destroyCookie, parseCookies } from "nookies";
 import { OrderProps } from "../../@types/interface";
 import { CalculatePrice } from "../../utils/calculate-price";
 import ServiceAddress from '../../infrastructure/services/address'
+import ServiceOrder from '../../infrastructure/services/order'
 import {  ContextCartApp } from "../../context/cart-context";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -25,12 +26,12 @@ export default function Pix() {
     const storaged = parseCookies().delivery
     return storaged ? JSON.parse(storaged) : []
   });
-  // const [currentAddress, setCurrentAddress] = useState<AddressProps>()
   const navigate = useNavigate()
   const totalPrice = CalculatePrice()
   const { productToCart } = ContextCartApp()
   const { id } = useParams();
   const serviceAddress = new ServiceAddress()
+  const serviceOrder = new ServiceOrder()
 
   const handleQRcodePix = async () => {
     const response = await api.post('/pix', {
@@ -63,9 +64,7 @@ export default function Pix() {
   const createOrder = async () => {
 
     const currentAddress = await getAddresses()
-    console.log(currentAddress, 'currentAddress');
     
-    const token = parseCookies().accessToken;
     const order: OrderProps = {
       payment: {
         methodPayment: 'Pix',
@@ -92,23 +91,17 @@ export default function Pix() {
         quantity: item.quantityProduct
       }))
     }
-    const result = await api.post('/order', order, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
+    const result = await serviceOrder.createOrder(order)
 
     destroyCookie(null, 'product')
     destroyCookie(null, 'payment')
     destroyCookie(null, 'delivery')
-    navigate(`/success/${result.data.id}`)
+    navigate(`/success/${result.body.id}`)
 
   }
 
   useEffect(() => {
-
     socket.on('payment', (data) => {
-      console.log(data);
       if (data.status === 'PaymentConfirmed') {
         createOrder();
       }

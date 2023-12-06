@@ -1,13 +1,15 @@
 import { ClipboardCheck, ChefHat, CheckCheck, Truck } from "lucide-react";
 import { Card } from "./components/Card";
-import { api } from "../../../utils/axios";
 import { useEffect, useState } from "react";
 import { Orders } from "../../../@types/interface";
 import socket from "../../../utils/socketIO";
 import { HeaderAdmin } from "../../../components/HeaderAdmin";
+import ServiceOrder from '../../../infrastructure/services/order'
+
 
 export default function Dashboard() {
   const [orders, setOrders] = useState<Orders[]>([])
+  const serviceOrder = new ServiceOrder()
 
   useEffect(() => {
     // Adicione o ouvinte do evento 'newOrder' ao montar o componente
@@ -45,19 +47,14 @@ export default function Dashboard() {
   }
 
   const getOrders = async () => {
-    const response = await api.get('/fetch-orders')
-    setOrders(response.data)
+    const response = await serviceOrder.showOrdersAdmin()
+    setOrders(response.body)
 
   }
-
-  
 
   useEffect(() => {
     getOrders()
   }, [])
-
-  console.log(orders);
-
 
 
   return (

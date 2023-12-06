@@ -12,15 +12,16 @@ import { Orders } from '../../@types/interface'
 import socket from '../../utils/socketIO'
 import { useParams } from 'react-router-dom'
 import { notify } from '../../utils/toast'
-import { parseCookies } from 'nookies'
 import { ModalHandleCancelOrder } from '../../components/ModalHandleCancelOrder'
 import { priceFormatter } from '../../utils/formatter'
+import ServiceOrder from '../../infrastructure/services/order'
 
 export default function Tracking() {
   const [status, setStatus] = useState('WAITING')
   const [order, setOrder] = useState<Orders>()
   const [openModalCancelOrder, setOpenModalCancelOrder] = useState(false)
   const { id } = useParams();
+  const serviceOrder = new ServiceOrder()
 
   useEffect(() => {
     socket.on('statusUpdate', (data) => {
@@ -45,29 +46,11 @@ export default function Tracking() {
   }
 
   const handleFinishedOrder = async () => {
-    await api.put('/order', {
-      id: order?.id,
-      totalPrice: order?.totalPrice,
-      customerId: order?.customer.id,
-      payment: order?.payment,
-      methodDelivery: order?.methodDelivery,
-      status: 'FINISHED',
-      itensOrder: [
-        {
-          product: order?.itensOrder[0].product,
-          quantity: order?.itensOrder[0].quantity,
-          size: order?.itensOrder[0].size,
-          mode: order?.itensOrder[0].mode,
-          price: order?.itensOrder[0].price
-        }
-      ]
-    },
-      {
-        headers: {
-          Authorization: `Bearer ${parseCookies().accessToken}`
-        }
-      }
-    )
+    if (!order) {
+      return null
+    }
+  
+    await serviceOrder.updateOrderCustomer({ id: order.id, status: 'FINISHED' })
     notify(`Entrega efetuada com sucesso`, 'bottom')
 
   }

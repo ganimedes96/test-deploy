@@ -7,7 +7,6 @@ import pickupOrange from '../../assets/pickup-orange.png'
 import pix from '../../assets/pix.svg'
 import { NavLink, useNavigate } from "react-router-dom";
 import { Summary } from "../cart/components/summary";
-import { api } from "../../utils/axios";
 import { CalculatePrice } from "../../utils/calculate-price";
 import { ToastContainer } from "react-toastify";
 import mc from '../../assets/mc.svg'
@@ -24,6 +23,7 @@ import { OrderProps } from "../../@types/interface";
 import ServiceAddress from '../../infrastructure/services/address'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ServiceOrder from '../../infrastructure/services/order'
 
 
 const observationSchemaBody = z.object({
@@ -49,6 +49,7 @@ export default function Checkout() {
   const serviceAddress = new ServiceAddress()
   const totalPrice = CalculatePrice();
   const navigate = useNavigate();
+  const serviceOrder = new ServiceOrder();
 
   const {
     register,
@@ -75,8 +76,6 @@ export default function Checkout() {
       }  
       setIsLoading(true)
 
-
-      const token = parseCookies().accessToken;
       if (getPayment.methodPayment === 'Pix') {
         setCookie(undefined, 'observation', JSON.stringify(data.observation), {
           maxAge: 60 * 60 * 24 * 30,
@@ -111,17 +110,13 @@ export default function Checkout() {
           }))
         }
 
-       const response = await api.post('/order', order, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
+       const response = await serviceOrder.createOrder(order)
         
         destroyCookie(null, 'product')
         destroyCookie(null, 'payment')
         destroyCookie(null, 'delivery')
         clearCart()
-        navigate(`/success/${response.data.id}`)
+        navigate(`/success/${response.body.id}`)
 
       }
 

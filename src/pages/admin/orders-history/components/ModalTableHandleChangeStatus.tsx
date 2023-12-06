@@ -1,11 +1,11 @@
 import { CheckSquare, ChefHat, ClipboardCheck, Truck, X } from "lucide-react";
 import image from '../../../../assets/Vector.png'
 import { priceFormatter } from "../../../../utils/formatter";
-import { api } from "../../../../utils/axios";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Button } from "../../../../components/ui/button";
 import whatsapp from '../../../../assets/whatsapp-green.svg'
 import { OrderData } from "../../../../@types/interface";
+import ServiceOrder from "../../../../infrastructure/services/order";
 
 interface ModalOrderProps {
   order: OrderData
@@ -18,7 +18,7 @@ export const ModalTableHandleChangeStatus = ({ order, setOpenModal, openModal }:
   const imprimirPedido = () => {
     window.print()
   }
-
+  const serviceOrder = new ServiceOrder();
 
   const handleChangeOrderStatus = async () => {
 
@@ -33,24 +33,10 @@ export const ModalTableHandleChangeStatus = ({ order, setOpenModal, openModal }:
             : 'FINISHED'
 
 
-    await api.put('/order', {
+    await serviceOrder.updateOrderAdmin({
       id: order.orderId,
-      totalPrice: order.totalPrice,
-      customerId: order.customerId,
-      payment: order.payment,
-      methodDelivery: order.methodDelivery,
-      status: newStatus,
-      itensOrder: [
-        {
-          product: order.itensOrder[0].product,
-          quantity: order.itensOrder[0].quantity,
-          size: order.itensOrder[0].size ? order.itensOrder[0].size : '',
-          mode: order.itensOrder[0].mode,
-          price: order.itensOrder[0].price
-        }
-      ]
-    }
-    )
+      status: newStatus
+    })
     setOpenModal(false)
   }
 

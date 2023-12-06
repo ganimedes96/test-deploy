@@ -4,11 +4,12 @@ import image from '../../../../assets/Vector.png'
 import './styles.css'
 import { Orders } from "../../../../@types/interface";
 import { priceFormatter } from "../../../../utils/formatter";
-import { api } from "../../../../utils/axios";
 import { ModalHandleCancelOrder } from "../../../../components/ModalHandleCancelOrder";
 import { useState } from "react";
 import { Button } from "../../../../components/ui/button";
 import whatsapp  from '../../../../assets/whatsapp-green.svg'
+import ServiceOrder from "../../../../infrastructure/services/order";
+
 
 interface ModalOrderProps {
   order: Orders
@@ -18,6 +19,7 @@ interface ModalOrderProps {
 
 export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOrder }: ModalOrderProps) => {
   const [openModalCancelOrder, setOpenModalCancelOrder] = useState(false)
+  const serviceOrder = new ServiceOrder()
   const imprimirPedido = () => {
     window.print()
   }
@@ -36,24 +38,11 @@ export const ModalHandleChangeStatus = ({ order, onChangeOrderStatus, onCancelOr
             : 'FINISHED'
 
 
-    await api.put('/order', {
+    await serviceOrder.updateOrderAdmin({
       id: order.id,
-      totalPrice: order.totalPrice,
-      customerId: order.customer.id,
-      payment: order.payment,
-      methodDelivery: order.methodDelivery,
-      status: newStatus,
-      itensOrder: [
-        {
-          product: order.itensOrder[0].product,
-          quantity: order.itensOrder[0].quantity,
-          size: order.itensOrder[0].size ? order.itensOrder[0].size : '',
-          mode: order.itensOrder[0].mode,
-          price: order.itensOrder[0].price
-        }
-      ]
-    }
-    )
+      status: newStatus
+    })
+
     onChangeOrderStatus && onChangeOrderStatus(order.id, newStatus)
   }
 

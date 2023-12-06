@@ -1,31 +1,27 @@
 import { useEffect, useState } from "react"
 import { Orders } from "../../@types/interface"
-import { api } from "../../utils/axios"
-import { parseCookies } from "nookies"
 import delivery from '../../assets/pickup-orange.png'
 import { Check, CheckCheck, CheckCircle, ChefHat, ClipboardCheck, ExternalLink, StickyNote, XCircle } from "lucide-react"
 import { dateFormatter } from "../../utils/formatter"
 import { NavLink } from "react-router-dom"
 import { ColorRing } from "react-loader-spinner"
+import ServiceOrder from '../../infrastructure/services/order'
+
 
 export default function OrdersCustomer() {
   const [orders, setOrders] = useState<Orders[]>([])
   const [loading, setLoading] = useState(true);
+  const serviceOrder = new ServiceOrder()
+
   const getOrders = async () => {
-    const token = parseCookies().accessToken;
     try {
-      const response = await api.get('/order', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      setOrders(response.data);
+      const response = await serviceOrder.showOrdersCustomer();
+      setOrders(response.body);
     } catch (error) {
       console.error("Erro ao carregar pedidos", error);
     } finally {
       setLoading(false); // Defina o estado de carregamento como falso após a conclusão
     }
-
   }
   useEffect(() => {
     getOrders()
