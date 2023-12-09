@@ -34,6 +34,13 @@ export default class ServiceOrder {
     })
   }
 
+  async findOrderById (id: string): Promise<HttpResponse<ShowOrdersResponseDTO>> {
+    return await this.httpClient.request({
+      method: 'get',
+      url: `/order/${id}`,
+    })
+  }
+
   async createOrder(data: CreateOrderRequestDTO): Promise<HttpResponse<ShowOrdersResponseDTO>> {
     return await this.httpClient.request({
       method: 'post',

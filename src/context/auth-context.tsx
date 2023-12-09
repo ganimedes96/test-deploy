@@ -62,11 +62,9 @@ export const AuthProvider = ({ children }: childrenProps) => {
       setCustomer(JSON.parse(customer))
     }
   }
-
   useEffect(() => {
     loadCookiesAuth()
   }, [])
-
 
   return (
     <AuthContext.Provider

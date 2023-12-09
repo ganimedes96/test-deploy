@@ -5,7 +5,6 @@ import { ContextAuthApp } from '../../context/auth-context';
 import { User } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
-
 export const Profile = () => {
   const [openModal, setOpenModal] = useState(false);
   const { customer } = ContextAuthApp()

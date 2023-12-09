@@ -21,7 +21,7 @@ export const ModalHandleCancelOrder = ({onCancelOrder, openModalCancelOrder, set
     onCancelOrder && onCancelOrder(order.id)
     notify(`Pedido cancelado com sucesso`, 'top-center')
     setOpenModalCancelOrder(false)
-    socket.emit('orderCanceled', { orderId: order.id, status: 'CANCELED' });
+    socket.emit('statusUpdate', { orderId: order.id, status: 'CANCELED' });
   }
 
   return (

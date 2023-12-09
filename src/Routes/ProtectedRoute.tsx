@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { ContextAuthApp } from '../context/auth-context';
-
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -9,12 +8,14 @@ interface ProtectedRouteProps {
 function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { isAuthenticated } = ContextAuthApp()
   const navigate = useNavigate();
-  if (!isAuthenticated) {
-    navigate('/sign-in');
-    return;
-  }
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return navigate('/sign-in');
+    }
+    
+  }, [isAuthenticated])
+  
   return <>{children}</>;
-
 }
 
 export default ProtectedRoute;

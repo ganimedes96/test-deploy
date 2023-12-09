@@ -12,7 +12,7 @@ export default function OrdersCustomer() {
   const [orders, setOrders] = useState<Orders[]>([])
   const [loading, setLoading] = useState(true);
   const serviceOrder = new ServiceOrder()
-
+  
   const getOrders = async () => {
     try {
       const response = await serviceOrder.showOrdersCustomer();

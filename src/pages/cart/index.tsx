@@ -49,7 +49,7 @@ export default function Cart() {
 
       }
       {productToCart.length > 0 && (
-        <ButtonCheckout  title="Proximo" link={isAuthenticated ? '/delivery' : '/sign-in'}/>
+        <ButtonCheckout  title="Proximo" link={'/delivery'}/>
       )}
 
     </div>

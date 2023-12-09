@@ -1,8 +1,6 @@
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { ToastContainer } from "react-toastify";
-import { notify } from "../utils/toast";
-// import { api } from "../utils/axios";
-// import { parseCookies } from "nookies";  
+import { notify } from "../utils/toast";  
 import ServiceProduct from '../infrastructure/services/product'
 
 

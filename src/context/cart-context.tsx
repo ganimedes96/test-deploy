@@ -61,7 +61,6 @@ interface cartTypeContext {
   removeProductInCart: (products: OrdersCartProps) => void
   addresses: AddressProps[]
   setAddresses: (Address: AddressProps[]) => void
-  currentAddress: AddressProps | null
   onChangeCatalog: string
   cartProductsTotalPrice: number
   totalItemsOnCart: number
@@ -89,7 +88,6 @@ export const CartProvider = ({ children }: ChildrenProps) => {
   const [groupOptions, setGroupOptions] = useState<any[]>([])
   const [onChangeCatalog, setOnChangeCatalog] = useState('PIZZA')
   const [addresses, setAddresses] = useState<AddressProps[]>([])
-  const [currentAddress, setCurrentAddress] = useState<AddressProps | null>(null);
   const [productToCart, setProductToCart] = useState<OrdersCartProps[]>(
     () => {
       const storagedCart = parseCookies().product
@@ -103,11 +101,11 @@ export const CartProvider = ({ children }: ChildrenProps) => {
     const groupData = [
       {
         label: 'TRADITIONAL',
-        options: filterType('TRADITIONAL', response.body as any)
+        options: filterType('TRADITIONAL', response.body )
       },
       {
         label: 'SPECIAL',
-        options: filterType('SPECIAL', response.body as any)
+        options: filterType('SPECIAL', response.body )
       }
     ]
 
@@ -182,9 +180,7 @@ export const CartProvider = ({ children }: ChildrenProps) => {
 
   const getAddresses = async () => {
     const response = await serviceAddress.showAddress()
-    const addresses = response.body as any
-    const standardAddress = addresses?.find((element: AddressProps) => element.standard === true)
-    setCurrentAddress(standardAddress)
+    const addresses = response.body 
     setAddresses(addresses)
   }
 
@@ -201,7 +197,6 @@ export const CartProvider = ({ children }: ChildrenProps) => {
         groupOptions,
         onChangeCatalog,
         addresses,
-        currentAddress,
         setAddresses,
         cartProductsTotalPrice,
         totalItemsOnCart,

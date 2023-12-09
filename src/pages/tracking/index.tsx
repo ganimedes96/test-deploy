@@ -38,10 +38,12 @@ export default function Tracking() {
 
 
   const getOrder = async () => {
-    const response = await api.get(`/order/${id}`)
-
-    setOrder(response.data)
-    setStatus(response.data.status)
+    if (!id) {
+      return null
+    }
+    const response = await serviceOrder.findOrderById(id)
+    setOrder(response.body)
+    setStatus(response.body.status)
 
   }
 
