@@ -5,13 +5,11 @@ import { Card } from "../../components/ui/card";
 import { CardProduct } from "./components/card-product";
 import { ShoppingCart } from "lucide-react";
 import { ButtonCheckout } from "../../components/ButtonCheckout";
-import { ContextAuthApp } from "../../context/auth-context";
 
 
 export default function Cart() {
   
   const { productToCart } = ContextCartApp()
-  const { isAuthenticated } = ContextAuthApp()
   return (
 
     <div className="w-full flex flex-col items-center justify-center mb-10">
